@@ -1,20 +1,24 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
+import ReactDOM from "react-dom";
 import "./App.css";
-import {BrowserRouter, Route, Link} from "react-router-dom";
+import {BrowserRouter, Route, Link, Routes} from "react-router-dom";
+import Layout from "./Layout";
+import Home from "./Home";
+import Contact from "./Contact";
+import About from "./About";
 
-function App() {
-  const [count, setCount] = useState(0);
-
+export default function App() {
   return (
-    <div className="App">
-      <div></div>
-      <h1>VästGöta Nation front end</h1>
-      <div className="card">
-        <p>Development of front end at VästGöta Nation</p>
-      </div>
-    </div>
+  <BrowserRouter> 
+    <Routes>
+      <Route path="/" element={<Layout/>}>
+        <Route index element={<Home />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="About" element={<About />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
   );
 }
 
-export default App;
+ReactDOM.render(<App />, document.getElementById("root"));
