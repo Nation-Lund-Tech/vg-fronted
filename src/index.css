@@ -67,3 +67,19 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* I want to add the Navigation bar at the top of the page. */
+
+.NavigationBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3.5rem;
+  background-color: #1a1a1a;
+  display:flex;
+  align-items:normal;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  z-index: 1;
+}
