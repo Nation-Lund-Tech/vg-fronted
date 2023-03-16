@@ -42,7 +42,7 @@ const Login = () => {
         </Button>
         <FormControl display="flex" alignItems="center">
           <FormLabel htmlFor="dark_mode" mb="0">
-            Dark?
+            DarkMode
           </FormLabel>
           <Switch
             id="dark_mode"
