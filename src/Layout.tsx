@@ -1,14 +1,17 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import Navbar from "./Navbar";
+import { PropsWithChildren } from "react";
 
-const Layout = () => {
-    return (
-        <>
-        <Navbar />
-        <Outlet />
-        </>
-    );
-}; 
+interface Props {
+    signedIn: Boolean
+}
 
-export default Layout;
+export default function Layout({ children, signedIn }: PropsWithChildren<Props>) {
+  return (
+
+    <div>
+        <p>Hej</p>
+        {signedIn ? "Signed in": "Not signed in"}
+        {children}
+        <p>då</p>
+    </div>
+  )
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link as ReachLink } from "react-router-dom";
 import {
   Flex as Center,
   Heading,
@@ -9,11 +9,12 @@ import {
   Switch,
   useColorMode,
   useColorModeValue,
-} from '@chakra-ui/react';
+  Link,
+} from "@chakra-ui/react";
 
 const Login = () => {
   const { toggleColorMode } = useColorMode();
-  const formBackground = useColorModeValue('gray.100', 'gray.700');
+  const formBackground = useColorModeValue("gray.100", "gray.700");
 
   return (
     <Center h="100vh" alignItems="center" justifyContent="center">
