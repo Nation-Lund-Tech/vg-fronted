@@ -11,6 +11,8 @@ import {
   Input,
 } from "@chakra-ui/react";
 
+import {AddIcon} from "@chakra-ui/icons"
+
 import { useNavigate, Link } from "react-router-dom";
 
 function WorkList() {
@@ -35,7 +37,7 @@ function WorkList() {
       p="4"
       borderRadius="lg"
       w="100%"
-      maxW={{ base: "90vw", sm: "80vw", lg: "50vw", xl: "40vw" }}
+      maxW={{ base: "90vw", sm: "80vw", lg: "50vw", xl: "40vw" }} 
       alignItems="stretch"
     >
       <HStack justifyContent="space-between">
@@ -43,7 +45,7 @@ function WorkList() {
           Jobbare
         </Heading>
         <Link to={"/add-worker"}>
-        <Button colorScheme="green">Add Worker</Button>
+        <Button colorScheme="green" leftIcon={<AddIcon/>}>Add Worker</Button>
         </Link>
       </HStack>
       <Input placeholder="Sök Profil..." size="sm" />
