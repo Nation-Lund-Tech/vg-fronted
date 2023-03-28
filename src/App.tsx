@@ -6,6 +6,25 @@ import WorkerForm from "./pages/WorkerForm";
 import Layout from "./Layout";
 import { Routes, Route } from "react-router-dom";
 import AddWorker from "./pages/AddWorker";
+import EventList from "./pages/EventList";
+
+const events = [
+    {
+        id: '1',
+        title: 'Hej1',
+        date: '2023-04-01'
+    },
+    {
+        id: '2',
+        title: 'Hej2',
+        date: '2023-04-02'
+    },
+    {
+        id: '3',
+        title: 'Hej3',
+        date: '2023-04-03'
+    }
+];
 
 function App() {
   return (
@@ -14,7 +33,7 @@ function App() {
         path="/"
         element={
           <VStack>
-            <WorkList />
+            <EventList  events={events}/>
           </VStack>
         }
       />
