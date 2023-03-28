@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link as ReachLink } from "react-router-dom";
 import {
   Flex as Center,
   Heading,
@@ -9,11 +9,26 @@ import {
   Switch,
   useColorMode,
   useColorModeValue,
-} from '@chakra-ui/react';
+  Link,
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 const Login = () => {
   const { toggleColorMode } = useColorMode();
   const formBackground = useColorModeValue('gray.100', 'gray.700');
+  var [name, setName] = useState<string>("john");
+
+  const getUsername = async () => {
+    const response = await fetch("http://localhost:8080/api/users/1");
+    const user = await response.json();
+   // const testCompany = await API.companies.getAlltest();
+   // setTestCompany(testCompany);
+    setName(user.name);
+  }
+
+  useEffect(() => {
+    getUsername();
+  }, []);
 
   return (
     <Center h="100vh" alignItems="center" justifyContent="center">
@@ -26,7 +41,7 @@ const Login = () => {
       >
         <Heading mb={6}>Log In</Heading>
         <Input
-          placeholder="johndoe@gmail.com"
+          placeholder={name}
           type="email"
           variant="filled"
           mb={3}
@@ -42,7 +57,7 @@ const Login = () => {
         </Button>
         <FormControl display="flex" alignItems="center">
           <FormLabel htmlFor="dark_mode" mb="0">
-            Dark?
+            DarkMode
           </FormLabel>
           <Switch
             id="dark_mode"
