@@ -1,11 +1,11 @@
-import WorkList from "./WorkList";
+import WorkList from "./pages/WorkList";
 import { Box, Container, Heading, VStack } from "@chakra-ui/react";
-import AddWorkerButton from "./AddWorker";
+import AddWorkerButton from "./pages/AddWorker";
 import { BrowserRouter } from "react-router-dom";
-import WorkerForm from "./WorkerForm";
+import WorkerForm from "./pages/WorkerForm";
 import Layout from "./Layout";
 import { Routes, Route } from "react-router-dom";
-import AddWorker from "./AddWorker";
+import AddWorker from "./pages/AddWorker";
 
 function App() {
   return (
