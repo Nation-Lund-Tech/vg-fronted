@@ -7,22 +7,29 @@ import Layout from "./Layout";
 import { Routes, Route } from "react-router-dom";
 import AddWorker from "./pages/AddWorker";
 import EventList from "./pages/EventList";
+import {Event} from "./Common/Types";
 
-const events = [
+const events: Event[] = [
     {
         id: '1',
-        title: 'Hej1',
-        date: '2023-04-01'
+        name: 'Hej1',
+        date: '2023-04-01',
+        participants: [],
+        capacity: 60
     },
     {
         id: '2',
-        title: 'Hej2',
-        date: '2023-04-02'
+        name: 'Hej2',
+        date: '2023-04-02',
+        participants: [],
+        capacity: 60
     },
     {
         id: '3',
-        title: 'Hej3',
-        date: '2023-04-03'
+        name: 'Hej3',
+        date: '2023-04-03',
+        participants: [],
+        capacity: 60
     }
 ];
 
@@ -32,9 +39,7 @@ function App() {
       <Route
         path="/"
         element={
-          <VStack>
-            <EventList  events={events}/>
-          </VStack>
+            <EventList events={events}/>
         }
       />
       <Route 
