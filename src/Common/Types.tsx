@@ -1,5 +1,5 @@
 export interface User {
-    id: number;
+    id: string;
     isForeman: boolean;
     isAdmin: boolean;
     firstName: string;
@@ -15,4 +15,5 @@ export interface Event {
     date: string;
     participants: User[];
     capacity: number;
+    cost: number;
 }
