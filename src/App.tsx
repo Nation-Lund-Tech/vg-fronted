@@ -39,12 +39,17 @@ function App() {
       <Route
         path="/"
         element={
-            <EventList events={events}/>
+          <VStack>
+            <WorkList />
+          </VStack>
         }
       />
       <Route 
       path="/add-worker"
       element={<AddWorker/>}/>
+
+      <Route path="arbetare/:employeeName"
+      element={<WorkerForm/>} />
     </Routes>
   );
 }
