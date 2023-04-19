@@ -48,7 +48,7 @@ function App() {
       path="/add-worker"
       element={<AddWorker/>}/>
 
-      <Route path="arbetare/:employeeName"
+      <Route path="arbetare/:workerId"
       element={<WorkerForm/>} />
     </Routes>
   );

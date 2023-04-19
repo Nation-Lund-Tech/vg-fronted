@@ -1,6 +1,7 @@
 export interface User {
     id: number;
     isForeman: boolean;
+    department: string;
     isAdmin: boolean;
     firstName: string;
     lastName: string;
@@ -15,4 +16,13 @@ export interface Event {
     date: string;
     participants: User[];
     capacity: number;
+}
+
+export interface User1 {    
+    id: 0;
+    firstName : string;
+    lastName : string;
+    email : string;
+    foodPreferences : string;
+    bank : 0,
 }

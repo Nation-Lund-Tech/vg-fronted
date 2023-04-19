@@ -20,7 +20,6 @@ import { useParams } from "react-router-dom";
 function WorkerForm() {
 
   const { employeeName } = useParams<{ employeeName: string }>();
-  // const employee = Här måste man ankalla databasen
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
