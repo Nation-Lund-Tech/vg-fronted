@@ -10,6 +10,7 @@ import EventList from "./pages/EventList";
 import {Event} from "./Common/Types";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import Navbar from "./pages/Navbar";
 
 const events: Event[] = [
     {
@@ -37,15 +38,17 @@ const events: Event[] = [
 
 function App() {
   return (
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home/>} />
-          <Route path="add-worker" element={<AddWorker/>}/>
-          <Route path="events" element={EventList({events})}/>
-          <Route path="worklist" element={<WorkList/>}/>
-          <Route path="workerform" element={<WorkerForm/>}/>
-        </Route>
-      </Routes>
+    <VStack>
+    <Navbar/>
+    <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/add-worker" element={<AddWorker/>}/>
+          <Route path="/events" element={EventList({events})}/>
+          <Route path="/workers" element={<WorkList/>}/>
+          <Route path="worker-form" element={<WorkerForm/>}/>
+          <Route path="login" element={<Login/>}/>
+    </Routes>
+    </VStack>
   );
 }
 
