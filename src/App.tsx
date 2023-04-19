@@ -42,6 +42,8 @@ function App() {
           <Route index element={<Home/>} />
           <Route path="add-worker" element={<AddWorker/>}/>
           <Route path="events" element={EventList({events})}/>
+          <Route path="worklist" element={<WorkList/>}/>
+          <Route path="workerform" element={<WorkerForm/>}/>
         </Route>
       </Routes>
   );
