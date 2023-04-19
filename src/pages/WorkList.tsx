@@ -13,7 +13,14 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverHeader,
-  PopoverFooter
+  PopoverFooter,
+  useDisclosure,
+  Drawer,
+  DrawerOverlay,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerBody
 } from "@chakra-ui/react";
 
 import {User} from "../Common/Types"
@@ -22,8 +29,19 @@ import {AddIcon, SmallAddIcon} from "@chakra-ui/icons"
 
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useState } from "react";
+import React from "react";
 
 function WorkList() {
+
+  const [size, setSize] = React.useState('')
+  const {isOpen, onOpen, onClose} = useDisclosure()
+  const sizes = 'full'
+
+  const handleClick = (drawerSize: string) => {
+    setSize(drawerSize)
+    onOpen()
+  }
+
   const employees = [
     {
       id: 1,
@@ -78,37 +96,32 @@ function WorkList() {
         </HStack>
       ))}
       <HStack>
-        <Popover>
-        <PopoverTrigger>
-          <Button size="sm">Registrera pass</Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverArrow />
-          <PopoverHeader>Välj jobbare</PopoverHeader>
-          <PopoverBody>
-            Lägg till lista med jobbare 
-          </PopoverBody>
-          <PopoverFooter>
-            <Button size={"sm"} colorScheme="green">Registrera</Button>
-          </PopoverFooter>
-        </PopoverContent>
-      </Popover>
+        <Button size="sm" onClick={() => handleClick(sizes)}>Registrera pass</Button>
+        <Drawer onClose={onClose} isOpen={isOpen} size='full'>
+          <DrawerOverlay/>
+          <DrawerContent>
+            <DrawerCloseButton/>
+            <DrawerHeader>Jobbare</DrawerHeader>
+            <DrawerBody>
+              <p>Lista med jobbare</p>
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
         <Spacer/>
-        <Popover>
-        <PopoverTrigger>
-          <Button size="sm">Registrera tack</Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverArrow />
-          <PopoverHeader>Välj jobbare</PopoverHeader>
-          <PopoverBody>
-            Lägg till lista med jobbare
-          </PopoverBody>
-          <PopoverFooter>
-            <Button size="sm" colorScheme="green">Registrera</Button>
-          </PopoverFooter>
-        </PopoverContent>
-      </Popover>
+        <Button size="sm" onClick={() => handleClick(sizes)}>Registrera pass</Button>
+        <Drawer onClose={onClose} isOpen={isOpen} size='full'>
+          <DrawerOverlay/>
+          <DrawerContent>
+            <DrawerCloseButton/>
+            <DrawerHeader>Jobbare</DrawerHeader>
+            <DrawerBody>
+              <VStack>
+                <p>Lista med jobbare</p>
+                <Button colorScheme="green" size="sm">Registrera</Button>
+              </VStack>
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
       </HStack>
     </VStack>
   );
