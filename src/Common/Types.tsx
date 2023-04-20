@@ -19,10 +19,10 @@ export interface Event {
 }
 
 export interface User1 {    
-    id: 0;
-    firstName : string;
-    lastName : string;
-    email : string;
-    foodPreferences : string;
-    bank : 0,
+    id: 0,
+    firstName: string,
+    lastName: string,
+    email: string,
+    passwordHash: string,
+    passwordSalt: string
 }

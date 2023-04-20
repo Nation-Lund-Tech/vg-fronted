@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Heading,
   Flex,
@@ -15,11 +15,26 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
+import { User1 } from "../Common/Types";
 
 
 function WorkerForm() {
 
-  const { employeeName } = useParams<{ employeeName: string }>();
+  const { workerId } = useParams<{ workerId: string }>();
+
+  const [worker, setWorker] = useState<User1>()
+
+  const getWorker = async () =>{
+    const response = await fetch(
+      `https://localhost:7008/api/Worker/id/${workerId}`
+    );
+    const data: User1 = await response.json();
+    setWorker(data);
+  }
+
+  useEffect(() => {
+    getWorker()
+  }, [])
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -34,7 +49,7 @@ function WorkerForm() {
         alignItems="stretch"
       >
         <Flex minWidth="max-content" alignItems="center" gap="2">
-          <Box p="2">{employeeName}, Lunch
+          <Box p="2">{worker?.firstName}, Lunch
           <br />
           <Text>Matpref: </Text>
           </Box>

@@ -64,17 +64,15 @@ function WorkList() {
 
   // fetch data from https://localhost:7008/api/Worker/name/Arvid
 
-  const [workers, setWorkers] = useState<User1[]>([]);
+  const [workers, setWorkers] = useState<User1[]>();
 
   const getWorker = async () =>{
     const response = await fetch(
-      `https://localhost:7008/api/Worker/name/Daniel}`
+      `https://localhost:7008/api/Worker/all`
     );
-    const data = await response.json();
+    const data: User1[] = await response.json();
     setWorkers(data);
   }
-
-  
   useEffect(() => {
     getWorker();
   }, []);
@@ -101,13 +99,22 @@ function WorkList() {
         </Link>
       </HStack>
       <Input placeholder="Sök Profil..." size="sm" />
-      {workers.map((worker) => (
-        <HStack key={worker.id}>
+      {/* {worker && 
+      <HStack>
           <Link to={"/arbetare/${employee.id}"}>
             <Text as="a">{worker.firstName}</Text>
           </Link>
           <Text>{worker.email}</Text>
-
+          <Spacer />
+          <Button colorScheme="red">Remove</Button>
+        </HStack>
+} */}
+      {workers && workers.map((worker) => (
+        <HStack key={worker.id}>
+          <Link to={`/arbetare/${worker.id}`}>
+            <Text as="a">{worker.firstName}</Text>
+          </Link>
+          <Text>{worker.email}</Text>
           <Spacer />
           <Button colorScheme="red">Remove</Button>
         </HStack>
