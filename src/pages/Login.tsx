@@ -19,11 +19,11 @@ const Login = () => {
   var [name, setName] = useState<string>("john");
 
   const getUsername = async () => {
-    const response = await fetch("http://localhost:8080/api/users/1");
+    const response = await fetch("https://localhost:7008/api/User/1");
     const user = await response.json();
    // const testCompany = await API.companies.getAlltest();
    // setTestCompany(testCompany);
-    setName(user.name);
+    setName(user.firstName);
   }
 
   useEffect(() => {

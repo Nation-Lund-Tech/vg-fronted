@@ -3,11 +3,14 @@ import { Box, Container, Heading, VStack } from "@chakra-ui/react";
 import AddWorkerButton from "./pages/AddWorker";
 import { BrowserRouter } from "react-router-dom";
 import WorkerForm from "./pages/WorkerForm";
-import Layout from "./Layout";
+import Layout from "./pages/Layout";
 import { Routes, Route } from "react-router-dom";
 import AddWorker from "./pages/AddWorker";
 import EventList from "./pages/EventList";
 import {Event} from "./Common/Types";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import Navbar from "./pages/Navbar";
 
 const events: Event[] = [
     {
@@ -35,7 +38,10 @@ const events: Event[] = [
 
 function App() {
   return (
+    <VStack>
+    <Navbar/>
     <Routes>
+
       <Route
         path="/"
         element={
@@ -51,6 +57,7 @@ function App() {
       <Route path="arbetare/:workerId"
       element={<WorkerForm/>} />
     </Routes>
+    </VStack>
   );
 }
 
