@@ -41,12 +41,21 @@ function App() {
     <VStack>
     <Navbar/>
     <Routes>
-          <Route path="/" element={<Home/>} />
-          <Route path="/add-worker" element={<AddWorker/>}/>
-          <Route path="/events" element={EventList({events})}/>
-          <Route path="/workers" element={<WorkList/>}/>
-          <Route path="worker-form" element={<WorkerForm/>}/>
-          <Route path="login" element={<Login/>}/>
+
+      <Route
+        path="/"
+        element={
+          <VStack>
+            <WorkList />
+          </VStack>
+        }
+      />
+      <Route 
+      path="/add-worker"
+      element={<AddWorker/>}/>
+
+      <Route path="arbetare/:workerId"
+      element={<WorkerForm/>} />
     </Routes>
     </VStack>
   );

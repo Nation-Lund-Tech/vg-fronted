@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Heading,
   Flex,
@@ -14,39 +14,59 @@ import {
   Td,
   Text,
 } from "@chakra-ui/react";
-
-// Create a page to display profile information for a worker
-// Måste lägga till redigerbart tabell med pass och tider
-
+import { useParams } from "react-router-dom";
+import { User1 } from "../Common/Types";
 
 
 function WorkerForm() {
+
+  const { workerId } = useParams<{ workerId: string }>();
+
+  const [worker, setWorker] = useState<User1>()
+
+  const getWorker = async () =>{
+    const response = await fetch(
+      `https://localhost:7008/api/Worker/id/${workerId}`
+    );
+    const data: User1 = await response.json();
+    setWorker(data);
+  }
+
+  useEffect(() => {
+    getWorker()
+  }, [])
+
   return (
-    <VStack
-      divider={<StackDivider />}
-      borderColor="gray.100"
-      borderWidth="2px"
-      p="4"
-      borderRadius="lg"
-      w="100%"
-      maxW={{ base: "90vw", sm: "80vw", lg: "50vw", xl: "40vw" }}
-      alignItems="stretch"
-    >
-      <Flex minWidth="max-content" alignItems="center" gap="2">
-        <Box p="2">Daníel Jóhannsson</Box>
-        <Spacer />
-        <Button>Lägg till pass</Button>
-      </Flex>
-    <Flex minWidth='max-content' alignItems='center' gap='2'>
-      <Box p='2'>
-        <Heading size='sm'>Total användbar tacksumma: </Heading>
-        <Spacer/>
-        <Heading size='sm'>Total tack: </Heading>
-      </Box>
-      <Spacer/>
-      <Button>Välj tack</Button>
-    </Flex>
-    </VStack>
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <VStack
+        divider={<StackDivider />}
+        borderColor="gray.100"
+        borderWidth="2px"
+        p="4"
+        borderRadius="lg"
+        w="100%"
+        maxW={{ base: "90vw", sm: "80vw", lg: "50vw", xl: "40vw" }}
+        alignItems="stretch"
+      >
+        <Flex minWidth="max-content" alignItems="center" gap="2">
+          <Box p="2">{worker?.firstName}, Lunch
+          <br />
+          <Text>Matpref: </Text>
+          </Box>
+          <Spacer />
+          <Button>Lägg till pass</Button>
+        </Flex>
+        <Flex minWidth="max-content" alignItems="center" gap="2">
+          <Box p="2">
+            <Heading size="sm">Total användbar tacksumma: </Heading>
+            <Spacer />
+            <Heading size="sm">Total tack: </Heading>
+          </Box>
+          <Spacer />
+        </Flex>
+        <Button>Välj tack</Button>
+      </VStack>
+    </div>
   );
 }
 
