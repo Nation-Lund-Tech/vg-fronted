@@ -54,25 +54,15 @@ function WorkList() {
     },
   ];
 
-  /*
-  const navigate = useNavigate();
-
-  const handleProfileClick = (employee: { id: any; }) => {
-    navigate(`/profile/${employee.id}`);
-  }
-  */
-
   // fetch data from https://localhost:7008/api/Worker/name/Arvid
 
   const [workers, setWorkers] = useState<User1[]>();
 
-  const getWorker = async () =>{
-    const response = await fetch(
-      `https://localhost:7008/api/Worker/all`
-    );
+  const getWorker = async () => {
+    const response = await fetch(`https://localhost:7008/api/Worker/all`);
     const data: User1[] = await response.json();
     setWorkers(data);
-  }
+  };
   useEffect(() => {
     getWorker();
   }, []);
@@ -109,16 +99,17 @@ function WorkList() {
           <Button colorScheme="red">Remove</Button>
         </HStack>
 } */}
-      {workers && workers.map((worker) => (
-        <HStack key={worker.id}>
-          <Link to={`/arbetare/${worker.id}`}>
-            <Text as="a">{worker.firstName}</Text>
-          </Link>
-          <Text>{worker.email}</Text>
-          <Spacer />
-          <Button colorScheme="red">Remove</Button>
-        </HStack>
-      ))}
+      {workers &&
+        workers.map((worker) => (
+          <HStack key={worker.id}>
+            <Link to={`/arbetare/${worker.id}`}>
+              <Text as="a">{worker.firstName}</Text>
+            </Link>
+            <Text>{worker.email}</Text>
+            <Spacer />
+            <Button colorScheme="red">Remove</Button>
+          </HStack>
+        ))}
       <HStack>
         <Button size="sm" onClick={() => handleClick(sizes)}>
           Registrera pass
