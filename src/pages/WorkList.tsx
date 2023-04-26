@@ -24,12 +24,11 @@ import {
 } from "@chakra-ui/react";
 
 import { User1 } from "../Common/Types";
-
-import { AddIcon, SmallAddIcon } from "@chakra-ui/icons";
-
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { AddIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import React from "react";
+import SelectWorker from "./RegisterWork";
 
 function WorkList() {
   const [size, setSize] = React.useState("");
@@ -111,38 +110,21 @@ function WorkList() {
           </HStack>
         ))}
       <HStack>
-        <Button size="sm" onClick={() => handleClick(sizes)}>
-          Registrera pass
-        </Button>
-        <Drawer onClose={onClose} isOpen={isOpen} size="full">
-          <DrawerOverlay />
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerHeader>Jobbare</DrawerHeader>
-            <DrawerBody>
-              <p>Lista med jobbare</p>
-            </DrawerBody>
-          </DrawerContent>
-        </Drawer>
+        
+        <Link to={"/register-work"}>
+          <Button size="sm">
+            Registrera pass
+          </Button>
+        </Link>
+
         <Spacer />
-        <Button size="sm" onClick={() => handleClick(sizes)}>
-          Registrera pass
+
+        <Link to={"/register-tack"}>
+        <Button size="sm">
+          Registrera tack
         </Button>
-        <Drawer onClose={onClose} isOpen={isOpen} size="full">
-          <DrawerOverlay />
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerHeader>Jobbare</DrawerHeader>
-            <DrawerBody>
-              <VStack>
-                <p>Lista med jobbare</p>
-                <Button colorScheme="green" size="sm">
-                  Registrera
-                </Button>
-              </VStack>
-            </DrawerBody>
-          </DrawerContent>
-        </Drawer>
+        </Link>
+
       </HStack>
     </VStack>
   );
