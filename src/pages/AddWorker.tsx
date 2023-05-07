@@ -10,6 +10,7 @@ import {
   Spacer,
   Flex,
   Box,
+  useToast,
 } from "@chakra-ui/react";
 import WorkerFrom from "./WorkerForm";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -30,15 +31,9 @@ export default function AddWorker() {
     formState: { errors, isSubmitting },
   } = useForm<WorkerForm>();
 
-  const [usedEmail, setUsedEmail] = useState(false);
+  const toast = useToast();
 
-  async function checkIfEmailExists(email: string): Promise<boolean> {
-    const response = await fetch(
-      `https://localhost:7008/api/Worker/email/${email}`
-    );
-    const data = await response.json();
-    return !!data; // Returns true if data is not null or undefined
-  }
+  // Tom body returneras av API:et om email inte finns, det måste vi hantera
 
   const onSubmit: SubmitHandler<WorkerForm> = async (data) => {
     const response = await fetch("https://localhost:7008/api/Worker", {
@@ -52,15 +47,23 @@ export default function AddWorker() {
       }),
     });
 
-    let emailExists = await checkIfEmailExists(data.email);
-    if (emailExists) {
-      console.log("Email already exists");
-      setUsedEmail(true);
+    if (response.status === 409) {
+      toast({
+        title: "Error",
+        description: "Worker already exists",
+        status: "error",
+        isClosable: true,
+      });
       return;
     }
 
-    const result = await response.json();
-    console.log(result);
+    toast({
+      title: "Success",
+      description: "Worker was added successfully",
+      status: "success",
+      isClosable: true,
+    });
+
     reset();
   };
 
@@ -128,12 +131,6 @@ export default function AddWorker() {
               {...register("foodPref")}
             />
           </FormControl>
-
-          {usedEmail && (
-            <Box color="red.500" p="2" borderRadius="md">
-              Worker already exists!
-            </Box>
-          )}
 
           <Spacer p="2" />
 
