@@ -10,15 +10,29 @@ import {
   useColorMode,
   useColorModeValue,
   Link,
+  getToken,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 const Login = () => {
   const { toggleColorMode } = useColorMode();
   const formBackground = useColorModeValue('gray.100', 'gray.700');
-  var [name, setName] = useState<string>("john");
+  var [email, setEmail] = useState<string>("");
+  var [passwd, setPasswd] = useState<string>("");
 
-  const getUsername = async () => {
+  const onLogin = async () => { 
+    const response = await fetch("https://localhost:7008/api/Auth/login", {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email, password: passwd })
+    })
+
+    const token = await response.text();
+
+    localStorage.setItem('token', token);
+  }
+
+  /*const getUsername = async () => {
     const response = await fetch("https://localhost:7008/api/User/1");
     const user = await response.json();
    // const testCompany = await API.companies.getAlltest();
@@ -29,7 +43,7 @@ const Login = () => {
   useEffect(() => {
     getUsername();
   }, []);
-
+  */
   return (
     <Center h="100vh" alignItems="center" justifyContent="center">
       <Center
@@ -41,18 +55,20 @@ const Login = () => {
       >
         <Heading mb={6}>Log In</Heading>
         <Input
-          placeholder={name}
+          placeholder={"example@mail.com"}
           type="email"
           variant="filled"
           mb={3}
+          onChange= {(event) => setEmail(event.target.value)}
         />
         <Input
           placeholder="**********"
           type="password"
           variant="filled"
           mb={6}
+          onChange= {(event) => setPasswd(event.target.value)}
         />
-        <Button colorScheme="teal" mb={8}>
+        <Button onClick={onLogin} colorScheme="teal" mb={8}>
           Log In
         </Button>
         <FormControl display="flex" alignItems="center">
