@@ -9,6 +9,7 @@ import {
   StackDivider,
   Spacer,
   Flex,
+  Box,
 } from "@chakra-ui/react";
 import WorkerFrom from "./WorkerForm";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -29,8 +30,15 @@ export default function AddWorker() {
     formState: { errors, isSubmitting },
   } = useForm<WorkerForm>();
 
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState(null);
+  const [usedEmail, setUsedEmail] = useState(false);
+
+  async function checkIfEmailExists(email: string): Promise<boolean> {
+    const response = await fetch(
+      `https://localhost:7008/api/Worker/email/${email}`
+    );
+    const data = await response.json();
+    return !!data; // Returns true if data is not null or undefined
+  }
 
   const onSubmit: SubmitHandler<WorkerForm> = async (data) => {
     const response = await fetch("https://localhost:7008/api/Worker", {
@@ -43,11 +51,18 @@ export default function AddWorker() {
         foodPref: data.foodPref,
       }),
     });
+
+    let emailExists = await checkIfEmailExists(data.email);
+    if (emailExists) {
+      console.log("Email already exists");
+      setUsedEmail(true);
+      return;
+    }
+
     const result = await response.json();
     console.log(result);
     reset();
   };
-
 
   return (
     <Flex justifyContent="center" alignItems="center" p="4">
@@ -113,7 +128,15 @@ export default function AddWorker() {
               {...register("foodPref")}
             />
           </FormControl>
-          <Spacer p="3" />
+
+          {usedEmail && (
+            <Box color="red.500" p="2" borderRadius="md">
+              Worker already exists!
+            </Box>
+          )}
+
+          <Spacer p="2" />
+
           <Button type="submit" isLoading={isSubmitting}>
             Create Worker
           </Button>
