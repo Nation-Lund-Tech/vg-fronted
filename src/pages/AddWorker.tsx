@@ -9,14 +9,18 @@ import {
   StackDivider,
   Spacer,
   Flex,
+  Box,
+  useToast,
 } from "@chakra-ui/react";
 import WorkerFrom from "./WorkerForm";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useState } from "react";
 
 interface WorkerForm {
   firstName: string;
-  surname: string;
+  lastName: string;
   email: string;
+  foodPref: string;
 }
 
 export default function AddWorker() {
@@ -27,13 +31,44 @@ export default function AddWorker() {
     formState: { errors, isSubmitting },
   } = useForm<WorkerForm>();
 
-  const onSubmit: SubmitHandler<WorkerForm> = (data) => {
-    console.log(data);
-    // fetch req till server
+  const toast = useToast();
+
+  // Tom body returneras av API:et om email inte finns, det måste vi hantera
+
+  const onSubmit: SubmitHandler<WorkerForm> = async (data) => {
+    const response = await fetch("https://localhost:7008/api/Worker", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        foodPref: data.foodPref,
+      }),
+    });
+
+    if (response.status === 409) {
+      toast({
+        title: "Error",
+        description: "Worker already exists",
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    }
+
+    toast({
+      title: "Success",
+      description: "Worker was added successfully",
+      status: "success",
+      isClosable: true,
+    });
+
+    reset();
   };
 
   return (
-    <Flex justifyContent="center" alignItems="center" p='4'>
+    <Flex justifyContent="center" alignItems="center" p="4">
       <VStack
         divider={<StackDivider />}
         borderColor="gray.100"
@@ -58,17 +93,17 @@ export default function AddWorker() {
               {errors.firstName && errors.firstName.message}
             </FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={errors.surname !== undefined}>
+          <FormControl isInvalid={errors.lastName !== undefined}>
             <FormLabel>Surname</FormLabel>
             <Input
               id="surname"
               placeholder="Surname"
-              {...register("surname", {
+              {...register("lastName", {
                 required: "Surname is required",
               })}
             />
             <FormErrorMessage>
-              {errors.surname && errors.surname.message}
+              {errors.lastName && errors.lastName.message}
             </FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={errors.email !== undefined}>
@@ -88,7 +123,17 @@ export default function AddWorker() {
               {errors.email && errors.email.message}
             </FormErrorMessage>
           </FormControl>
-          <Spacer p="3" />
+          <FormControl>
+            <FormLabel>Food preference</FormLabel>
+            <Input
+              id="foodPref"
+              placeholder="Food Preference"
+              {...register("foodPref")}
+            />
+          </FormControl>
+
+          <Spacer p="2" />
+
           <Button type="submit" isLoading={isSubmitting}>
             Create Worker
           </Button>
