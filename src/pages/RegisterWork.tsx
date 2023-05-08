@@ -54,7 +54,9 @@ export default function RegisterWork() {
   const [selectedEvent, setSelectedEvent] = useState<WorkEvent>();
 
   function handleAddToEvent() {
-    throw new Error("Function not implemented.");
+    // Put method to add to https://localhost:7008/api/WorkEvent/add/worker 
+    // with body {email: string, eventId: number}
+
   }
 
   return (
