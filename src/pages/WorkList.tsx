@@ -67,6 +67,15 @@ function WorkList() {
     getWorker();
   }, []);
 
+  const removeWorker = async (email: string) => {
+    const response = await fetch(`https://localhost:7008/api/Worker/delete/${email}`, {
+      method: "DELETE",
+    });
+    if(response.status === 200) {
+      setWorkers(workers?.filter((worker) => worker.email !== email));
+    }
+  }
+
   return (
     <VStack
       divider={<StackDivider />}
@@ -107,7 +116,7 @@ function WorkList() {
             </Link>
             <Text>{worker.email}</Text>
             <Spacer />
-            <Button colorScheme="red">Remove</Button>
+            <Button colorScheme="red" onClick={() => removeWorker(worker.email)}>Remove</Button>
           </HStack>
         ))}
       <HStack>
