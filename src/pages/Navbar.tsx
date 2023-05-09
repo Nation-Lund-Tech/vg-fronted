@@ -1,4 +1,4 @@
-import { Box, Flex, Spacer, Link, IconButton, useColorModeValue, Button } from "@chakra-ui/react";
+import { Box, Flex, Spacer, Link, IconButton, Image, useColorModeValue, Button } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -26,13 +26,12 @@ export default function Navbar() {
   }
 
   return (
-    <Flex bg={useColorModeValue("gray.100", "gray.900")} width="100%" px={4} justifyContent="space-between"
+    <Flex bg={useColorModeValue("yellow.400", "gray.900")} width="100%" px={4} justifyContent="space-between"
       alignItems="center">
-      <Box p={2}>
-        <Link href="/" fontSize="xl" fontWeight="bold">
-          Västgöta Nation
-        </Link>
-      </Box>
+      <Link href="/" >
+        <Image src="vg-header.png" alt="Västgöta Nation" width="auto" height="4rem" />
+      </Link>
+      
       <Spacer />
       <Box display={{ base: "none", md: "flex" }}>
 
@@ -43,7 +42,7 @@ export default function Navbar() {
                 {link.name}
               </NavLinkItem>
             ))}
-            <Button onClick={signout}>Logga ut</Button>
+            <Button onClick={signout} colorScheme="yellow">Logga ut</Button>
           </>
         )}
       </Box>
