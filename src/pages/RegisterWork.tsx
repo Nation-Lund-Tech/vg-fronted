@@ -47,7 +47,7 @@ export default function RegisterWork() {
   }, []);
 
   const [selectedWorkers, setSelectedWorkers] = useState<string[]>([]);
-  const [selectedEventId, setSelectedEventId] = useState<string>();
+  const [selectedEventId, setSelectedEventId] = useState<number>();
 
   const handleAddToEvent = async () => {
     if (!selectedEventId) {
@@ -64,7 +64,7 @@ export default function RegisterWork() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          workerEmails: selectedWorkers,
+          email: selectedWorkers[0],
           eventId: selectedEventId,
         }),
       }
@@ -81,7 +81,9 @@ export default function RegisterWork() {
   };
 
   const handleSelectEvent = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedEventId(event.target.value);
+    const id = parseInt(event.target.value);
+    setSelectedEventId(id);
+    console.log(id);
   };
 
   return (
@@ -98,7 +100,7 @@ export default function RegisterWork() {
           <Tbody>
             {workers &&
               workers.map((worker) => (
-                <Tr key={worker.id}>
+                <Tr key={worker.email}>
                   <Td>
                     <Flex alignItems="center">
                       <Checkbox
@@ -135,13 +137,13 @@ export default function RegisterWork() {
         </Table>
       </TableContainer>
       <Spacer />
-      <Select
-        placeholder="Välj event" onChange={(e) => {handleSelectEvent(e)}}>
+      <Select placeholder="Välj event" onChange={(e) => {handleSelectEvent(e)}}>
         {events &&
           events.map((event) => (
             <option key={event.id} value={event.id}>
               {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
-              {event.foreman ? event.foreman : "No foreman"}
+              {event.foreman ? event.foreman : "No foreman"} {" "} 
+              {event.workers.length} workers
             </option>
           ))}
       </Select>
