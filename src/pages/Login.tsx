@@ -25,8 +25,8 @@ const Login = () => {
   const location = useLocation();
   const { toggleColorMode } = useColorMode();
   const formBackground = useColorModeValue('gray.100', 'gray.700');
-  var [email, setEmail] = useState<string>("");
-  var [passwd, setPasswd] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [passwd, setPasswd] = useState<string>("");
   const [error, setError] = useState<string>("");
 
   const from = location.state?.from || "/";
