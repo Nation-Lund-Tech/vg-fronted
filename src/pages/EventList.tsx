@@ -6,7 +6,7 @@ import {
   AccordionPanel,
   AccordionIcon,
 } from "@chakra-ui/react";
-import { WorkEvent, User, User1 } from "../Common/Types";
+import { WorkEvent, User1 } from "../Common/Types";
 import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 
