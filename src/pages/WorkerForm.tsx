@@ -26,7 +26,7 @@ function WorkerForm() {
 
   const getWorker = async () =>{
     const response = await fetch(
-      `https://localhost:7008/api/Worker/id/${workerId}`
+      `${import.meta.env.VITE_BASE_URL}/api/Worker/id/${workerId}`
     );
     const data: User1 = await response.json();
     setWorker(data);

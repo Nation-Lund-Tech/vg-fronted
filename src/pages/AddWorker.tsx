@@ -36,7 +36,7 @@ export default function AddWorker() {
   // Tom body returneras av API:et om email inte finns, det måste vi hantera
 
   const onSubmit: SubmitHandler<WorkerForm> = async (data) => {
-    const response = await fetch("https://localhost:7008/api/Worker", {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
