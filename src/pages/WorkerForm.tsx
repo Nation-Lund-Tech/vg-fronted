@@ -17,24 +17,22 @@ import {
 import { useParams } from "react-router-dom";
 import { User1 } from "../Common/Types";
 
-
 function WorkerForm() {
-
   const { workerId } = useParams<{ workerId: string }>();
 
-  const [worker, setWorker] = useState<User1>()
+  const [worker, setWorker] = useState<User1>();
 
-  const getWorker = async () =>{
+  const getWorker = async () => {
     const response = await fetch(
-      `https://localhost:7008/api/Worker/id/${workerId}`
+      `${import.meta.env.VITE_BASE_URL}/api/Worker/id/${workerId}`
     );
     const data: User1 = await response.json();
     setWorker(data);
-  }
+  };
 
   useEffect(() => {
-    getWorker()
-  }, [])
+    getWorker();
+  }, []);
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -49,18 +47,23 @@ function WorkerForm() {
         alignItems="stretch"
       >
         <Flex minWidth="max-content" alignItems="center" gap="2">
-          <Box p="2">{worker?.firstName}, Lunch
-          <br />
-          <Text>Matpref: </Text>
+          <Box p="2">
+            {worker?.firstName} {worker?.lastName}
+            <br />
+            <Text>{worker?.foodPref}</Text>
           </Box>
           <Spacer />
           <Button>Lägg till pass</Button>
         </Flex>
         <Flex minWidth="max-content" alignItems="center" gap="2">
           <Box p="2">
-            <Heading size="sm">Total användbar tacksumma: </Heading>
+            <Heading size="sm">
+              Total användbar tacksumma: {worker?.bank}
+            </Heading>
             <Spacer />
-            <Heading size="sm">Total tack: </Heading>
+            <Heading size="sm">
+              {worker && `Totalt tack: ${worker.bank % 2}`}
+            </Heading>
           </Box>
           <Spacer />
         </Flex>

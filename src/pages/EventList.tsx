@@ -6,29 +6,33 @@ import {
   AccordionPanel,
   AccordionIcon,
 } from "@chakra-ui/react";
-import { Event, User } from "../Common/Types";
+import { WorkEvent, User1 } from "../Common/Types";
+import { useState, useEffect } from "react";
+import Layout from "../components/Layout";
 
 interface Props {
-  events: Event[];
+  events: WorkEvent[];
 }
 
-function EventList({ events }: Props) {
+export default function EventList({ events }: Props) {
   return (
-    <Box width="100%" alignItems="center" justifyContent="center">
-      <Heading as="h2" size="lg" mb={4} textAlign="center">
-        Tackfester
-      </Heading>
-      <Accordion allowMultiple>
-        {events.map((event) => (
-          <EventItem event={event} key={event.id} />
-        ))}
-      </Accordion>
-    </Box>
+    <Layout>
+      <Box width="100%" alignItems="center" justifyContent="center">
+        <Heading as="h2" size="lg" mb={4} textAlign="center">
+          Tackfester
+        </Heading>
+        <Accordion allowMultiple>
+          {events.map((event) => (
+            <EventItem event={event} key={event.id} />
+          ))}
+        </Accordion>
+      </Box>
+    </Layout>
   );
 }
 
 interface EventItemProps {
-  event: Event;
+  event: WorkEvent;
 }
 
 function EventItem({ event }: EventItemProps) {
@@ -37,7 +41,7 @@ function EventItem({ event }: EventItemProps) {
       <h2>
         <AccordionButton>
           <Box as="span" flex="1" textAlign="left">
-            {event.date}
+            {event.date} - {event.foreman} - {event.name} - {event.workers.length}
           </Box>
           <AccordionIcon />
         </AccordionButton>
@@ -51,5 +55,3 @@ function EventItem({ event }: EventItemProps) {
     </AccordionItem>
   );
 }
-
-export default EventList;
