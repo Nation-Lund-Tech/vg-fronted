@@ -1,42 +1,50 @@
-import { Box, Flex, Spacer, Link, IconButton, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, Spacer, Link, IconButton, Image, useColorModeValue, Button } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "../providers/AuthProvider";
 
 const Links = [
   { name: "Events", path: "/events" },
   { name: "Jobbare", path: "/workers" },
-  { name: "Logga in", path: "/login"},
 ];
 
 const NavLinkItem = ({ path, children }: { path: string; children: React.ReactNode }) => (
-  <NavLink to={path}>
-    <Link px={2} py={1} rounded={"md"} _hover={{ textDecoration: "none", bg: useColorModeValue("gray.200", "gray.700") }}>
-      {children}
-    </Link>
-  </NavLink>
+  <Link as={NavLink} to={path} px={2} py={1} rounded={"md"} _hover={{ textDecoration: "none", bg: useColorModeValue("gray.200", "gray.700") }}>
+    {children}
+  </Link>
 );
 
-const Navbar = () => {
+export default function Navbar() {
+  const auth = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
 
+  function signout() {
+    auth.signout();
+  }
+
   return (
-    <Flex bg={useColorModeValue("gray.100", "gray.900")} width="100%" px={4} justifyContent="space-between"
-    alignItems="center">
-      <Box p={2}>
-        <Link href="/" fontSize="xl" fontWeight="bold">
-          Västgöta Nation
-        </Link>
-      </Box>
+    <Flex bg={useColorModeValue("yellow.400", "gray.900")} width="100%" px={4} justifyContent="space-between"
+      alignItems="center">
+      <Link href="/" >
+        <Image src="vg-header.png" alt="Västgöta Nation" width="auto" height="4rem" />
+      </Link>
+      
       <Spacer />
       <Box display={{ base: "none", md: "flex" }}>
-        {Links.map((link) => (
-          <NavLinkItem key={link.name} path={link.path}>
-            {link.name}
-          </NavLinkItem>
-        ))}
+
+        {auth.user?.email && (
+          <>
+            {Links.map((link) => (
+              <NavLinkItem key={link.name} path={link.path}>
+                {link.name}
+              </NavLinkItem>
+            ))}
+            <Button onClick={signout} colorScheme="yellow">Logga ut</Button>
+          </>
+        )}
       </Box>
       <IconButton
         aria-label="Open Menu"
@@ -58,5 +66,3 @@ const Navbar = () => {
     </Flex>
   );
 };
-
-export default Navbar;
