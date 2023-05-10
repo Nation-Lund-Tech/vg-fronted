@@ -10,12 +10,12 @@ export interface User {
     balance: number;
 }
 
-export interface Event {
-    id: string;
-    name: string;
-    date: string;
-    participants: User[];
-    capacity: number;
+export interface WorkEvent {
+    foreman: string,
+    workers: User1[],
+    id: number,
+    name: string,
+    date: string,
 }
 
 export interface User1 {    
@@ -23,6 +23,8 @@ export interface User1 {
     firstName: string,
     lastName: string,
     email: string,
+    foodPref: string,
     passwordHash: string,
-    passwordSalt: string
+    passwordSalt: string,
+    bank: number,
 }

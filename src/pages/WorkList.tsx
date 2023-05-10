@@ -24,12 +24,11 @@ import {
 } from "@chakra-ui/react";
 
 import { User1 } from "../Common/Types";
-
-import { AddIcon, SmallAddIcon } from "@chakra-ui/icons";
-
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { AddIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import React from "react";
+import SelectWorker from "./RegisterWork";
 import Layout from "../components/Layout";
 
 function WorkList() {
@@ -60,7 +59,7 @@ function WorkList() {
   const [workers, setWorkers] = useState<User1[]>();
 
   const getWorker = async () => {
-    const response = await fetch(`https://localhost:7008/api/Worker/all`);
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker/all`);
     const data: User1[] = await response.json();
     setWorkers(data);
   };
@@ -69,7 +68,7 @@ function WorkList() {
   }, []);
 
   const removeWorker = async (email: string) => {
-    const response = await fetch(`https://localhost:7008/api/Worker/delete/${email}`, {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker/delete/${email}`, {
       method: "DELETE",
     });
     if (response.status === 200) {
