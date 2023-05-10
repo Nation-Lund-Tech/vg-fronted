@@ -29,6 +29,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import React from "react";
 import SelectWorker from "./RegisterWork";
+import Layout from "../components/Layout";
 
 function WorkList() {
   
@@ -53,6 +54,7 @@ function WorkList() {
   }
 
   return (
+    <Layout>
     <VStack
       divider={<StackDivider />}
       borderColor="gray.100"
@@ -113,6 +115,7 @@ function WorkList() {
 
       </HStack>
     </VStack>
+    </Layout>
   );
 }
 
