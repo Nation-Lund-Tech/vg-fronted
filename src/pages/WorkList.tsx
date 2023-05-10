@@ -24,12 +24,11 @@ import {
 } from "@chakra-ui/react";
 
 import { User1 } from "../Common/Types";
-
-import { AddIcon, SmallAddIcon } from "@chakra-ui/icons";
-
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { AddIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import React from "react";
+import SelectWorker from "./RegisterWork";
 import Layout from "../components/Layout";
 
 function WorkList() {
