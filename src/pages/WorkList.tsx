@@ -21,6 +21,7 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerBody,
+  Center,
 } from "@chakra-ui/react";
 
 import { User1 } from "../Common/Types";
@@ -55,6 +56,7 @@ function WorkList() {
 
   return (
     <Layout>
+    <Center>
     <VStack
       divider={<StackDivider />}
       borderColor="gray.100"
@@ -115,6 +117,7 @@ function WorkList() {
 
       </HStack>
     </VStack>
+    </Center>
     </Layout>
   );
 }
