@@ -59,7 +59,7 @@ function WorkList() {
   const [workers, setWorkers] = useState<User1[]>();
 
   const getWorker = async () => {
-    const response = await fetch(`https://localhost:7008/api/Worker/all`);
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker/all`);
     const data: User1[] = await response.json();
     setWorkers(data);
   };
@@ -68,7 +68,7 @@ function WorkList() {
   }, []);
 
   const removeWorker = async (email: string) => {
-    const response = await fetch(`https://localhost:7008/api/Worker/delete/${email}`, {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker/delete/${email}`, {
       method: "DELETE",
     });
     if (response.status === 200) {
