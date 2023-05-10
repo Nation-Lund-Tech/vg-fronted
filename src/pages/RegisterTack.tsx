@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { User1, WorkEvent } from "../Common/Types";
+import { User1 } from "../Common/Types";
 import {
   useCheckbox,
   Input,
@@ -27,7 +27,6 @@ import {
 
 export default function RegisterWork() {
   const [workers, setWorkers] = useState<User1[]>();
-  const [events, setEvents] = useState<WorkEvent[]>();
 
   const getWorker = async () => {
     const response = await fetch(`https://localhost:7008/api/Worker/all`);
@@ -35,35 +34,18 @@ export default function RegisterWork() {
     setWorkers(data);
   };
 
-  const getEvents = async () => {
-    const response = await fetch(`https://localhost:7008/api/WorkEvent/all`);
-    const data: WorkEvent[] = await response.json();
-    setEvents(data);
-  };
+  // Need to implement a TackEvent in the API
 
   useEffect(() => {
     getWorker();
   }, []);
 
-  useEffect(() => {
-    getEvents();
-  }, []);
-
-  const [selectedWorkers, setSelectedWorkers] = useState<number[]>([]);
-  const [selectedDateTime, setSelectedDateTime] = useState("");
-
-  function handleAddToEvent() {
-    // Call an API endpoint to add the selected workers to the event on the selected date and time
-    console.log(
-      `Adding workers ${selectedWorkers} to event on ${selectedDateTime}`
-    );
-  }
+  const [selectedWorkers, setSelectedWorkers] = useState<string[]>([]);
 
   return (
     <VStack>
       <TableContainer>
         <Table variant="simple">
-          <TableCaption>Jobbare</TableCaption>
           <Thead>
             <Tr>
               <Th>Namn</Th>
@@ -74,30 +56,45 @@ export default function RegisterWork() {
           <Tbody>
             {workers &&
               workers.map((worker) => (
-                <Tr key={worker.id}>
+                <Tr key={worker.email}>
                   <Td>
                     <Flex alignItems="center">
-                      <Checkbox defaultChecked={false} mr={2} />
+                      <Checkbox
+                        defaultChecked={false}
+                        isChecked={selectedWorkers.includes(worker.email)}
+                        mr={2}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            const newVal = [...selectedWorkers, worker.email];
+                            setSelectedWorkers(newVal);
+                            console.log(newVal);
+                          } else {
+                            setSelectedWorkers(
+                              selectedWorkers.filter(
+                                (email) => email !== worker.email
+                              )
+                            );
+                          }
+                        }}
+                      />
                       <Box>
                         {worker.firstName} {worker.lastName}
                       </Box>
                     </Flex>
                   </Td>
                   <Td>{worker.email}</Td>
-                  <Td>lägg till matpref</Td>
+                  <Td>{worker.foodPref}</Td>
                 </Tr>
               ))}
           </Tbody>
         </Table>
       </TableContainer>
       <Spacer />
-      <Select placeholder="Välj tackfest">
+      <Select placeholder="Välj event">
         <option>Anything-but-a-cup | 23/05/24</option>
         <option>Jobbarfest | 23/06/02</option>
       </Select>
-      <Button onClick={handleAddToEvent} colorScheme="green">
-        Registrera pass
-      </Button>
+      <Button colorScheme="green">Registrera pass</Button>
     </VStack>
   );
 }

@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { User1, WorkEvent } from "../Common/Types";
 import {
-  useCheckbox,
-  Input,
   VStack,
-  StackDivider,
   Button,
   HStack,
   Link,
@@ -18,12 +15,12 @@ import {
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
   Box,
   Checkbox,
   Flex,
 } from "@chakra-ui/react";
+import { set } from "react-hook-form";
 
 export default function RegisterWork() {
   const [workers, setWorkers] = useState<User1[]>();
@@ -49,15 +46,45 @@ export default function RegisterWork() {
     getEvents();
   }, []);
 
+  const [selectedWorkers, setSelectedWorkers] = useState<string[]>([]);
+  const [selectedEventId, setSelectedEventId] = useState<number>();
 
-  const [selectedWorkers, setSelectedWorkers] = useState<number[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState<WorkEvent>();
+  const handleAddToEvent = async () => {
+    if (!selectedEventId) {
+      // Show an error message if no event is selected
+      alert("Please select an event");
+      return;
+    }
 
-  function handleAddToEvent() {
-    // Put method to add to https://localhost:7008/api/WorkEvent/add/worker 
-    // with body {email: string, eventId: number}
+    const response = await fetch(
+      `https://localhost:7008/api/WorkEvent/add/worker`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: selectedWorkers[0],
+          eventId: selectedEventId,
+        }),
+      }
+    );
 
-  }
+    if (response.ok) {
+      // Show a success message if the request was successful
+      alert("Workers added to event successfully, yay Happy!");
+      setSelectedWorkers([]);
+    } else {
+      // Show an error message if the request failed
+      alert("Failed to add workers to event");
+    }
+  };
+
+  const handleSelectEvent = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const id = parseInt(event.target.value);
+    setSelectedEventId(id);
+    console.log(id);
+  };
 
   return (
     <VStack>
@@ -73,18 +100,26 @@ export default function RegisterWork() {
           <Tbody>
             {workers &&
               workers.map((worker) => (
-                <Tr key={worker.id}>
+                <Tr key={worker.email}>
                   <Td>
                     <Flex alignItems="center">
                       <Checkbox
                         defaultChecked={false}
+                        isChecked={selectedWorkers.includes(worker.email)}
                         mr={2}
                         onChange={(e) => {
                           if (e.target.checked) {
-                            setSelectedWorkers([...selectedWorkers, worker.id]);
+                            const newVal = [
+                              ...selectedWorkers,
+                              worker.email,
+                            ]
+                            setSelectedWorkers(newVal);
+                            console.log(newVal);
                           } else {
                             setSelectedWorkers(
-                              selectedWorkers.filter((id) => id !== worker.id)
+                              selectedWorkers.filter(
+                                (email) => email !== worker.email
+                              )
                             );
                           }
                         }}
@@ -102,12 +137,13 @@ export default function RegisterWork() {
         </Table>
       </TableContainer>
       <Spacer />
-      <Select placeholder="Välj event">
+      <Select placeholder="Välj event" onChange={(e) => {handleSelectEvent(e)}}>
         {events &&
           events.map((event) => (
-            <option key={event.id}>
+            <option key={event.id} value={event.id}>
               {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
-              {event.foreman ? event.foreman : "No foreman"}
+              {event.foreman ? event.foreman : "No foreman"} {" "} 
+              {event.workers.length} workers
             </option>
           ))}
       </Select>

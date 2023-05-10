@@ -7,10 +7,12 @@ import {
   AccordionIcon,
 } from "@chakra-ui/react";
 import { WorkEvent, User } from "../Common/Types";
+import { useState, useEffect } from "react";
 
 interface Props {
   events: WorkEvent[];
 }
+
 
 function EventList({ events }: Props) {
   return (
@@ -28,7 +30,7 @@ function EventList({ events }: Props) {
 }
 
 interface EventItemProps {
-  event: Event;
+  event: WorkEvent;
 }
 
 function EventItem({ event }: EventItemProps) {
@@ -37,7 +39,7 @@ function EventItem({ event }: EventItemProps) {
       <h2>
         <AccordionButton>
           <Box as="span" flex="1" textAlign="left">
-            {event.date} - {event.foreman} - {event.name}
+            {event.date} - {event.foreman} - {event.name} - {event.workers.length}
           </Box>
           <AccordionIcon />
         </AccordionButton>
