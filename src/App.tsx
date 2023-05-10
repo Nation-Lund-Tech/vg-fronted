@@ -9,7 +9,7 @@ import EventList from "./pages/EventList";
 import {WorkEvent} from "./Common/Types";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import Navbar from "./pages/Navbar";
+import Navbar from "./components/Navbar";
 import RegisterWork from "./pages/RegisterWork";
 import RegisterTack from "./pages/RegisterTack";
 import { AuthProvider, RequireAuth } from "./providers/AuthProvider";
