@@ -43,7 +43,7 @@ export default function RegisterWork() {
   const [selectedWorkers, setSelectedWorkers] = useState<string[]>([]);
 
   return (
-    <VStack>
+    <VStack spacing={"1rem"}>
       <TableContainer>
         <Table variant="simple">
           <Thead>
@@ -90,11 +90,18 @@ export default function RegisterWork() {
         </Table>
       </TableContainer>
       <Spacer />
-      <Select placeholder="Välj event">
+      <Select maxWidth="26rem" placeholder="Välj tack">
         <option>Anything-but-a-cup | 23/05/24</option>
         <option>Jobbarfest | 23/06/02</option>
       </Select>
-      <Button colorScheme="green">Registrera pass</Button>
+      <HStack spacing={"12rem"}>
+      <Button colorScheme="green">Registrera tack</Button>
+      <Link href="/workers">
+      <Button size='md'>
+      Cancel
+      </Button>
+      </Link>
+      </HStack>
     </VStack>
   );
 }
