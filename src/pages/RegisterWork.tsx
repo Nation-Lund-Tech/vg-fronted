@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { User1, WorkEvent } from "../Common/Types";
+import { User, WorkEvent } from "../Common/Types";
 import {
   VStack,
   Button,
@@ -23,12 +23,12 @@ import {
 import { set } from "react-hook-form";
 
 export default function RegisterWork() {
-  const [workers, setWorkers] = useState<User1[]>();
+  const [workers, setWorkers] = useState<User[]>();
   const [events, setEvents] = useState<WorkEvent[]>();
 
   const getWorker = async () => {
     const response = await fetch(`https://localhost:7008/api/Worker/all`);
-    const data: User1[] = await response.json();
+    const data: User[] = await response.json();
     setWorkers(data);
   };
 

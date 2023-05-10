@@ -14,37 +14,13 @@ import RegisterWork from "./pages/RegisterWork";
 import RegisterTack from "./pages/RegisterTack";
 import { AuthProvider, RequireAuth } from "./providers/AuthProvider";
 
-const events: WorkEvent[] = [
-    {
-      foreman: "Arvid",
-      workers: [],
-      id: 1,
-      name: "Metro",
-      date: "23/03/22",
-    },
-    {
-      foreman: "Daniel",
-      workers: [],
-      id: 2,
-      name: "Sopplunch",
-      date: "23/03/22",
-    },
-    {
-      foreman: "Hampus",
-      workers: [],
-      id: 3,
-      name: "Metro",
-      date: "23/03/22",
-    }
-];
-
 function App() {
   return (
     <AuthProvider>
       <Routes>
           <Route path="/" element={<RequireAuth><Home/></RequireAuth>} />
           <Route path="/add-worker" element={<RequireAuth><AddWorker/></RequireAuth>}/>
-          <Route path="/events" element={<RequireAuth><EventList events={events} /></RequireAuth>}/>
+          <Route path="/events" element={<RequireAuth><EventList /></RequireAuth>}/>
           <Route path="/workers" element={<RequireAuth><WorkList/></RequireAuth>}/>
           <Route path="arbetare/:workerId"/>
           <Route path="login" element={<Login/>}/>

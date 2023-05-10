@@ -1,4 +1,4 @@
-import { Box, Heading, List, ListItem } from "@chakra-ui/react";
+import {Box, Center, Heading} from "@chakra-ui/react";
 import {
   Accordion,
   AccordionItem,
@@ -6,27 +6,39 @@ import {
   AccordionPanel,
   AccordionIcon,
 } from "@chakra-ui/react";
-import { WorkEvent, User, User1 } from "../Common/Types";
+import { WorkEvent} from "../Common/Types";
 import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 
-interface Props {
-  events: WorkEvent[];
-}
+export default function EventList() {
+  const [events, setEvents] = useState<WorkEvent[]>();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/WorkEvent/all`);
+        const workEvents: WorkEvent[] = await response.json();
+        setEvents(workEvents);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+    fetchData();
+  }, []);
 
-export default function EventList({ events }: Props) {
   return (
     <Layout>
-      <Box width="100%" alignItems="center" justifyContent="center">
-        <Heading as="h2" size="lg" mb={4} textAlign="center">
-          Tackfester
-        </Heading>
-        <Accordion allowMultiple>
-          {events.map((event) => (
-            <EventItem event={event} key={event.id} />
-          ))}
-        </Accordion>
-      </Box>
+      <Center>
+        <Box width="100%" alignItems="center" justifyContent="center">
+          <Heading as="h2" size="lg" mb={4} textAlign="center">
+            Händelser
+          </Heading>
+          <Accordion allowMultiple>
+            {events?.map((event) => (
+                <EventItem event={event} key={event.id} />
+            ))}
+          </Accordion>
+        </Box>
+      </Center>
     </Layout>
   );
 }

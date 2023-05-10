@@ -23,7 +23,7 @@ import {
   DrawerBody,
 } from "@chakra-ui/react";
 
-import { User1 } from "../Common/Types";
+import { User } from "../Common/Types";
 import { AddIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -56,11 +56,11 @@ function WorkList() {
 
   // fetch data from https://localhost:7008/api/Worker/name/Arvid
 
-  const [workers, setWorkers] = useState<User1[]>();
+  const [workers, setWorkers] = useState<User[]>();
 
   const getWorker = async () => {
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker/all`);
-    const data: User1[] = await response.json();
+    const data: User[] = await response.json();
     setWorkers(data);
   };
   useEffect(() => {
