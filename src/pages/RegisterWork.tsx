@@ -72,7 +72,7 @@ export default function RegisterWork() {
 
     if (response.ok) {
       // Show a success message if the request was successful
-      alert("Workers added to event successfully, yay Happy!");
+      alert("Workers added to event successfully");
       setSelectedWorkers([]);
     } else {
       // Show an error message if the request failed
