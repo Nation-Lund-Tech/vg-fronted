@@ -46,7 +46,7 @@ function App() {
           <Route path="/add-worker" element={<RequireAuth><AddWorker/></RequireAuth>}/>
           <Route path="/events" element={<RequireAuth><EventList events={events} /></RequireAuth>}/>
           <Route path="/workers" element={<RequireAuth><WorkList/></RequireAuth>}/>
-          <Route path="arbetare/:workerId"/>
+          <Route path="arbetare/:workerId" element={<RequireAuth><WorkerForm/></RequireAuth>}/>
           <Route path="login" element={<Login/>}/>
           <Route path="/register-work" element={<RequireAuth><RegisterWork/></RequireAuth>}/>
           <Route path="/register-tack" element={<RequireAuth><RegisterTack/></RequireAuth>}/>

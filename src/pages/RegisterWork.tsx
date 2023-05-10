@@ -137,7 +137,7 @@ export default function RegisterWork() {
         </Table>
       </TableContainer>
       <Spacer />
-      <Select placeholder="Välj event" onChange={(e) => {handleSelectEvent(e)}}>
+      <Select placeholder="Välj event" onChange={(e) => {handleSelectEvent(e)}} width="20rem">
         {events &&
           events.map((event) => (
             <option key={event.id} value={event.id}>
