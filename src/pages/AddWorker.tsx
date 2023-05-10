@@ -11,6 +11,7 @@ import {
   Flex,
   Box,
   useToast,
+  Link,
 } from "@chakra-ui/react";
 import WorkerFrom from "./WorkerForm";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -134,9 +135,16 @@ export default function AddWorker() {
 
           <Spacer p="2" />
 
-          <Button type="submit" isLoading={isSubmitting}>
-            Create Worker
-          </Button>
+          <HStack spacing={"16rem"}>
+            <Button color={"white"} background={"green.400"} type="submit" isLoading={isSubmitting}>
+              Create Worker
+            </Button>
+            <Link href="/workers">
+              <Button size='md'>
+                Cancel
+              </Button>
+            </Link>
+          </HStack>
         </form>
       </VStack>
     </Flex>

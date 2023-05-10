@@ -19,6 +19,8 @@ import {
   Box,
   Checkbox,
   Flex,
+  CloseButton,
+  Center,
 } from "@chakra-ui/react";
 import { set } from "react-hook-form";
 
@@ -87,8 +89,8 @@ export default function RegisterWork() {
   };
 
   return (
-    <VStack>
-      <TableContainer>
+    <VStack spacing={"1rem"}>
+    <TableContainer>
         <Table variant="simple">
           <Thead>
             <Tr>
@@ -137,19 +139,26 @@ export default function RegisterWork() {
         </Table>
       </TableContainer>
       <Spacer />
-      <Select placeholder="Välj event" onChange={(e) => {handleSelectEvent(e)}} width="20rem">
+      <Select placeholder="Välj event" maxWidth="26rem" onChange={(e) => { handleSelectEvent(e) }}>
         {events &&
           events.map((event) => (
             <option key={event.id} value={event.id}>
               {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
-              {event.foreman ? event.foreman : "No foreman"} {" "} 
+              {event.foreman ? event.foreman : "No foreman"} {" "}
               {event.workers.length} workers
             </option>
           ))}
       </Select>
+      <HStack spacing={"12rem"}>
       <Button onClick={handleAddToEvent} colorScheme="green">
         Registrera pass
       </Button>
+      <Link href="/workers">
+      <Button size='md'>
+      Cancel
+      </Button>
+      </Link>
+      </HStack>
     </VStack>
   );
 }
