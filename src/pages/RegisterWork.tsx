@@ -21,6 +21,7 @@ import {
   Flex,
   CloseButton,
   Center,
+  useToast,
 } from "@chakra-ui/react";
 import { set } from "react-hook-form";
 
@@ -51,6 +52,8 @@ export default function RegisterWork() {
   const [selectedWorkers, setSelectedWorkers] = useState<string[]>([]);
   const [selectedEventId, setSelectedEventId] = useState<number>();
 
+  const toast = useToast();
+
   const handleAddToEvent = async () => {
     if (!selectedEventId) {
       // Show an error message if no event is selected
@@ -74,11 +77,22 @@ export default function RegisterWork() {
 
     if (response.ok) {
       // Show a success message if the request was successful
-      alert("Workers added to event successfully");
+      // alert("Workers added to event successfully");
+      toast({
+        title: "Success",
+        description: "Worker was added successfully",
+        status: "success",
+        isClosable: true,
+      });
       setSelectedWorkers([]);
     } else {
       // Show an error message if the request failed
-      alert("Failed to add workers to event");
+      toast({
+        title: "Success",
+        description: "Worker was added successfully",
+        status: "success",
+        isClosable: true,
+      });
     }
   };
 
