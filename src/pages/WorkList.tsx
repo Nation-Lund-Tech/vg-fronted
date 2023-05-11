@@ -22,6 +22,7 @@ function WorkList() {
 
   const auth = useAuth();
   const [workers, setWorkers] = useState<Worker[]>();
+  const [search, setSearch] = useState<string>("");
 
   const getWorker = async () => {
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker/all`);
@@ -60,11 +61,17 @@ function WorkList() {
         </Heading>
         <Link to={"/add-worker"}>
           <Button colorScheme="green" leftIcon={<AddIcon />}>
-            Skapa jobbare
+            Create worker
           </Button>
         </Link>
       </HStack>
-      <Input placeholder="Sök Profil..." size="sm" />
+      <Input 
+        placeholder="Search by name"
+        size="sm"
+        onChange={(event) => {
+          setSearch(event.target.value)
+        }} 
+        />
       {/* {worker &&
       <HStack>
           <Link to={"/arbetare/${employee.id}"}>
@@ -76,7 +83,7 @@ function WorkList() {
         </HStack>
 } */}
       {workers &&
-        workers.map((worker) => (
+        workers.filter((worker) => (`${worker.email} ${worker.firstName} ${worker.lastName}`).includes(search)).map((worker) => (
           <HStack key={worker.id}>
             <Link to={`/arbetare/${worker.id}`}>
               <Text as="a">{worker.firstName}</Text>
