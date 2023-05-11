@@ -1,10 +1,12 @@
-import {Box, Center, Heading} from "@chakra-ui/react";
+import {Box, BreadcrumbLink, Center, Heading, SimpleGrid} from "@chakra-ui/react";
 import {
   Accordion,
   AccordionItem,
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
+  Breadcrumb,
+  BreadcrumbItem,
 } from "@chakra-ui/react";
 import { WorkEvent} from "../Common/Types";
 import { useState, useEffect } from "react";
@@ -53,7 +55,7 @@ function EventItem({ event }: EventItemProps) {
       <h2>
         <AccordionButton>
           <Box as="span" flex="1" textAlign="left">
-            {event.date} - {event.foreman} - {event.name} - {event.workers.length}
+            {event.date.slice(0, -9)} \ {event.name} \ {event.foreman}
           </Box>
           <AccordionIcon />
         </AccordionButton>
@@ -65,5 +67,16 @@ function EventItem({ event }: EventItemProps) {
         commodo consequat.
       </AccordionPanel>
     </AccordionItem>
+  );
+}
+
+function AccordionPanelContent({event}: EventItemProps) {
+  return (
+      <SimpleGrid columns={2} spacing={10}>
+        <Box>Namn: {event.name}</Box>
+        <Box>Datum: {event.date.slice(0, -9)}</Box>
+        <Box>Ansvarig förman: {event.foreman}</Box>
+        <Box>Jobbare: {event.workers.length}</Box>
+      </SimpleGrid>
   );
 }
