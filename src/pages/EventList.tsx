@@ -53,15 +53,10 @@ function EventItem({ event }: EventItemProps) {
   return (
     <AccordionItem>
       <h2>
-        <AccordionButton>
+        <AccordionButton _expanded={{ bg: 'whiteSmoke' }}>
           <Box as="span" flex="1" textAlign="left">
             {event.date.slice(0, -9)} / {event.name} / {event.foreman && event.foreman.map(foreman => <Text>{foreman.firstName} {foreman.lastName} ,</Text>)} / {event.workers.length}
           </Box>
-          <div>
-          <Link as={RouterLink} to={`/edit-event/${String(event.id)}`}>
-            <Button size="sm">Edit event</Button>
-          </Link>
-          </div>
           <AccordionIcon />
         </AccordionButton>
       </h2>
@@ -79,6 +74,11 @@ function AccordionPanelContent({ event }: EventItemProps) {
       <Box>Datum: {event.date.slice(0, -9)}</Box>
       <Box>Ansvariga förmän: {event.foreman.map(foreman => <text>{foreman.firstName} {foreman.lastName}, </text>)}</Box>
       <Box>Jobbare: {event.workers.length}</Box>
+      <Box>
+        <Link as={RouterLink} to={`/edit-event/${String(event.id)}`}>
+          <Button size="sm">Hantera</Button>
+        </Link>
+      </Box>
     </SimpleGrid>
   );
 }

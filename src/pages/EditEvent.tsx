@@ -7,7 +7,7 @@ export default function EditEvent() {
 
     return (
         <Layout>
-            
+            <h1>Edit event {eventId}</h1>
         </Layout>
     );
 }
