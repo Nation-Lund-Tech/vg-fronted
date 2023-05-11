@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { Worker } from "../Common/Types";
+import Layout from "../components/Layout";
 
 function WorkerForm() {
   const { workerId } = useParams<{ workerId: string }>();
@@ -35,6 +36,7 @@ function WorkerForm() {
   }, []);
 
   return (
+    <Layout>
     <div style={{ display: "flex", justifyContent: "center" }}>
       <VStack
         divider={<StackDivider />}
@@ -70,6 +72,7 @@ function WorkerForm() {
         <Button>Välj tack</Button>
       </VStack>
     </div>
+    </Layout>
   );
 }
 

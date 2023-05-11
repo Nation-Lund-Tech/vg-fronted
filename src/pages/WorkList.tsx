@@ -22,7 +22,7 @@ function WorkList() {
   const [workers, setWorkers] = useState<Worker[]>();
 
   const getWorker = async () => {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker/all`);
+    const response = await fetch(`https://localhost:7008/api/Worker/all`);
     const data: Worker[] = await response.json();
     setWorkers(data);
   };
@@ -31,7 +31,7 @@ function WorkList() {
   }, []);
 
   const removeWorker = async (email: string) => {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker/delete/${email}`, {
+    const response = await fetch(`https://localhost:7008/api/Worker/delete/${email}`, {
       method: "DELETE",
     });
     if(response.status === 200) {
@@ -74,7 +74,7 @@ function WorkList() {
         </HStack>
 } */}
       {workers &&
-        workers.map((worker) => (
+        workers.sort((a: Worker,b: Worker) => +new Date(b.lastUpdated).getTime() - + new Date(a.lastUpdated).getTime()).map((worker) => (
           <HStack key={worker.id}>
             <Link to={`/arbetare/${worker.id}`}>
               <Text as="a">{worker.firstName}</Text>

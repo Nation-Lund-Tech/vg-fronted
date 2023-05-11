@@ -64,7 +64,7 @@ export default function AddWorker() {
       status: "success",
       isClosable: true,
     });
-
+    console.log()
     reset();
   };
 
