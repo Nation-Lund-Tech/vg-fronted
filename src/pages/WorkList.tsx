@@ -16,9 +16,11 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import React from "react";
 import Layout from "../components/Layout";
+import { useAuth } from "../providers/AuthProvider";
 
 function WorkList() {
 
+  const auth = useAuth();
   const [workers, setWorkers] = useState<Worker[]>();
 
   const getWorker = async () => {
@@ -54,7 +56,7 @@ function WorkList() {
     >
       <HStack justifyContent="space-between">
         <Heading as="h1" size="2xl" textAlign="center" my={4}>
-          Jobbare
+          Workers
         </Heading>
         <Link to={"/add-worker"}>
           <Button colorScheme="green" leftIcon={<AddIcon />}>
@@ -81,14 +83,18 @@ function WorkList() {
             </Link>
             <Text>{worker.email}</Text>
             <Spacer />
-            <Button colorScheme="red" onClick={() => removeWorker(worker.email)}>Remove</Button>
+            {auth.user?.role == "Admin" && (
+          <>
+            <Button colorScheme="red" onClick={() => removeWorker(worker.email)}>Remove</Button>  
+          </>
+        )}
           </HStack>
         ))}
       <HStack>
 
         <Link to={"/register-work"}>
           <Button size="sm">
-            Registrera pass
+            Register work
           </Button>
         </Link>
 
@@ -96,7 +102,7 @@ function WorkList() {
 
         <Link to={"/register-tack"}>
         <Button size="sm">
-          Registrera tack
+          Register reward
         </Button>
         </Link>
 

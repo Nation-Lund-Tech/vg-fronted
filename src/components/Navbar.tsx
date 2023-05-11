@@ -34,13 +34,6 @@ export default function Navbar() {
       
       <Spacer />
       <HStack spacing="1rem" display={{ base: "none", md: "flex" }}>
-      {auth.user?.role == "Admin" && (
-          <>
-            <NavLinkItem key={"Admin"} path={"/admin"}>
-                {"Admin"}
-              </NavLinkItem>
-          </>
-        )}
         {auth.user?.email && (
           <>
             {Links.map((link) => (
