@@ -1,12 +1,10 @@
-import {Box, BreadcrumbLink, Center, Heading, Text, SimpleGrid} from "@chakra-ui/react";
+import {Box, Center, Heading, Text, SimpleGrid} from "@chakra-ui/react";
 import {
   Accordion,
   AccordionItem,
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-  Breadcrumb,
-  BreadcrumbItem,
 } from "@chakra-ui/react";
 import { WorkEvent} from "../Common/Types";
 import { useState, useEffect } from "react";
@@ -31,7 +29,7 @@ export default function EventList() {
   return (
     <Layout>
       <Center>
-        <Box width="100%" alignItems="center" justifyContent="center">
+        <Box width={["100%", "80%"]} alignItems="center" justifyContent="center">
           <Heading as="h2" size="lg" mb={4} textAlign="center">
             Händelser
           </Heading>
@@ -56,17 +54,14 @@ function EventItem({ event }: EventItemProps) {
       <h2>
         <AccordionButton>
           <Box as="span" flex="1" textAlign="left">
-            {event.date} - {event.name} - {event.foreman && event.foreman.map(forman => <Text>{forman.firstName} {forman.lastName}</Text>)} - {event.workers.length}
+            {event.date.slice(0, -9)} / {event.name} / {event.foreman && event.foreman.map(foreman => <Text>{foreman.firstName} {foreman.lastName} ,</Text>)} / {event.workers.length}
 
           </Box>
           <AccordionIcon />
         </AccordionButton>
       </h2>
       <AccordionPanel pb={4}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
+        <AccordionPanelContent event={event} />
       </AccordionPanel>
     </AccordionItem>
   );
@@ -77,7 +72,7 @@ function AccordionPanelContent({event}: EventItemProps) {
       <SimpleGrid columns={2} spacing={10}>
         <Box>Namn: {event.name}</Box>
         <Box>Datum: {event.date.slice(0, -9)}</Box>
-        <Box>Ansvarig förman: {event.foreman}</Box>
+        <Box>Ansvariga förmän: {event.foreman.map(foreman => <text>{foreman.firstName} {foreman.lastName}, </text>)}</Box>
         <Box>Jobbare: {event.workers.length}</Box>
       </SimpleGrid>
   );
