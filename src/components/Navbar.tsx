@@ -29,7 +29,7 @@ export default function Navbar() {
     <HStack bg={useColorModeValue("yellow.400", "gray.900")} width="100%" height= "4.5rem"px={4} spacing="1rem"
       alignItems="center">
       <Link href="/" >
-        <Image src="vgslogga1.png" alt="Västgöta Nation" width="auto" height="3.5rem" />
+        <Image src="/vgslogga1.png" alt="Västgöta Nation" width="auto" height="3.5rem" />
       </Link>
       
       <Spacer />

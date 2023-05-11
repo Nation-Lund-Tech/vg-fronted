@@ -13,6 +13,7 @@ import Navbar from "./components/Navbar";
 import RegisterWork from "./pages/RegisterWork";
 import RegisterTack from "./pages/RegisterTack";
 import { AuthProvider, RequireAuth } from "./providers/AuthProvider";
+import EditEvent from "./pages/EditEvent";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="login" element={<Login/>}/>
           <Route path="/register-work" element={<RequireAuth><RegisterWork/></RequireAuth>}/>
           <Route path="/register-tack" element={<RequireAuth><RegisterTack/></RequireAuth>}/>
+          <Route path="/edit-event/:eventId" element={<RequireAuth><EditEvent/></RequireAuth>}/>
       </Routes>
     </AuthProvider>
   );

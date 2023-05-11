@@ -1,4 +1,4 @@
-import {Box, Center, Heading, Text} from "@chakra-ui/react";
+import { Box, Center, Heading, Text, SimpleGrid, Button, Link } from "@chakra-ui/react";
 import {
   Accordion,
   AccordionItem,
@@ -6,9 +6,10 @@ import {
   AccordionPanel,
   AccordionIcon,
 } from "@chakra-ui/react";
-import { WorkEvent} from "../Common/Types";
+import { WorkEvent } from "../Common/Types";
 import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function EventList() {
   const [events, setEvents] = useState<WorkEvent[]>();
@@ -29,13 +30,13 @@ export default function EventList() {
   return (
     <Layout>
       <Center>
-        <Box width="100%" alignItems="center" justifyContent="center">
+        <Box width={["100%", "80%"]} alignItems="center" justifyContent="center">
           <Heading as="h2" size="lg" mb={4} textAlign="center">
             Händelser
           </Heading>
           <Accordion allowMultiple>
             {events?.map((event) => (
-                <EventItem event={event} key={event.id} />
+              <EventItem event={event} key={event.id} />
             ))}
           </Accordion>
         </Box>
@@ -52,20 +53,32 @@ function EventItem({ event }: EventItemProps) {
   return (
     <AccordionItem>
       <h2>
-        <AccordionButton>
+        <AccordionButton _expanded={{ bg: 'whiteSmoke' }}>
           <Box as="span" flex="1" textAlign="left">
-            {event.date} - {event.name} - {event.foreman && event.foreman.map(forman => <Text>{forman.firstName} {forman.lastName}</Text>)} - {event.workers.length}
-
+            {event.date.slice(0, -9)} / {event.name} / {event.foreman && event.foreman.map(foreman => <Text>{foreman.firstName} {foreman.lastName} ,</Text>)} / {event.workers.length}
           </Box>
           <AccordionIcon />
         </AccordionButton>
       </h2>
       <AccordionPanel pb={4}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
+        <AccordionPanelContent event={event} />
       </AccordionPanel>
     </AccordionItem>
+  );
+}
+
+function AccordionPanelContent({ event }: EventItemProps) {
+  return (
+    <SimpleGrid columns={2} spacing={5}>
+      <Box>Namn: {event.name}</Box>
+      <Box>Datum: {event.date.slice(0, -9)}</Box>
+      <Box>Ansvariga förmän: {event.foreman.map(foreman => <text>{foreman.firstName} {foreman.lastName}, </text>)}</Box>
+      <Box>Jobbare: {event.workers.length}</Box>
+      <Box>
+        <Link as={RouterLink} to={`/edit-event/${String(event.id)}`}>
+          <Button size="sm">Hantera</Button>
+        </Link>
+      </Box>
+    </SimpleGrid>
   );
 }
