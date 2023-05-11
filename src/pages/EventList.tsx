@@ -37,7 +37,6 @@ export default function EventList() {
           <Accordion allowMultiple>
             {events?.map((event) => (
               <EventItem event={event} key={event.id} />
-              <EventItem event={event} key={event.id} />
             ))}
           </Accordion>
         </Box>
