@@ -1,4 +1,4 @@
-import {Box, Center, Heading, Text, SimpleGrid} from "@chakra-ui/react";
+import { Box, Center, Heading, Text, SimpleGrid } from "@chakra-ui/react";
 import {
   Accordion,
   AccordionItem,
@@ -6,7 +6,7 @@ import {
   AccordionPanel,
   AccordionIcon,
 } from "@chakra-ui/react";
-import { WorkEvent} from "../Common/Types";
+import { WorkEvent } from "../Common/Types";
 import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 
@@ -35,7 +35,7 @@ export default function EventList() {
           </Heading>
           <Accordion allowMultiple>
             {events?.map((event) => (
-                <EventItem event={event} key={event.id} />
+              <EventItem event={event} key={event.id} />
             ))}
           </Accordion>
         </Box>
@@ -54,7 +54,10 @@ function EventItem({ event }: EventItemProps) {
       <h2>
         <AccordionButton>
           <Box as="span" flex="1" textAlign="left">
-            {event.date.slice(0, -9)} / {event.name} / {event.foreman && event.foreman.map(foreman => <Text>{foreman.firstName} {foreman.lastName} ,</Text>)} / {event.workers.length}
+            {event.date.slice(0, -9)}
+            - {event.name}
+            - {/* {event.foreman && event.foreman.map(foreman => <Text>{foreman.firstName} {foreman.lastName} ,</Text>)} / */}
+            {event.workers.length}
 
           </Box>
           <AccordionIcon />
@@ -67,13 +70,15 @@ function EventItem({ event }: EventItemProps) {
   );
 }
 
-function AccordionPanelContent({event}: EventItemProps) {
+function AccordionPanelContent({ event }: EventItemProps) {
   return (
-      <SimpleGrid columns={2} spacing={10}>
-        <Box>Namn: {event.name}</Box>
-        <Box>Datum: {event.date.slice(0, -9)}</Box>
-        <Box>Ansvariga förmän: {event.foreman.map(foreman => <text>{foreman.firstName} {foreman.lastName}, </text>)}</Box>
-        <Box>Jobbare: {event.workers.length}</Box>
-      </SimpleGrid>
+    <SimpleGrid columns={2} spacing={10}>
+      <Box>Namn: {event.name}</Box>
+      <Box>Datum: {event.date.slice(0, -9)}</Box>
+
+      {/* <Box>Ansvariga förmän: {event.foreman.map(foreman => <text>{foreman.firstName} {foreman.lastName}, </text>)}</Box> */}
+
+      <Box>Personal: {event.workers.map(worker => <text>{worker.firstName} {worker.lastName}, </text>)}</Box>
+    </SimpleGrid>
   );
 }
