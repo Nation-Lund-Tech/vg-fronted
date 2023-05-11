@@ -19,8 +19,8 @@ function App() {
           <Route path="/" element={<RequireAuth><Home/></RequireAuth>} />
           <Route path="/add-worker" element={<RequireAuth><AddWorker/></RequireAuth>}/>
           <Route path="/thank-events" element={<RequireAuth><EventList thankEvent={true} /></RequireAuth>}/>
+          <Route path="/work-events" element={<RequireAuth><EventList thankEvent={false} /></RequireAuth>}/>
           <Route path="/add-foreman" element={<RequireAuth><AddForeman/></RequireAuth>}/>
-          <Route path="/work-events" element={<RequireAuth><EventList /></RequireAuth>}/>
           <Route path="/workers" element={<RequireAuth><WorkList/></RequireAuth>}/>
           <Route path="arbetare/:workerId" element={<RequireAuth><WorkerForm/></RequireAuth>}/>
           <Route path="login" element={<Login/>}/>

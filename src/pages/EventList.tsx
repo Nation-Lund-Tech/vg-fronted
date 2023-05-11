@@ -1,4 +1,4 @@
-import { Box, Center, Heading, Text, SimpleGrid, Button, Link } from "@chakra-ui/react";
+import { Box, Center, Heading, SimpleGrid, Button, Link } from "@chakra-ui/react";
 import {
   Accordion,
   AccordionItem,
@@ -35,12 +35,11 @@ const fetchThankEvents = async (): Promise<ThankEvent[]> => {
   }
 }
 
-
 interface EventListProps {
   thankEvent?: boolean
 }
 
-export default function EventList({ thankEvent = false }: EventListProps) {
+export default function EventList({ thankEvent }: EventListProps) {
   const [events, setEvents] = useState<WorkEvent[] | ThankEvent[]>();
   useEffect(() => {
     (async () => {
@@ -52,7 +51,7 @@ export default function EventList({ thankEvent = false }: EventListProps) {
         setEvents(workEvents);
       }
     })()
-  }, []);
+  }, [thankEvent]);
 
   return (
     <Layout>
