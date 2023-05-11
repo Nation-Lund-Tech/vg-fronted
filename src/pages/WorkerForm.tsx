@@ -13,14 +13,19 @@ import {
   Tr,
   Td,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { Worker } from "../Common/Types";
+import RegisterDrawer from "./RegisterDrawer";
+import Layout from "../components/Layout";
 
 function WorkerForm() {
   const { workerId } = useParams<{ workerId: string }>();
 
   const [worker, setWorker] = useState<Worker>();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const getWorker = async () => {
     const response = await fetch(
@@ -35,6 +40,7 @@ function WorkerForm() {
   }, []);
 
   return (
+    <Layout>
     <div style={{ display: "flex", justifyContent: "center" }}>
       <VStack
         divider={<StackDivider />}
@@ -53,7 +59,8 @@ function WorkerForm() {
             <Text>{worker?.foodPref}</Text>
           </Box>
           <Spacer />
-          <Button>Lägg till pass</Button>
+          <Button onClick={onOpen}>Lägg till pass</Button>
+          <RegisterDrawer isOpen={isOpen} close={onClose} worker={worker!}/>
         </Flex>
         <Flex minWidth="max-content" alignItems="center" gap="2">
           <Box p="2">
@@ -70,6 +77,7 @@ function WorkerForm() {
         <Button>Välj tack</Button>
       </VStack>
     </div>
+    </Layout>
   );
 }
 
