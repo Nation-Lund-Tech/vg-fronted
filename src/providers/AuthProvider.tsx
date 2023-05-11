@@ -5,10 +5,12 @@ import { Navigate, useLocation } from 'react-router-dom';
 interface AuthUser {
   email: string;
   token: string;
+  role: string;
 }
 
 interface TokenPayload {
   email: string;
+  role: string;
 }
 
 interface AuthContextType {
@@ -27,21 +29,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      const { email } = jwtDecode<TokenPayload>(token);
+      const { email, role } = jwtDecode<TokenPayload>(token);
       setUser({
         email,
-        token: token,
+        token,
+        role,
       });
       setSignedIn(true);
     }
   }, []);
 
   function signin(token: string) {
-    const { email } = jwtDecode<TokenPayload>(token);
+    const { email, role } = jwtDecode<TokenPayload>(token);
     localStorage.setItem('token', token);
     setUser({
       email,
-      token: token,
+      token,
+      role,
     });
     setSignedIn(true);
   }
