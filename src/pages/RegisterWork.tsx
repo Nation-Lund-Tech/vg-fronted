@@ -144,7 +144,7 @@ export default function RegisterWork() {
           events.map((event) => (
             <option key={event.id} value={event.id}>
               {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
-              {event.foreman ? event.foreman[0].firstName : "No foreman"} {" "}
+              {event.foreman.length !== 0 ? event.foreman[0].firstName : "No foreman"} {" "}
               {event.workers.length} workers
             </option>
           ))}
