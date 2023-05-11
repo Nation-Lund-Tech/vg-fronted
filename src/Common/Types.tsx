@@ -31,6 +31,12 @@ export interface WorkEvent {
     id: number,
     name: string,
     date: string,
-    foreman: Foreman[],
-    workers: Worker[],
+    reward: number,
+}
+
+export interface ThankEvent {
+    id: number,
+    name: string,
+    date: string,
+    price: number,
 }
