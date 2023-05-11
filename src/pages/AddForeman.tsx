@@ -139,24 +139,30 @@ export default function AddWorker() {
                             })}
                             onChange={(event) => setPassword(event.target.value)}
                         />
-                        <FormErrorMessage>
-                            {errors.password && errors.password.message}
-                        </FormErrorMessage>
-                    <FormLabel>Repeat Password</FormLabel>
-                    <Input
-                        placeholder="Repeat Password"
-                        onChange={(event) => 
-                        setRepeatPassword(event.target.value)}
-                    />
-                    <FormErrorMessage>
-                            Password must match!
-                    </FormErrorMessage>
+                        <FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
+                    </FormControl>
+                    <FormControl >
+                        <FormLabel>Repeat Password</FormLabel>
+                        <Input
+                            placeholder="Repeat Password"
+                            onChange={(event) =>
+                                setRepeatPassword(event.target.value)}
+                        />
+                        {password !== repeatPassword && (
+                            <FormErrorMessage>Passwords must match!</FormErrorMessage>
+                        )}
                     </FormControl>
 
                     <Spacer p="2" />
 
                     <HStack spacing={"16rem"}>
-                        <Button color={"white"} background={"green.400"} type="submit" isLoading={isSubmitting}>
+                        <Button 
+                        color={"white"}
+                        background={"green.400"}
+                        type="submit"
+                        isDisabled={password !== repeatPassword }
+                        isLoading={isSubmitting}
+                        >
                             Create Foreman
                         </Button>
                         <Link href="/foremen">
