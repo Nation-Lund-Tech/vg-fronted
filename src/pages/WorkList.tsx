@@ -16,10 +16,13 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import React from "react";
 import Layout from "../components/Layout";
+import { useAuth } from "../providers/AuthProvider";
 
 function WorkList() {
 
+  const auth = useAuth();
   const [workers, setWorkers] = useState<Worker[]>();
+  const [search, setSearch] = useState<string>("");
 
   const getWorker = async () => {
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker/all`);
@@ -54,15 +57,21 @@ function WorkList() {
     >
       <HStack justifyContent="space-between">
         <Heading as="h1" size="2xl" textAlign="center" my={4}>
-          Jobbare
+          Workers
         </Heading>
         <Link to={"/add-worker"}>
           <Button colorScheme="green" leftIcon={<AddIcon />}>
-            Skapa jobbare
+            Create worker
           </Button>
         </Link>
       </HStack>
-      <Input placeholder="Sök Profil..." size="sm" />
+      <Input 
+        placeholder="Search by name"
+        size="sm"
+        onChange={(event) => {
+          setSearch(event.target.value)
+        }} 
+        />
       {/* {worker &&
       <HStack>
           <Link to={"/arbetare/${employee.id}"}>
@@ -74,21 +83,25 @@ function WorkList() {
         </HStack>
 } */}
       {workers &&
-        workers.map((worker) => (
+        workers.filter((worker) => (`${worker.email} ${worker.firstName} ${worker.lastName}`).includes(search)).map((worker) => (
           <HStack key={worker.id}>
             <Link to={`/arbetare/${worker.id}`}>
               <Text as="a">{worker.firstName}</Text>
             </Link>
             <Text>{worker.email}</Text>
             <Spacer />
-            <Button colorScheme="red" onClick={() => removeWorker(worker.email)}>Remove</Button>
+            {auth.user?.role == "Admin" && (
+          <>
+            <Button colorScheme="red" onClick={() => removeWorker(worker.email)}>Remove</Button>  
+          </>
+        )}
           </HStack>
         ))}
       <HStack>
 
         <Link to={"/register-work"}>
           <Button size="sm">
-            Registrera pass
+            Register work
           </Button>
         </Link>
 
@@ -96,7 +109,7 @@ function WorkList() {
 
         <Link to={"/register-tack"}>
         <Button size="sm">
-          Registrera tack
+          Register reward
         </Button>
         </Link>
 

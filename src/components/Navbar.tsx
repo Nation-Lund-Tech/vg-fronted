@@ -34,7 +34,6 @@ export default function Navbar() {
       
       <Spacer />
       <HStack spacing="1rem" display={{ base: "none", md: "flex" }}>
-
         {auth.user?.email && (
           <>
             {Links.map((link) => (
@@ -42,6 +41,13 @@ export default function Navbar() {
                 {link.name}
               </NavLinkItem>
             ))}
+            {auth.user?.role == "Admin" && (
+          <>
+            <NavLinkItem key="Foremen"path="/foremen">
+              Foremen
+            </NavLinkItem>  
+          </>
+        )}
             <Button onClick={signout} colorScheme="yellow" _hover={{ textDecoration: "none", bg: useColorModeValue("gray.200", "gray.700") }}>Log out</Button>
           </>
         )}
