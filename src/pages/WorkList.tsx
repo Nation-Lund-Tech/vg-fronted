@@ -10,7 +10,7 @@ import {
   Center,
 } from "@chakra-ui/react";
 
-import { User } from "../Common/Types";
+import { Worker } from "../Common/Types";
 import { AddIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -19,11 +19,11 @@ import Layout from "../components/Layout";
 
 function WorkList() {
 
-  const [workers, setWorkers] = useState<User[]>();
+  const [workers, setWorkers] = useState<Worker[]>();
 
   const getWorker = async () => {
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker/all`);
-    const data: User[] = await response.json();
+    const data: Worker[] = await response.json();
     setWorkers(data);
   };
   useEffect(() => {
