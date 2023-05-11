@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { User } from "../Common/Types";
+import { Worker } from "../Common/Types";
 import {
   useCheckbox,
   Input,
@@ -26,11 +26,11 @@ import {
 } from "@chakra-ui/react";
 
 export default function RegisterWork() {
-  const [workers, setWorkers] = useState<User[]>();
+  const [workers, setWorkers] = useState<Worker[]>();
 
   const getWorker = async () => {
     const response = await fetch(`https://localhost:7008/api/Worker/all`);
-    const data: User[] = await response.json();
+    const data: Worker[] = await response.json();
     setWorkers(data);
   };
 

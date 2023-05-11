@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { User, WorkEvent } from "../Common/Types";
+import { Worker, WorkEvent } from "../Common/Types";
 import {
   VStack,
   Button,
@@ -25,12 +25,12 @@ import {
 import { set } from "react-hook-form";
 
 export default function RegisterWork() {
-  const [workers, setWorkers] = useState<User[]>();
+  const [workers, setWorkers] = useState<Worker[]>();
   const [events, setEvents] = useState<WorkEvent[]>();
 
   const getWorker = async () => {
     const response = await fetch(`https://localhost:7008/api/Worker/all`);
-    const data: User[] = await response.json();
+    const data: Worker[] = await response.json();
     setWorkers(data);
   };
 
@@ -144,7 +144,7 @@ export default function RegisterWork() {
           events.map((event) => (
             <option key={event.id} value={event.id}>
               {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
-              {event.foreman ? event.foreman : "No foreman"} {" "}
+              {event.foreman ? event.foreman[0].firstName : "No foreman"} {" "}
               {event.workers.length} workers
             </option>
           ))}

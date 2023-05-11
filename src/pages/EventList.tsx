@@ -1,4 +1,4 @@
-import {Box, Center, Heading} from "@chakra-ui/react";
+import {Box, Center, Heading, Text} from "@chakra-ui/react";
 import {
   Accordion,
   AccordionItem,
@@ -12,6 +12,7 @@ import Layout from "../components/Layout";
 
 export default function EventList() {
   const [events, setEvents] = useState<WorkEvent[]>();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -53,7 +54,8 @@ function EventItem({ event }: EventItemProps) {
       <h2>
         <AccordionButton>
           <Box as="span" flex="1" textAlign="left">
-            {event.date} - {event.foreman} - {event.name} - {event.workers.length}
+            {event.date} - {event.name} - {event.foreman && event.foreman.map(forman => <Text>{forman.firstName} {forman.lastName}</Text>)} - {event.workers.length}
+
           </Box>
           <AccordionIcon />
         </AccordionButton>

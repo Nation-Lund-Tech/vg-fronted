@@ -15,18 +15,18 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import { User } from "../Common/Types";
+import { Worker } from "../Common/Types";
 
 function WorkerForm() {
   const { workerId } = useParams<{ workerId: string }>();
 
-  const [worker, setWorker] = useState<User>();
+  const [worker, setWorker] = useState<Worker>();
 
   const getWorker = async () => {
     const response = await fetch(
       `${import.meta.env.VITE_BASE_URL}/api/Worker/id/${workerId}`
     );
-    const data: User = await response.json();
+    const data: Worker = await response.json();
     setWorker(data);
   };
 

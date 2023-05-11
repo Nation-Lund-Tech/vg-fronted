@@ -3,16 +3,34 @@ export interface User {
     firstName: string,
     lastName: string,
     email: string,
-    foodPref: string,
     passwordHash: string,
-    passwordSalt: string,
+    passwordSalt: string
+}
+
+export interface Worker {
+    id: 0,
+    firstName: string,
+    lastName: string,
+    email: string,
+    passwordHash: string,
+    passwordSalt: string
+    foodPref: string,
     bank: number,
 }
 
+interface Foreman {
+    id: 0,
+    firstName: string,
+    lastName: string,
+    email: string,
+    passwordHash: string,
+    passwordSalt: string
+}
+
 export interface WorkEvent {
-    foreman: string,
-    workers: User[],
     id: number,
     name: string,
     date: string,
+    foreman: Foreman[],
+    workers: Worker[],
 }
