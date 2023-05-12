@@ -12,6 +12,7 @@ import {
   Button,
   useDisclosure,
   Select,
+  useToast,
 } from "@chakra-ui/react";
 import { WorkEvent, Worker } from "../Common/Types";
 import Layout from "../components/Layout";
@@ -19,7 +20,7 @@ import Layout from "../components/Layout";
 interface Props {
   isOpen: boolean;
   close: () => void;
-  worker : Worker;
+  worker: Worker;
 }
 
 function RegisterDrawer({ isOpen, close, worker }: Props) {
@@ -36,6 +37,8 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
   useEffect(() => {
     getEvents();
   }, []);
+
+  const toast = useToast();
 
   const { onOpen, onClose } = useDisclosure();
   const firstField = useRef(null);
@@ -63,10 +66,22 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
 
     if (response.ok) {
       // Show a success message if the request was successful
-      alert("Workers added to event successfully");
+      // alert("Workers added to event successfully");
+      toast({
+        title: "Success",
+        description: "Worker was added successfully",
+        status: "success",
+        isClosable: true,
+      });
     } else {
       // Show an error message if the request failed
-      alert("Failed to add workers to event");
+      // alert("Failed to add workers to event");
+      toast({
+        title: "Failure",
+        description: "Workers could not be added",
+        status: "error",
+        isClosable: true,
+      });
     }
   };
 
@@ -77,49 +92,48 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
   }
 
   return (
-    
-      <Drawer
-        isOpen={isOpen}
-        placement="right"
-        initialFocusRef={firstField}
-        onClose={close}
-      >
-        <DrawerOverlay>
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerHeader>Registera pass</DrawerHeader>
+    <Drawer
+      isOpen={isOpen}
+      placement="right"
+      initialFocusRef={firstField}
+      onClose={close}
+    >
+      <DrawerOverlay>
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Registera pass</DrawerHeader>
 
-            <DrawerBody>
-              <Select
-                placeholder="Välj event"
-                width="100%"
-                onChange={(e) => {
-                  handleSelectEvent(e);
-                }}
-              >
-                {events &&
-                  events.map((event) => (
-                    <option key={event.id} value={event.id}>
-                      {event.name} - {new Date(event.date).toLocaleDateString()}{" "}
-                      -{" "}
-                      {event.foreman.length !== 0
-                        ? event.foreman[0].firstName
-                        : "No foreman"}{" "}
-                      {event.workers.length} workers
-                    </option>
-                  ))}
-              </Select>
-            </DrawerBody>
-            <DrawerFooter>
-              <Button variant="outline" mr={3} onClick={onClose}>
-                Avbryt
-              </Button>
-              <Button colorScheme="blue" onClick={handleAddToEvent}>Spara</Button>
-            </DrawerFooter>
-          </DrawerContent>
-        </DrawerOverlay>
-      </Drawer>
-    
+          <DrawerBody>
+            <Select
+              placeholder="Välj event"
+              width="100%"
+              onChange={(e) => {
+                handleSelectEvent(e);
+              }}
+            >
+              {events &&
+                events.map((event) => (
+                  <option key={event.id} value={event.id}>
+                    {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
+                    {event.foreman.length !== 0
+                      ? event.foreman[0].firstName
+                      : "No foreman"}{" "}
+                    {event.workers.length} workers
+                  </option>
+                ))}
+            </Select>
+          </DrawerBody>
+          <DrawerFooter>
+            <Button variant="outline" mr={3} onClick={close}>
+              Avbryt
+            </Button>
+            <Button colorScheme="blue" onClick={handleAddToEvent}>
+              Spara
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </DrawerOverlay>
+    </Drawer>
   );
 }
 

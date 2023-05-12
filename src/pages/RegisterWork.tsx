@@ -88,9 +88,9 @@ export default function RegisterWork() {
     } else {
       // Show an error message if the request failed
       toast({
-        title: "Success",
-        description: "Worker was added successfully",
-        status: "success",
+        title: "Failure",
+        description: "Workers could not be added",
+        status: "error",
         isClosable: true,
       });
     }
