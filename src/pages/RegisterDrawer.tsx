@@ -40,7 +40,6 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
 
   const toast = useToast();
 
-  const { onOpen, onClose } = useDisclosure();
   const firstField = useRef(null);
 
   const handleAddToEvent = async () => {
@@ -78,17 +77,17 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
       // alert("Failed to add workers to event");
       toast({
         title: "Failure",
-        description: "Workers could not be added",
+        description: "Worker could not be added",
         status: "error",
         isClosable: true,
       });
     }
   };
 
-  function handleSelectEvent(e: ChangeEvent<HTMLSelectElement>) {
+  function handleSelectEvent(e: React.ChangeEvent<HTMLSelectElement>) {
     const id = parseInt(e.target.value);
     setSelectedEventId(id);
-    console.log(id);
+    console.log(e.target.value);  
   }
 
   return (
@@ -104,20 +103,13 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
           <DrawerHeader>Registera pass</DrawerHeader>
 
           <DrawerBody>
-            <Select
-              placeholder="Välj event"
-              width="100%"
-              onChange={(e) => {
-                handleSelectEvent(e);
-              }}
+            <Select placeholder="Välj event" width="100%" onChange={(e) => {handleSelectEvent(e)}}
             >
               {events &&
                 events.map((event) => (
                   <option key={event.id} value={event.id}>
                     {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
-                    {event.foreman.length !== 0
-                      ? event.foreman[0].firstName
-                      : "No foreman"}{" "}
+                    {/* {event.foreman.length !== 0 ? event.foreman[0].firstName : "No foreman"}{" "}  */}
                     {event.workers.length} workers
                   </option>
                 ))}
@@ -127,7 +119,7 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
             <Button variant="outline" mr={3} onClick={close}>
               Avbryt
             </Button>
-            <Button colorScheme="blue" onClick={handleAddToEvent}>
+            <Button colorScheme="green" onClick={handleAddToEvent}>
               Spara
             </Button>
           </DrawerFooter>

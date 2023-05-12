@@ -27,7 +27,7 @@ import { set } from "react-hook-form";
 
 export default function RegisterWork() {
   const [workers, setWorkers] = useState<Worker[]>();
-  const [events, setEvents] = useState<WorkEvent[]>();
+  const [events, setEvents] = useState<WorkEvent[]>([]);
 
   const getWorker = async () => {
     const response = await fetch(`https://localhost:7008/api/Worker/all`);
@@ -39,6 +39,7 @@ export default function RegisterWork() {
     const response = await fetch(`https://localhost:7008/api/WorkEvent/all`);
     const data: WorkEvent[] = await response.json();
     setEvents(data);
+    console.log(data);
   };
 
   useEffect(() => {
@@ -158,7 +159,7 @@ export default function RegisterWork() {
           events.map((event) => (
             <option key={event.id} value={event.id}>
               {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
-              {event.foreman.length !== 0 ? event.foreman[0].firstName : "No foreman"} {" "}
+              {/* {event.foreman.length !== 0 ? event.foreman[0].firstName : "No foreman"} {" "} */}
               {event.workers.length} workers
             </option>
           ))}

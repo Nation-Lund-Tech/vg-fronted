@@ -69,7 +69,7 @@ function WorkerForm() {
             </Heading>
             <Spacer />
             <Heading size="sm">
-              {worker && `Totalt tack: ${worker.bank % 2}`}
+              {worker && `Totalt tack: ${worker.bank / 2}`}
             </Heading>
           </Box>
           <Spacer />
