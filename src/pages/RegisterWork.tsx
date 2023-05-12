@@ -21,12 +21,13 @@ import {
   Flex,
   CloseButton,
   Center,
+  useToast,
 } from "@chakra-ui/react";
 import { set } from "react-hook-form";
 
 export default function RegisterWork() {
   const [workers, setWorkers] = useState<Worker[]>();
-  const [events, setEvents] = useState<WorkEvent[]>();
+  const [events, setEvents] = useState<WorkEvent[]>([]);
 
   const getWorker = async () => {
     const response = await fetch(`https://localhost:7008/api/Worker/all`);
@@ -38,6 +39,7 @@ export default function RegisterWork() {
     const response = await fetch(`https://localhost:7008/api/WorkEvent/all`);
     const data: WorkEvent[] = await response.json();
     setEvents(data);
+    console.log(data);
   };
 
   useEffect(() => {
@@ -50,6 +52,8 @@ export default function RegisterWork() {
 
   const [selectedWorkers, setSelectedWorkers] = useState<string[]>([]);
   const [selectedEventId, setSelectedEventId] = useState<number>();
+
+  const toast = useToast();
 
   const handleAddToEvent = async () => {
     if (!selectedEventId) {
@@ -74,11 +78,22 @@ export default function RegisterWork() {
 
     if (response.ok) {
       // Show a success message if the request was successful
-      alert("Workers added to event successfully");
+      // alert("Workers added to event successfully");
+      toast({
+        title: "Success",
+        description: "Worker was added successfully",
+        status: "success",
+        isClosable: true,
+      });
       setSelectedWorkers([]);
     } else {
       // Show an error message if the request failed
-      alert("Failed to add workers to event");
+      toast({
+        title: "Failure",
+        description: "Workers could not be added",
+        status: "error",
+        isClosable: true,
+      });
     }
   };
 
@@ -144,7 +159,7 @@ export default function RegisterWork() {
           events.map((event) => (
             <option key={event.id} value={event.id}>
               {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
-              {event.foreman.length !== 0 ? event.foreman[0].firstName : "No foreman"} {" "}
+              {/* {event.foreman.length !== 0 ? event.foreman[0].firstName : "No foreman"} {" "} */}
               {event.workers.length} workers
             </option>
           ))}
