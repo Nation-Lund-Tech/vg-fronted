@@ -45,7 +45,25 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
   const handleAddToEvent = async () => {
     if (!selectedEventId) {
       // Show an error message if no event is selected
-      alert("Please select an event");
+      toast({
+        title: "Failure",
+        description: "No event selected",
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    }
+
+    // Check if email is part of the workers array in the event
+    const event = events?.find((event) => event.id === selectedEventId);
+    if (event?.workers.find((w) => w.email === worker.email)) {
+      // Show an error message if the worker is already part of the event
+      toast({
+        title: "Failure",
+        description: "Worker is already part of the event",
+        status: "error",
+        isClosable: true,
+      });
       return;
     }
 
