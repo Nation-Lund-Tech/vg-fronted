@@ -1,11 +1,11 @@
-import { Box, Flex, Spacer, Link, IconButton, Image, useColorModeValue, Button, HStack } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { Box, Spacer, Link, Image, useColorModeValue, Button, HStack } from "@chakra-ui/react";
 import { NavLink, Link as RouterLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../providers/AuthProvider";
 
 const Links = [
-  { name: "Events", path: "/events" },
+  { name: "Jobbpass", path: "/work-events" },
+  { name: "Tackfester", path: "/thank-events" },
   { name: "Workers", path: "/workers" },
 ];
 
@@ -34,7 +34,6 @@ export default function Navbar() {
       
       <Spacer />
       <HStack spacing="1rem" display={{ base: "none", md: "flex" }}>
-
         {auth.user?.email && (
           <>
             {Links.map((link) => (
@@ -42,6 +41,13 @@ export default function Navbar() {
                 {link.name}
               </NavLinkItem>
             ))}
+            {auth.user?.role == "Admin" && (
+          <>
+            <NavLinkItem key="Foremen"path="/foremen">
+              Foremen
+            </NavLinkItem>  
+          </>
+        )}
             <Button onClick={signout} colorScheme="yellow" _hover={{ textDecoration: "none", bg: useColorModeValue("gray.200", "gray.700") }}>Log out</Button>
           </>
         )}
