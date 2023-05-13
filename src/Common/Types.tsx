@@ -32,11 +32,12 @@ export interface WorkEvent {
     name: string,
     date: string,
     reward: number,
+    workers: string[],
 }
 
 export interface ThankEvent {
     id: number,
     name: string,
-    date: string,
+    date: Date,
     price: number,
 }
