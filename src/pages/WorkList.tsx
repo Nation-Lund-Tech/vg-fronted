@@ -91,7 +91,7 @@ function WorkList() {
             </Link>
             <Text>{worker.email}</Text>
             <Text>{worker.foodPref}</Text>
-            <Text> Senast jobbat {new Date(worker.lastUpdate).toLocaleDateString()}</Text>
+            <Text> Senast jobbat: {new Date(worker.lastUpdate).toLocaleDateString()}</Text>
             <Spacer />
             {auth.user?.role == "Admin" && (
           <>
