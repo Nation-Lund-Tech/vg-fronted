@@ -18,7 +18,7 @@ export interface Worker {
     bank: number,
 }
 
-interface Foreman {
+export interface Foreman {
     id: 0,
     firstName: string,
     lastName: string,
