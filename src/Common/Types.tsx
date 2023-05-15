@@ -16,6 +16,7 @@ export interface Worker {
     passwordSalt: string
     foodPref: string,
     bank: number,
+    lastUpdate: string ,
 }
 
 export interface Foreman {

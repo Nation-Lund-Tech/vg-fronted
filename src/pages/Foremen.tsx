@@ -83,7 +83,11 @@ import {
           </HStack>
   } */}
         {foremen &&
-        foremen.filter((worker) => (`${worker.email} ${worker.firstName} ${worker.lastName}`).toLowerCase().includes(search)).map((worker) => (
+        foremen.filter((worker) => 
+        (`${worker.email} ${worker.firstName} ${worker.lastName}`)
+        .toLowerCase()
+        .includes(search))
+        .map((worker) => (
           <HStack key={worker.id}>
             <Link to={`/arbetare/${worker.id}`}>
               <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>
