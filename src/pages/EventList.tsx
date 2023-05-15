@@ -57,7 +57,7 @@ export default function EventList({ thankEvent }: EventListProps) {
     <Layout>
       <Center>
         <Box width={["100%", "80%"]} alignItems="center" justifyContent="center">
-          <Heading as="h2" size="lg" mb={4} textAlign="center">
+          <Heading as="h1" size="lg" mb={4} textAlign="center">
             {thankEvent ? "Tackfester" : "Work Events"}
           </Heading>
           <Accordion allowMultiple>
@@ -102,7 +102,7 @@ function PanelContentWorkEvent({ event }: WorkEventItemProps) {
       <Box>Date: {event.date.slice(0, -9)}</Box>
       <Box>Reward: {event.reward} VG-bucks</Box>
       <Box>
-        <Link as={RouterLink} to={`/edit-event/${String(event.id)}`}>
+        <Link as={RouterLink} to={`/edit-work-event/${String(event.id)}`}>
           <Button size="sm">Open</Button>
         </Link>
       </Box>
@@ -121,7 +121,7 @@ function PanelContentThankEvent({ event }: ThankEventItemProps) {
       <Box>Date: {event.date.slice(0, -9)}</Box>
       <Box>Cost: {event.price} VG-bucks</Box>
       <Box>
-        <Link as={RouterLink} to={`/edit-event/${String(event.id)}`}>
+        <Link as={RouterLink} to={`/edit-thank-event/${String(event.id)}`}>
           <Button size="sm">Open</Button>
         </Link>
       </Box>

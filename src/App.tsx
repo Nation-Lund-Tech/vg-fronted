@@ -20,6 +20,8 @@ function App() {
           <Route path="/add-worker" element={<RequireAuth><AddWorker/></RequireAuth>}/>
           <Route path="/thank-events" element={<RequireAuth><EventList thankEvent={true} /></RequireAuth>}/>
           <Route path="/work-events" element={<RequireAuth><EventList thankEvent={false} /></RequireAuth>}/>
+          <Route path="/edit-thank-event/:eventId" element={<RequireAuth><EditEvent isThankEvent={true} /></RequireAuth>}/>
+          <Route path="/edit-work-event/:eventId" element={<RequireAuth><EditEvent isThankEvent={false} /></RequireAuth>}/>
           <Route path="/add-foreman" element={<RequireAuth><AddForeman/></RequireAuth>}/>
           <Route path="/workers" element={<RequireAuth><WorkList/></RequireAuth>}/>
           <Route path="arbetare/:workerId" element={<RequireAuth><WorkerForm/></RequireAuth>}/>
@@ -27,7 +29,6 @@ function App() {
           <Route path="/register-work" element={<RequireAuth><RegisterWork/></RequireAuth>}/>
           <Route path="/register-tack" element={<RequireAuth><RegisterTack/></RequireAuth>}/>
           <Route path="/foremen" element={<RequireAuth><Foremen/></RequireAuth>}/>
-          <Route path="/edit-event/:eventId" element={<RequireAuth><EditEvent/></RequireAuth>}/>
       </Routes>
     </AuthProvider>
   );
