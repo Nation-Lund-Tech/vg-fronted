@@ -69,7 +69,7 @@ import {
         placeholder="Search by name"
         size="sm"
         onChange={(event) => {
-          setSearch(event.target.value)
+          setSearch(event.target.value.toLowerCase())
         }} 
         />
         {/* {worker &&
@@ -83,10 +83,10 @@ import {
           </HStack>
   } */}
         {foremen &&
-        foremen.filter((worker) => (`${worker.email} ${worker.firstName} ${worker.lastName}`).includes(search)).map((worker) => (
+        foremen.filter((worker) => (`${worker.email} ${worker.firstName} ${worker.lastName}`).toLowerCase().includes(search)).map((worker) => (
           <HStack key={worker.id}>
             <Link to={`/arbetare/${worker.id}`}>
-              <Text as="a">{worker.firstName}</Text>
+              <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>
             </Link>
             <Text>{worker.email}</Text>
             <Spacer />
