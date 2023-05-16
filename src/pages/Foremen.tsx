@@ -10,7 +10,7 @@ import {
     Center,
   } from "@chakra-ui/react";
   
-  import { Worker } from "../Common/Types";
+  import { Foreman } from "../Common/Types";
   import { AddIcon } from "@chakra-ui/icons";
   import { Link } from "react-router-dom";
   import { useEffect, useState } from "react";
@@ -21,16 +21,16 @@ import {
   function Foremen() {
   
     const auth = useAuth();
-    const [workers, setWorkers] = useState<Worker[]>();
+    const [foremen, setForemen] = useState<Foreman[]>();
     const [search, setSearch] = useState<string>("");
   
-    const getWorker = async () => {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker/all`);
-      const data: Worker[] = await response.json();
-      setWorkers(data);
+    const getForemen = async () => {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/User/foreman/all`);
+      const data: Foreman[] = await response.json();
+      setForemen(data);
     };
     useEffect(() => {
-      getWorker();
+      getForemen();
     }, []);
   
     const removeWorker = async (email: string) => {
@@ -38,7 +38,7 @@ import {
         method: "DELETE",
       });
       if(response.status === 200) {
-        setWorkers(workers?.filter((worker) => worker.email !== email));
+        setForemen(foremen?.filter((foreman) => foreman.email !== email));
       }
     }
   
@@ -69,7 +69,7 @@ import {
         placeholder="Search by name"
         size="sm"
         onChange={(event) => {
-          setSearch(event.target.value)
+          setSearch(event.target.value.toLowerCase())
         }} 
         />
         {/* {worker &&
@@ -82,11 +82,15 @@ import {
             <Button colorScheme="red">Remove</Button>
           </HStack>
   } */}
-        {workers &&
-        workers.filter((worker) => (`${worker.email} ${worker.firstName} ${worker.lastName}`).includes(search)).map((worker) => (
+        {foremen &&
+        foremen.filter((worker) => 
+        (`${worker.email} ${worker.firstName} ${worker.lastName}`)
+        .toLowerCase()
+        .includes(search))
+        .map((worker) => (
           <HStack key={worker.id}>
             <Link to={`/arbetare/${worker.id}`}>
-              <Text as="a">{worker.firstName}</Text>
+              <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>
             </Link>
             <Text>{worker.email}</Text>
             <Spacer />

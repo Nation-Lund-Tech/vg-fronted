@@ -16,9 +16,10 @@ export interface Worker {
     passwordSalt: string
     foodPref: string,
     bank: number,
+    lastUpdate: string ,
 }
 
-interface Foreman {
+export interface Foreman {
     id: 0,
     firstName: string,
     lastName: string,

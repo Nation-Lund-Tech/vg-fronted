@@ -69,8 +69,8 @@ function WorkList() {
         placeholder="Search by name"
         size="sm"
         onChange={(event) => {
-          setSearch(event.target.value)
-        }} 
+          setSearch(event.target.value.toLowerCase())
+        }}
         />
       {/* {worker &&
       <HStack>
@@ -83,10 +83,15 @@ function WorkList() {
         </HStack>
 } */}
       {workers &&
-        workers.filter((worker) => (`${worker.email} ${worker.firstName} ${worker.lastName}`).includes(search)).map((worker) => (
+        workers.filter((worker) => 
+        (`${worker.email} ${worker.firstName} ${worker.lastName}`)
+        .toLowerCase()
+        .includes(search))
+        .sort((w1, w2) => w2.lastUpdate.localeCompare(w1.lastUpdate))
+        .map((worker) => (
           <HStack key={worker.id}>
             <Link to={`/arbetare/${worker.id}`}>
-              <Text as="a">{worker.firstName}</Text>
+              <Text as="a">{`${new Date(worker.lastUpdate).toLocaleDateString()} ${worker.firstName} ${worker.lastName}`}</Text>
             </Link>
             <Text>{worker.email}</Text>
             <Spacer />
