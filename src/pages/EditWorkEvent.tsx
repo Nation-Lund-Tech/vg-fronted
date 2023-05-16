@@ -1,12 +1,18 @@
-/* import { useParams, Link as RouterLink } from "react-router-dom";
+import { useParams, Link as RouterLink } from "react-router-dom";
 import Layout from "../components/Layout";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { WorkEvent } from "../Common/Types";
 import { Button, FormControl, FormErrorMessage, FormLabel, HStack, Heading, Input, Spacer, StackDivider, VStack, useToast, Link, Flex, Editable, EditablePreview, EditableInput } from "@chakra-ui/react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, set, useForm } from "react-hook-form";
 
 interface EventInterface {
     event: WorkEvent;
+}
+
+interface EditFormWorkEvent {
+    name: string;
+    date: string;
+    reward: number;
 }
 
 export default function EditWorkEvent() {
@@ -16,15 +22,16 @@ export default function EditWorkEvent() {
         handleSubmit,
         register,
         reset,
+        setValue,
         formState: { errors, isSubmitting },
-    } = useForm<WorkEvent>();
+    } = useForm<EditFormWorkEvent>();
     const toast = useToast();
     const fetchEvent = async (): Promise<WorkEvent> => {
-        let WorkEvent: WorkEvent;
+        let workEvent: WorkEvent;
         try {
             const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/WorkEvent/id/${eventId}`);
-            WorkEvent = await response.json();
-            return WorkEvent;
+            workEvent = await response.json();
+            return workEvent;
         } catch (error) {
             console.error('Error fetching data:', error);
             return {} as WorkEvent;
@@ -34,20 +41,46 @@ export default function EditWorkEvent() {
         (async () => {
             const e = await fetchEvent();
             setEvent(e);
+            setValue("name", e.name);
+            setValue("date", e.date.slice(0, -9));
+            setValue("reward", e.reward);
         })()
     }, []);
 
-    const onSubmit: SubmitHandler<WorkEvent> = async (data) => {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker`, {
-            method: "POST",
+    const onSubmit: SubmitHandler<EditFormWorkEvent> = async (data) => {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/WorkEvent`, {
+            method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(event),
+            body: JSON.stringify({
+                id : event?.id,
+                name: data.name,
+                date: data.date,
+                reward: data.reward,
+            }),
         });
 
         if (response.status === 409) {
             toast({
                 title: "Error",
                 description: "Event already exists",
+                status: "error",
+                isClosable: true,
+            });
+            return;
+        }
+        if(response.status === 400) {
+            toast({
+                title: "Error",
+                description: "Something went wrong",
+                status: "error",
+                isClosable: true,
+            });
+            return;
+        }
+        if(response.status === 404) {
+            toast({
+                title: "Error",
+                description: "Not found",
                 status: "error",
                 isClosable: true,
             });
@@ -89,31 +122,40 @@ export default function EditWorkEvent() {
                                 {...register("name", {
                                     required: "Event name is required",
                                 })}
-                                defaultValue={event?.name}
                             />
                             <FormErrorMessage>
                                 {errors.name && errors.name.message}
                             </FormErrorMessage>
                         </FormControl>
                         <FormControl>
+                            <FormLabel fontWeight="bold">Date</FormLabel>
                             <Input
+                                id="date"
+                                {...register("date", {
+                                    valueAsDate: true,
+                                    required: "Event date is required",
+                                })}
                                 placeholder="Select Date and Time"
                                 size="md"
-                                type="datetime-local"
+                                type="date"
                             />
+                            <FormErrorMessage>
+                                {errors.date && errors.date.message}
+                            </FormErrorMessage>
                         </FormControl>
                         <FormControl isInvalid={errors.reward !== undefined}>
-                            <FormLabel fontWeight="bold">Reward</FormLabel>
+                            <FormLabel fontWeight="bold">Price</FormLabel>
                             <Input
                                 id="reward"
-                                placeholder="Reward for working the event"
+                                placeholder="Reward for working"
                                 {...register("reward", {
-                                    required: "Work reward is required",
+                                    required: "Reward is required",
+                                    min: { value: 0, message: "Reward must be greater than 0" },
                                 })}
                                 defaultValue={event?.reward}
                             />
                             <FormErrorMessage>
-                                {errors.name && errors.name.message}
+                                {errors.reward && errors.reward.message}
                             </FormErrorMessage>
                         </FormControl>
 
@@ -134,4 +176,4 @@ export default function EditWorkEvent() {
             </Flex>
         </Layout>
     );
-} */
+}

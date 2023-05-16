@@ -69,7 +69,7 @@ function EventItem({ event }: EventItemProps) {
                     </Flex>
                 </CardHeader>
                 <CardBody>
-                    {"Reward: " + event.reward}
+                    {"Reward: " + (event.reward ?? "N/A")}
                 </CardBody>
             </Card>
         </Link>

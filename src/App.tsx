@@ -10,7 +10,7 @@ import RegisterWork from "./pages/RegisterWork";
 import RegisterTack from "./pages/RegisterTack";
 import { AuthProvider, RequireAuth } from "./providers/AuthProvider";
 import EditThankEvent from "./pages/EditThankEvent";
-// import EditWorkEvent from "./pages/EditWorkEvent";
+import EditWorkEvent from "./pages/EditWorkEvent";
 import Foremen from "./pages/Foremen";
 import AddForeman from "./pages/AddForeman";
 
@@ -23,7 +23,7 @@ function App() {
           <Route path="/thank-events" element={<RequireAuth><ThankEventList /></RequireAuth>}/>
           <Route path="/work-events" element={<RequireAuth><WorkEventList /></RequireAuth>}/>
           <Route path="/edit-thank-event/:eventId" element={<RequireAuth><EditThankEvent /></RequireAuth>}/>
-          {/* <Route path="/edit-work-event/:eventId" element={<RequireAuth><EditWorkEvent /></RequireAuth>}/> */}
+          <Route path="/edit-work-event/:eventId" element={<RequireAuth><EditWorkEvent /></RequireAuth>}/>
           <Route path="/add-foreman" element={<RequireAuth><AddForeman/></RequireAuth>}/>
           <Route path="/workers" element={<RequireAuth><WorkList/></RequireAuth>}/>
           <Route path="arbetare/:workerId" element={<RequireAuth><WorkerForm/></RequireAuth>}/>

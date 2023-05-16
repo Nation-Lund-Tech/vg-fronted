@@ -48,8 +48,8 @@ export default function EditThankEvent() {
     }, []);
 
     const onSubmit: SubmitHandler<EditFormThankEvent> = async (data) => {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker`, {
-            method: "POST",
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/ThankEvent`, {
+            method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 id : event?.id,
@@ -77,6 +77,15 @@ export default function EditThankEvent() {
             });
             return;
         }
+        if(response.status === 404) {
+            toast({
+                title: "Error",
+                description: "Not found",
+                status: "error",
+                isClosable: true,
+            });
+            return;
+        }
 
         toast({
             title: "Success",
@@ -91,7 +100,7 @@ export default function EditThankEvent() {
     return (
         <Layout>
             <Heading as="h1" size="lg" mb={4} textAlign="center" fontWeight="bold">
-                Tackfest {event?.date.slice(0, -9)}
+                {event?.name} {event?.date.slice(0, -9)}
             </Heading>
             <Flex justifyContent="center" alignItems="center" p="4">
                 <VStack
