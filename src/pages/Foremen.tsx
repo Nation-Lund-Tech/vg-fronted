@@ -55,7 +55,7 @@ function Foremen() {
           divider={<StackDivider />}
           p="4"
           w="100%"
-          maxW={{ base: "90vw", sm: "80vw", lg: "50vw", xl: "40vw" }}
+          maxW={{ base: "100vw", sm: "80vw", lg: "70vw", xl: "60vw" }}
           alignItems="stretch"
         >
           <HStack justifyContent="space-between">
@@ -75,45 +75,57 @@ function Foremen() {
               setSearch(event.target.value.toLowerCase());
             }}
           />
-
-          {foremen &&
-            foremen
-              .filter((foreman) =>
-                `${foreman.email} ${foreman.firstName} ${foreman.lastName}`
-                  .toLowerCase()
-                  .includes(search)
-              )
-              .map((foreman) => (
-                <HStack key={foreman.id}>
-                  <VStack alignItems={"flex-start"}>
-                    <Link to={`/foremen/${foreman.id}`}>
+          <VStack
+            divider={<StackDivider />}
+            maxH={["60vh", "48vh"]}
+            p="4"
+            style={{
+              overflowX: "hidden",
+              overflowY: "scroll",
+            }}
+            w="100%"
+            maxW={{ base: "100vw", sm: "80vw", lg: "70vw", xl: "60vw" }}
+            alignItems="stretch"
+          >
+            {foremen &&
+              foremen
+                .filter((foreman) =>
+                  `${foreman.email} ${foreman.firstName} ${foreman.lastName}`
+                    .toLowerCase()
+                    .includes(search)
+                )
+                .map((foreman) => (
+                  <HStack key={foreman.id}>
+                    <VStack alignItems={"flex-start"}>
+                      <Link to={`/foremen/${foreman.id}`}>
+                        <HStack>
+                          <Icon as={MdPerson} w={5} h={5} />
+                          <Text as="a">{`${foreman.firstName} ${foreman.lastName}`}</Text>
+                        </HStack>
+                      </Link>
                       <HStack>
-                        <Icon as={MdPerson} w={5} h={5} />
-                        <Text as="a">{`${foreman.firstName} ${foreman.lastName}`}</Text>
+                        <Icon as={MdEmail} w={5} h={5} />
+                        <Text>{foreman.email}</Text>
                       </HStack>
-                    </Link>
-                    <HStack>
-                      <Icon as={MdEmail} w={5} h={5} />
-                      <Text>{foreman.email}</Text>
-                    </HStack>
-                  </VStack>
-                  <Spacer />
-                  {auth.user?.role == "Admin" && (
-                    <>
-                      <Button
-                        colorScheme="red"
-                        size={"sm"}
-                        onClick={() => removeForeman(foreman.email)}
-                      >
-                        Remove
-                      </Button>
-                    </>
-                  )}
-                </HStack>
-              ))}
+                    </VStack>
+                    <Spacer />
+                    {auth.user?.role == "Admin" && (
+                      <>
+                        <Button
+                          colorScheme="red"
+                          size={"sm"}
+                          onClick={() => removeForeman(foreman.email)}
+                        >
+                          Remove
+                        </Button>
+                      </>
+                    )}
+                  </HStack>
+                ))}
+          </VStack>
         </VStack>
       </Center>
-    </Layout>
+    </Layout >
   );
 }
 

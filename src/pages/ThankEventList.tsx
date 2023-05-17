@@ -52,26 +52,28 @@ function EventItem({ event }: EventItemProps) {
   };
 
   return (
-    <Link
-      as={RouterLink}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      _hover={{ textDecoration: "none" }}
-      to={`/edit-thank-event/${String(event.id)}`}
-    >
-      <Card variant={isHovered ? "elevated" : "outline"}>
-        <CardHeader>
-          <Flex justifyContent="space-between">
-            <Box>
-              <Heading size="lg">{event.name}</Heading>
-              <Text>{event.date.slice(0, -9)}</Text>
-            </Box>
-          </Flex>
-        </CardHeader>
-        <CardBody>
-          {"Cost: " + (event.price ?? "N/A")}
-        </CardBody>
-      </Card>
-    </Link>
+    <Box marginBottom="5px">
+      <Link
+        as={RouterLink}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        _hover={{ textDecoration: "none" }}
+        to={`/edit-thank-event/${String(event.id)}`}
+      >
+        <Card variant={isHovered ? "elevated" : "outline"}>
+          <CardHeader>
+            <Flex justifyContent="space-between">
+              <Box>
+                <Heading size="lg">{event.name}</Heading>
+                <Text>{event.date.slice(0, -9)}</Text>
+              </Box>
+            </Flex>
+          </CardHeader>
+          <CardBody>
+            {"Cost: " + (event.price ?? "N/A")}
+          </CardBody>
+        </Card>
+      </Link>
+    </Box>
   );
 }

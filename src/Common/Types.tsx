@@ -33,6 +33,7 @@ export interface WorkEvent {
     name: string,
     date: string,
     reward: number,
+    workers: Worker[],
 }
 
 export interface ThankEvent {
