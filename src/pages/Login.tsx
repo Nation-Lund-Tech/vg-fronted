@@ -67,17 +67,17 @@ const Login = () => {
   */
   return (
     <Layout>
-      <Center h="100vh" alignItems="center" justifyContent="center">
+      <Center h="80vh" alignItems="center" justifyContent="center">
         <Center
           flexDirection="column"
-          bg={formBackground}
+          color="white"
           p={12}
           borderRadius={8}
-          boxShadow="lg"
+          boxShadow="md"
         >
-          <Heading mb={6}>Log In</Heading>
+          <Heading color="black" mb={6}>Login</Heading>
           <FormControl isInvalid={error !== ""} mb="1rem">
-            <FormLabel></FormLabel>
+            
             <Input
               placeholder={"example@mail.com"}
               type="email"
@@ -104,7 +104,7 @@ const Login = () => {
           </FormControl>
 
           <Button onClick={onLogin} colorScheme="yellow" mb={8}>
-            Log In
+            Login
           </Button>
           {/* <FormControl display="flex" alignItems="center">
             <FormLabel htmlFor="dark_mode" mb="0">
