@@ -18,18 +18,18 @@ import { WorkEvent, Worker } from "../Common/Types";
 import Layout from "../components/Layout";
 
 interface Props {
-  isOpen: boolean;
+  isOpen2: boolean;
   close: () => void;
   worker: Worker;
 }
 
-function RegisterDrawer({ isOpen, close, worker }: Props) {
+function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
   const [events, setEvents] = useState<WorkEvent[]>();
 
   const [selectedEventId, setSelectedEventId] = useState<number>();
 
   const getEvents = async () => {
-    const response = await fetch(`https://localhost:7008/api/WorkEvent/all`);
+    const response = await fetch(`https://localhost:7008/api/ThankEvent/all`);
     const data: WorkEvent[] = await response.json();
     setEvents(data);
   };
@@ -55,20 +55,21 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
     }
 
     // Check if email is part of the workers array in the event
-    const event = events?.find((event) => event.id === selectedEventId);
-    if (event?.workers.find((w) => w.email === worker.email)) {
-      // Show an error message if the worker is already part of the event
-      toast({
-        title: "Failure",
-        description: "Worker is already part of the event",
-        status: "error",
-        isClosable: true,
-      });
-      return;
-    }
+    // const event = events?.find((event) => event.id === selectedEventId);
+    // if (event?.workers.find((w) => w.email === worker.email)) {
+    //   // Show an error message if the worker is already part of the event
+    //   toast({
+    //     title: "Failure",
+    //     description: "Participant is already part of the event",
+    //     status: "error",
+    //     isClosable: true,
+    //   });
+    //   return;
+    // }
+
 
     const response = await fetch(
-      `https://localhost:7008/api/WorkEvent/add/worker`,
+      `https://localhost:7008/api/ThankEvent/add/worker`,
       {
         method: "PUT",
         headers: {
@@ -86,7 +87,7 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
       // alert("Workers added to event successfully");
       toast({
         title: "Success",
-        description: "Worker was added successfully",
+        description: "Participant was added successfully",
         status: "success",
         isClosable: true,
       });
@@ -95,7 +96,7 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
       // alert("Failed to add workers to event");
       toast({
         title: "Failure",
-        description: "Worker could not be added",
+        description: "Participant could not be added",
         status: "error",
         isClosable: true,
       });
@@ -110,7 +111,7 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
 
   return (
     <Drawer
-      isOpen={isOpen}
+      isOpen={isOpen2}
       placement="right"
       initialFocusRef={firstField}
       onClose={close}
@@ -118,7 +119,7 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
       <DrawerOverlay>
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Registera pass</DrawerHeader>
+          <DrawerHeader>Registera Tack</DrawerHeader>
 
           <DrawerBody>
             <Select placeholder="Välj event" width="100%" onChange={(e) => {handleSelectEvent(e)}}
@@ -128,7 +129,7 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
                   <option key={event.id} value={event.id}>
                     {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
                     {/* {event.foreman.length !== 0 ? event.foreman[0].firstName : "No foreman"}{" "}  */}
-                    {event.workers.length} workers
+                    {/* {event.workers.length} workers */}
                   </option>
                 ))}
             </Select>
@@ -147,4 +148,4 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
   );
 }
 
-export default RegisterDrawer;
+export default RegisterThankDrawer;

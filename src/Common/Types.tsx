@@ -32,7 +32,7 @@ export interface WorkEvent {
     name: string,
     date: string,
     reward: number,
-    workers: string[],
+    workers: Worker[],
 }
 
 export interface ThankEvent {
