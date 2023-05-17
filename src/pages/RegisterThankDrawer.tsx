@@ -14,7 +14,7 @@ import {
   Select,
   useToast,
 } from "@chakra-ui/react";
-import { WorkEvent, Worker } from "../Common/Types";
+import { WorkEvent, ThankEvent, Worker } from "../Common/Types";
 import Layout from "../components/Layout";
 
 interface Props {
@@ -24,14 +24,15 @@ interface Props {
 }
 
 function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
-  const [events, setEvents] = useState<WorkEvent[]>();
+  const [events, setEvents] = useState<ThankEvent[]>();
 
   const [selectedEventId, setSelectedEventId] = useState<number>();
 
   const getEvents = async () => {
     const response = await fetch(`https://localhost:7008/api/ThankEvent/all`);
-    const data: WorkEvent[] = await response.json();
+    const data: ThankEvent[] = await response.json();
     setEvents(data);
+    console.log(data);
   };
 
   useEffect(() => {
@@ -54,19 +55,24 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
       return;
     }
 
-    // Check if email is part of the workers array in the event
+    // // Check if email is part of the workers array in the event
     // const event = events?.find((event) => event.id === selectedEventId);
-    // if (event?.workers.find((w) => w.email === worker.email)) {
-    //   // Show an error message if the worker is already part of the event
-    //   toast({
-    //     title: "Failure",
-    //     description: "Participant is already part of the event",
-    //     status: "error",
-    //     isClosable: true,
-    //   });
-    //   return;
-    // }
 
+    // if (event) {
+    //   const isParticipant = event.participants.some(
+    //     (participant) => participant.email === worker.email
+    //   );
+    //   if (isParticipant) {
+    //     // Show an error message if the worker is already part of the event
+    //     toast({
+    //       title: "Failure",
+    //       description: "Participant is already part of the event",
+    //       status: "error",
+    //       isClosable: true,
+    //     });
+    //     return;
+    //   }
+    // }
 
     const response = await fetch(
       `https://localhost:7008/api/ThankEvent/add/worker`,
@@ -106,7 +112,7 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
   function handleSelectEvent(e: React.ChangeEvent<HTMLSelectElement>) {
     const id = parseInt(e.target.value);
     setSelectedEventId(id);
-    console.log(e.target.value);  
+    console.log(e.target.value);
   }
 
   return (
@@ -122,14 +128,20 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
           <DrawerHeader>Registera Tack</DrawerHeader>
 
           <DrawerBody>
-            <Select placeholder="Välj event" width="100%" onChange={(e) => {handleSelectEvent(e)}}
+            <Select
+              placeholder="Välj event"
+              width="100%"
+              onChange={(e) => {
+                handleSelectEvent(e);
+              }}
             >
               {events &&
                 events.map((event) => (
                   <option key={event.id} value={event.id}>
                     {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
                     {/* {event.foreman.length !== 0 ? event.foreman[0].firstName : "No foreman"}{" "}  */}
-                    {/* {event.workers.length} workers */}
+                    {event.participants && event.participants.length}{" "}
+                    particpants
                   </option>
                 ))}
             </Select>

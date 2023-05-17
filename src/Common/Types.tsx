@@ -33,6 +33,7 @@ export interface WorkEvent {
     date: string,
     reward: number,
     workers: Worker[],
+    foreman : Foreman,
 }
 
 export interface ThankEvent {
@@ -40,4 +41,6 @@ export interface ThankEvent {
     name: string,
     date: Date,
     price: number,
+    participants: Worker[],
+    foreman : Foreman,
 }
