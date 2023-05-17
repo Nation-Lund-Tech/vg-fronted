@@ -14,6 +14,8 @@ import EditWorkEvent from "./pages/EditWorkEvent";
 import Foremen from "./pages/Foremen";
 import AddForeman from "./pages/AddForeman";
 import UpdateWorker from "./pages/UpdateWorker";
+import ForemanProfile from "./pages/ForemanProfile";
+import UpdateForeman from "./pages/UpdateForeman";
 
 function App() {
   return (
@@ -28,10 +30,12 @@ function App() {
           <Route path="/edit-work-event/:eventId" element={<RequireAuth><EditWorkEvent /></RequireAuth>}/>
           <Route path="/add-foreman" element={<RequireAuth><AddForeman/></RequireAuth>}/>
           <Route path="/workers" element={<RequireAuth><WorkList/></RequireAuth>}/>
-          <Route path="arbetare/:workerId" element={<RequireAuth><WorkerForm/></RequireAuth>}/>
+          <Route path="/workers/:workerId" element={<RequireAuth><WorkerForm/></RequireAuth>}/>
           <Route path="login" element={<Login/>}/>
           <Route path="/register-work" element={<RequireAuth><RegisterWork/></RequireAuth>}/>
           <Route path="/register-tack" element={<RequireAuth><RegisterTack/></RequireAuth>}/>
+          <Route path="/update-foreman" element = {<RequireAuth><UpdateForeman/></RequireAuth>}/>
+          <Route path="/foremen/:foremanId" element = {<RequireAuth><ForemanProfile/></RequireAuth>}/>
           <Route path="/foremen" element={<RequireAuth><Foremen/></RequireAuth>}/>
       </Routes>
     </AuthProvider>

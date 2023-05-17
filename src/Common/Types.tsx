@@ -1,5 +1,5 @@
 export interface User {
-    id: 0,
+    id: number,
     firstName: string,
     lastName: string,
     email: string,
@@ -8,7 +8,7 @@ export interface User {
 }
 
 export interface Worker {
-    id: 0,
+    id: number,
     firstName: string,
     lastName: string,
     email: string,
@@ -20,7 +20,7 @@ export interface Worker {
 }
 
 export interface Foreman {
-    id: 0,
+    id: number,
     firstName: string,
     lastName: string,
     email: string,
