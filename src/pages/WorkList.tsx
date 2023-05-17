@@ -66,7 +66,7 @@ function WorkList() {
       </HStack>
       <Input 
         placeholder="Search by name"
-        size="sm"
+        size="md"
         onChange={(event) => {
           setSearch(event.target.value.toLowerCase())
         }}
@@ -112,7 +112,7 @@ function WorkList() {
           <Spacer />
           {auth.user?.role == "Admin" && (
           <>
-            <Button colorScheme="red" onClick={() => removeWorker(worker.email)}>Remove</Button>  
+            <Button colorScheme="red" size={"sm"} onClick={() => removeWorker(worker.email)}>Remove</Button>  
           </>
         )}
           </HStack>
