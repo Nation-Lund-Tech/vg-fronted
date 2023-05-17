@@ -60,7 +60,7 @@ function WorkList() {
         </Heading>
         <Link to={"/add-worker"}>
           <Button colorScheme="green" leftIcon={<AddIcon />}>
-            Create worker
+            Create new
           </Button>
         </Link>
       </HStack>
@@ -120,7 +120,7 @@ function WorkList() {
       <HStack>
 
         <Link to={"/register-work"}>
-          <Button size="sm">
+          <Button size="md">
             Register work
           </Button>
         </Link>
@@ -128,7 +128,7 @@ function WorkList() {
         <Spacer />
 
         <Link to={"/register-tack"}>
-        <Button size="sm">
+        <Button size="md">
           Register reward
         </Button>
         </Link>

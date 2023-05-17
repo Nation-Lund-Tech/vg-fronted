@@ -60,13 +60,13 @@ import {
           </Heading>
           <Link to={"/add-foreman"}>
             <Button colorScheme="green" leftIcon={<AddIcon />}>
-              Create Foreman
+              Create new
             </Button>
           </Link>
         </HStack>
         <Input 
         placeholder="Search by name"
-        size="sm"
+        size="md"
         onChange={(event) => {
           setSearch(event.target.value.toLowerCase())
         }} 
@@ -101,7 +101,7 @@ import {
             <Spacer />
             {auth.user?.role == "Admin" && (
           <>
-            <Button colorScheme="red" onClick={() => removeForeman(worker.email)}>Remove</Button>  
+            <Button colorScheme="red" size={"sm"} onClick={() => removeForeman(worker.email)}>Remove</Button>  
           </>
         )}
           </HStack>
