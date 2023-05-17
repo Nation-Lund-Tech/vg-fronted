@@ -89,10 +89,12 @@ import {
         .map((worker) => (
           <HStack key={worker.id}>
             <VStack alignItems={"flex-start"}>
+            <Link to={`/foreman/${worker.id}`}>
             <HStack>
             <Icon as={MdPerson} w={5} h={5} />
             <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>
             </HStack>
+            </Link>
             <HStack>
             <Icon as={MdEmail} w={5} h={5} />
             <Text>{worker.email}</Text>

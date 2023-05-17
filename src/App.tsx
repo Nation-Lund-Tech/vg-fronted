@@ -13,6 +13,7 @@ import EditThankEvent from "./pages/EditThankEvent";
 import EditWorkEvent from "./pages/EditWorkEvent";
 import Foremen from "./pages/Foremen";
 import AddForeman from "./pages/AddForeman";
+import UpdateWorker from "./pages/UpdateWorker";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Routes>
           <Route path="/" element={<RequireAuth><Home/></RequireAuth>} />
           <Route path="/add-worker" element={<RequireAuth><AddWorker/></RequireAuth>}/>
+          <Route path="/update-worker" element={<RequireAuth><UpdateWorker/></RequireAuth>}/>
           <Route path="/thank-events" element={<RequireAuth><ThankEventList /></RequireAuth>}/>
           <Route path="/work-events" element={<RequireAuth><WorkEventList /></RequireAuth>}/>
           <Route path="/edit-thank-event/:eventId" element={<RequireAuth><EditThankEvent /></RequireAuth>}/>
