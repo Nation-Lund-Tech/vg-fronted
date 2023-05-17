@@ -12,43 +12,43 @@ import {
   Box,
   useToast,
   Link,
-  Center,
 } from "@chakra-ui/react";
-import WorkerFrom from "./WorkerForm";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useState } from "react";
+import { useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 
-interface WorkerForm {
+interface updateForemanForm {
   firstName: string;
   lastName: string;
-  email: string;
-  foodPref: string;
+  oldEmail: string;
+  newEmail: string;
+  password: string;
 }
 
-export default function AddWorker() {
+export default function UpdateForeman() {
   const {
     handleSubmit,
     register,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<WorkerForm>();
+  } = useForm<updateForemanForm>();
 
   const toast = useToast();
 
   // Tom body returneras av API:et om email inte finns, det måste vi hantera
 
-  const onSubmit: SubmitHandler<WorkerForm> = async (data) => {
+  const onSubmit: SubmitHandler<updateForemanForm> = async (data) => {
     const response = await fetch(
-      `${import.meta.env.VITE_BASE_URL}/api/Worker`,
+      `${import.meta.env.VITE_BASE_URL}/api/User/foreman/update`,
       {
-        method: "POST",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           firstName: data.firstName,
           lastName: data.lastName,
-          email: data.email,
-          foodPref: data.foodPref,
+          newEmail: data.newEmail,
+          oldEmail: data.oldEmail,
+          password: data.password,
         }),
       }
     );
@@ -56,7 +56,7 @@ export default function AddWorker() {
     if (response.status === 409) {
       toast({
         title: "Error",
-        description: "Worker already exists",
+        description: "Could not update foreman",
         status: "error",
         isClosable: true,
       });
@@ -65,7 +65,7 @@ export default function AddWorker() {
 
     toast({
       title: "Success",
-      description: "Worker was added successfully",
+      description: "Foreman was updated successfully",
       status: "success",
       isClosable: true,
     });
@@ -111,13 +111,13 @@ export default function AddWorker() {
                 {errors.lastName && errors.lastName.message}
               </FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={errors.email !== undefined}>
-              <FormLabel>Email</FormLabel>
+            <FormControl isInvalid={errors.newEmail !== undefined}>
+              <FormLabel>New Email</FormLabel>
               <Input
-                id="email"
-                placeholder="Email"
-                {...register("email", {
-                  required: "Email is required",
+                id="newEmail"
+                placeholder="new Email"
+                {...register("newEmail", {
+                  required: "New email is required",
                   pattern: {
                     value: /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
                     message: "Invalid email",
@@ -125,30 +125,49 @@ export default function AddWorker() {
                 })}
               />
               <FormErrorMessage>
-                {errors.email && errors.email.message}
+                {errors.oldEmail && errors.oldEmail.message}
               </FormErrorMessage>
             </FormControl>
-            <FormControl>
-              <FormLabel>Food preference</FormLabel>
+            <FormControl isInvalid={errors.oldEmail !== undefined}>
+              <FormLabel>Old email</FormLabel>
               <Input
-                id="foodPref"
-                placeholder="Food Preference"
-                {...register("foodPref")}
+                id="oldEmail"
+                placeholder="Old email"
+                {...register("oldEmail", {
+                  required: "Old email is required",
+                  pattern: {
+                    value: /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+                    message: "Invalid email",
+                  },
+                })}
               />
+              <FormErrorMessage>
+                {errors.oldEmail && errors.oldEmail.message}
+              </FormErrorMessage>
             </FormControl>
-
+            <FormControl isInvalid={errors.password !== undefined}>
+              <FormLabel>Password</FormLabel>
+              <Input
+                id="password"
+                placeholder="Password"
+                {...register("password", {
+                  required: "Password is required",
+                })}
+              />
+              <FormErrorMessage>
+                {errors.password && errors.password.message}
+              </FormErrorMessage>
+            </FormControl>
             <HStack mt={"1rem"}>
               <Button
                 colorScheme="green"
                 type="submit"
                 isLoading={isSubmitting}
               >
-                Create Worker
+                Update foreman
               </Button>
-
               <Spacer />
-
-              <Link href="/workers">
+              <Link href="/foremen">
                 <Button size="md">Cancel</Button>
               </Link>
             </HStack>
