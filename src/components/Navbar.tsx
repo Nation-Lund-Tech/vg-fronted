@@ -1,4 +1,4 @@
-import { Box, Spacer, Link, Image, useColorModeValue, Button, HStack, useDisclosure, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, FormLabel, Input, InputGroup, InputLeftAddon, InputRightAddon, Select, Stack, Textarea, Icon, VStack, StackDivider } from "@chakra-ui/react";
+import { Box, Spacer, Link, Image, useColorModeValue, Button, HStack, useDisclosure, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, FormLabel, Input, InputGroup, InputLeftAddon, InputRightAddon, Select, Stack, Textarea, Icon, VStack, StackDivider, IconButton, useMediaQuery } from "@chakra-ui/react";
 import { NavLink, Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../providers/AuthProvider";
@@ -22,6 +22,7 @@ export default function Navbar() {
   const auth = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure()
   const firstField = React.useRef()
+  const [isMobile] = useMediaQuery("(max-width: 600px)")
 
   function signout() {
     auth.signout();
@@ -36,85 +37,90 @@ export default function Navbar() {
       </Link>
 
       <Spacer />
-      {auth.user?.email && (
-        <Button colorScheme='yellow' size={"lg"} onClick={onOpen}>
-          <Icon as={MdTableRows} size={""} />
-        </Button>
+      {isMobile && (
+        <>
+          {auth.user?.email && (
+            <IconButton colorScheme="yellow" onClick={onOpen} icon={<MdTableRows />} aria-label="Open drawer" />
+          )}
+
+          <Drawer
+            isOpen={isOpen}
+            placement='right'
+            onClose={onClose}
+          >
+            <DrawerOverlay />
+            <DrawerContent>
+              <DrawerCloseButton />
+              <DrawerHeader borderBottomWidth='1px'>
+                Navigate
+              </DrawerHeader>
+
+              <DrawerBody>
+                {isOpen ? (
+                  <VStack
+                    divider={<StackDivider />}
+                    align={"stretch"}
+                    spacing="1rem"
+                    pb={4}
+                  >
+                    {Links.map((link) => (
+                      <Box>
+                        <NavLinkItem key={link.name} path={link.path}>
+                          {link.name}
+                        </NavLinkItem>
+                      </Box>
+                    ))}
+                    {auth.user?.role == "Admin" && (
+                      <Box>
+                        <NavLinkItem key="Foremen" path="/foremen">
+                          Foremen
+                        </NavLinkItem>
+                      </Box>
+                    )}
+
+                  </VStack>
+                ) : null}
+              </DrawerBody>
+
+              <DrawerFooter borderTopWidth='1px' >
+                <Button onClick={signout} colorScheme="yellow">Log out</Button>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        </>
       )}
-
-      <Drawer
-        isOpen={isOpen}
-        placement='right'
-        onClose={onClose}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth='1px'>
-            Navigate
-          </DrawerHeader>
-
-          <DrawerBody>
-            {isOpen ? (
-              <VStack
-              divider={<StackDivider />}
-              align={"stretch"}
-              spacing="1rem"
-              pb={4}
-              display={{ md: "none" }}>
+      {!isMobile && (
+        <>
+          <HStack spacing="1rem" >
+            {auth.user?.email && (
+              <>
                 {Links.map((link) => (
-                  <Box>
                   <NavLinkItem key={link.name} path={link.path}>
                     {link.name}
                   </NavLinkItem>
-                  </Box>
                 ))}
                 {auth.user?.role == "Admin" && (
-                  <Box>
+                  <>
                     <NavLinkItem key="Foremen" path="/foremen">
                       Foremen
                     </NavLinkItem>
-                  </Box>
+                  </>
                 )}
-                
-              </VStack>
-            ) : null}
-          </DrawerBody>
-
-          <DrawerFooter borderTopWidth='1px' >
-            <Button onClick={signout} colorScheme="yellow">Log out</Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-      {/* 
-      <HStack spacing="1rem" display={{ base: "none", md: "flex" }}>
-        {auth.user?.email && (
-          <>
-            {Links.map((link) => (
-              <NavLinkItem key={link.name} path={link.path}>
-                {link.name}
-              </NavLinkItem>
-            ))}
-            {auth.user?.role == "Admin" && (
-              <>
-                <NavLinkItem key="Foremen" path="/foremen">
-                  Foremen
-                </NavLinkItem>
+                <Button onClick={signout} colorScheme="yellow">Log out</Button>
               </>
             )}
-            <Button onClick={signout} colorScheme="yellow">Log out</Button>
-          </>
-        )}
-      </HStack>
-      {isOpen ? (
-        <Box pb={4} display={{ md: "none" }}>
-          {Links.map((link) => (
-            <NavLinkItem key={link.name} path={link.path}>
-              {link.name}
-            </NavLinkItem>
-          ))}
-        </Box>
-      ) : null} */}
+          </HStack>
+          {isOpen ? (
+            <Box pb={4} display={{ md: "none" }}>
+              {Links.map((link) => (
+                <NavLinkItem key={link.name} path={link.path}>
+                  {link.name}
+                </NavLinkItem>
+              ))}
+            </Box>
+          ) : null}
+        </>
+      )}
     </HStack>
   );
 };
