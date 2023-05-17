@@ -8,8 +8,10 @@ import {
     Spacer,
     Input,
     Center,
+    Icon,
   } from "@chakra-ui/react";
   
+  import { MdPerson, MdEmail, MdAttachMoney } from "react-icons/md";
   import { Foreman } from "../Common/Types";
   import { AddIcon } from "@chakra-ui/icons";
   import { Link } from "react-router-dom";
@@ -33,8 +35,8 @@ import {
       getForemen();
     }, []);
   
-    const removeWorker = async (email: string) => {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker/delete/${email}`, {
+    const removeForeman = async (email: string) => {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/User/foreman/${email}`, {
         method: "DELETE",
       });
       if(response.status === 200) {
@@ -89,14 +91,14 @@ import {
         .includes(search))
         .map((worker) => (
           <HStack key={worker.id}>
-            <Link to={`/arbetare/${worker.id}`}>
-              <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>
-            </Link>
+            <Icon as={MdPerson} w={5} h={5} />
+            <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>
+            <Icon as={MdEmail} w={5} h={5} />
             <Text>{worker.email}</Text>
             <Spacer />
             {auth.user?.role == "Admin" && (
           <>
-            <Button colorScheme="red" onClick={() => removeWorker(worker.email)}>Remove</Button>  
+            <Button colorScheme="red" onClick={() => removeForeman(worker.email)}>Remove</Button>  
           </>
         )}
             </HStack>

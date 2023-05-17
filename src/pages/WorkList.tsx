@@ -8,8 +8,10 @@ import {
   Spacer,
   Input,
   Center,
+  Icon,
 } from "@chakra-ui/react";
 
+import { MdPerson, MdEmail, MdAttachMoney } from "react-icons/md";
 import { Worker } from "../Common/Types";
 import { AddIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
@@ -90,12 +92,28 @@ function WorkList() {
         .sort((w1, w2) => w2.lastUpdate.localeCompare(w1.lastUpdate))
         .map((worker) => (
           <HStack key={worker.id}>
+          <VStack>
             <Link to={`/arbetare/${worker.id}`}>
-              <Text as="a">{`${new Date(worker.lastUpdate).toLocaleDateString()} ${worker.firstName} ${worker.lastName}`}</Text>
+            <HStack>
+            <Icon as={MdPerson} w={5} h={5} />
+              <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>  
+            </HStack>
             </Link>
-            <Text>{worker.email}</Text>
-            <Spacer />
-            {auth.user?.role == "Admin" && (
+            <HStack>
+            <Icon as={MdAttachMoney} w={5} h={5} />
+              <Text as="a">{worker.bank}</Text>  
+            </HStack>
+          </VStack>
+          <VStack align="left">
+          <HStack>
+          <Icon as={MdEmail} w={5} h={5}/> 
+          <Text as="a">{worker.email}</Text>
+          </HStack>
+          
+          <Text as="a">{`latest updated: ${new Date(worker.lastUpdate).toLocaleDateString()}`}</Text>
+          </VStack>
+          <Spacer />
+          {auth.user?.role == "Admin" && (
           <>
             <Button colorScheme="red" onClick={() => removeWorker(worker.email)}>Remove</Button>  
           </>
