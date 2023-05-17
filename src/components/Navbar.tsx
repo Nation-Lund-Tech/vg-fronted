@@ -10,7 +10,7 @@ const Links = [
 ];
 
 const NavLinkItem = ({ path, children }: { path: string; children: React.ReactNode }) => (
-  <Link as={NavLink} to={path} px={2} py={1} rounded={"md"} _hover={{ textDecoration: "none", bg: useColorModeValue("gray.200", "gray.700") }}>
+  <Link as={NavLink} to={path} px={2} py={1} rounded={"md"} _hover={{ textDecoration: "none", bg: useColorModeValue("yellow.500", "gray.700") }}>
     {children}
   </Link>
 );
@@ -48,7 +48,7 @@ export default function Navbar() {
             </NavLinkItem>  
           </>
         )}
-            <Button onClick={signout} colorScheme="yellow" _hover={{ textDecoration: "none", bg: useColorModeValue("gray.200", "gray.700") }}>Log out</Button>
+            <Button onClick={signout} colorScheme="yellow">Log out</Button>
           </>
         )}
       </HStack>
