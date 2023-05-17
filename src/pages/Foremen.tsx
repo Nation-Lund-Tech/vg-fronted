@@ -49,10 +49,7 @@ import {
       <Center>
       <VStack
         divider={<StackDivider />}
-        borderColor="gray.100"
-        borderWidth="2px"
         p="4"
-        borderRadius="lg"
         w="100%"
         maxW={{ base: "90vw", sm: "80vw", lg: "50vw", xl: "40vw" }}
         alignItems="stretch"
@@ -91,17 +88,23 @@ import {
         .includes(search))
         .map((worker) => (
           <HStack key={worker.id}>
+            <VStack alignItems={"flex-start"}>
+            <HStack>
             <Icon as={MdPerson} w={5} h={5} />
             <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>
+            </HStack>
+            <HStack>
             <Icon as={MdEmail} w={5} h={5} />
             <Text>{worker.email}</Text>
+            </HStack>
+            </VStack>
             <Spacer />
             {auth.user?.role == "Admin" && (
           <>
             <Button colorScheme="red" onClick={() => removeForeman(worker.email)}>Remove</Button>  
           </>
         )}
-            </HStack>
+          </HStack>
           ))}
       </VStack>
       </Center>

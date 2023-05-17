@@ -11,7 +11,7 @@ import {
   Icon,
 } from "@chakra-ui/react";
 
-import { MdPerson, MdEmail, MdAttachMoney } from "react-icons/md";
+import { MdPerson, MdEmail, MdAttachMoney, MdUpdate } from "react-icons/md";
 import { Worker } from "../Common/Types";
 import { AddIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
@@ -49,12 +49,9 @@ function WorkList() {
     <Center>
     <VStack
       divider={<StackDivider />}
-      borderColor="gray.100"
-      borderWidth="2px"
       p="4"
-      borderRadius="lg"
       w="100%"
-      maxW={{ base: "90vw", sm: "80vw", lg: "50vw", xl: "40vw" }}
+      maxW={{ base: "100vw", sm: "80vw", lg: "70vw", xl: "60vw" }}
       alignItems="stretch"
     >
       <HStack justifyContent="space-between">
@@ -92,25 +89,25 @@ function WorkList() {
         .sort((w1, w2) => w2.lastUpdate.localeCompare(w1.lastUpdate))
         .map((worker) => (
           <HStack key={worker.id}>
-          <VStack>
+          <VStack alignItems="flex-start">
             <Link to={`/arbetare/${worker.id}`}>
             <HStack>
-            <Icon as={MdPerson} w={5} h={5} />
+              <Icon as={MdPerson} w={5} h={5} />
               <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>  
             </HStack>
             </Link>
             <HStack>
-            <Icon as={MdAttachMoney} w={5} h={5} />
-              <Text as="a">{worker.bank}</Text>  
+            <Icon as={MdEmail} w={5} h={5}/> 
+            <Text as="a">{worker.email}</Text>
             </HStack>
-          </VStack>
-          <VStack align="left">
-          <HStack>
-          <Icon as={MdEmail} w={5} h={5}/> 
-          <Text as="a">{worker.email}</Text>
+            <HStack>
+            <Icon as={MdAttachMoney} w={5} h={5} />
+              <Text as="a">{worker.bank}</Text>
           </HStack>
-          
-          <Text as="a">{`latest updated: ${new Date(worker.lastUpdate).toLocaleDateString()}`}</Text>
+          <HStack>
+            <Icon as={MdUpdate} w={5} h={5} />
+          <Text as="a">{new Date(worker.lastUpdate).toLocaleDateString()}</Text>
+          </HStack>
           </VStack>
           <Spacer />
           {auth.user?.role == "Admin" && (
