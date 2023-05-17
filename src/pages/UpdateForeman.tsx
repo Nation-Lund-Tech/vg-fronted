@@ -63,6 +63,16 @@ export default function UpdateForeman() {
       return;
     }
 
+    if (response.status === 404) {
+      toast({
+        title: "Error",
+        description: "Email does not exist",
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    }
+
     toast({
       title: "Success",
       description: "Foreman was updated successfully",

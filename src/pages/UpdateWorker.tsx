@@ -67,6 +67,16 @@ export default function AddWorker() {
       return;
     }
 
+    if (response.status === 404) {
+      toast({
+        title: "Error",
+        description: "Email does not exist",
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    }
+
     toast({
       title: "Success",
       description: "Worker was updated successfully",

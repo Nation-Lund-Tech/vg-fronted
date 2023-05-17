@@ -19,8 +19,6 @@ import { useEffect, useState } from "react";
 import React from "react";
 import Layout from "../components/Layout";
 import { useAuth } from "../providers/AuthProvider";
-import container from "*.css"
-import "../styles.css"
 
 function WorkList() {
   const auth = useAuth();

@@ -110,15 +110,6 @@ export default function Navbar() {
               </>
             )}
           </HStack>
-          {isOpen ? (
-            <Box pb={4} display={{ md: "none" }}>
-              {Links.map((link) => (
-                <NavLinkItem key={link.name} path={link.path}>
-                  {link.name}
-                </NavLinkItem>
-              ))}
-            </Box>
-          ) : null}
         </>
       )}
     </HStack>
