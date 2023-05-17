@@ -12,18 +12,18 @@ import {
   Box,
   useToast,
   Link,
-  Center,
 } from "@chakra-ui/react";
-import WorkerFrom from "./WorkerForm";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useState } from "react";
+import { useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 
-interface WorkerForm {
+interface UpdateWorkerForm {
   firstName: string;
   lastName: string;
   email: string;
+  oldEmail: string;
   foodPref: string;
+  bank: number;
 }
 
 export default function AddWorker() {
@@ -32,23 +32,27 @@ export default function AddWorker() {
     register,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<WorkerForm>();
+  } = useForm<UpdateWorkerForm>();
 
   const toast = useToast();
 
+  const { workerId } = useParams<{ workerId: string }>();
+
   // Tom body returneras av API:et om email inte finns, det måste vi hantera
 
-  const onSubmit: SubmitHandler<WorkerForm> = async (data) => {
+  const onSubmit: SubmitHandler<UpdateWorkerForm> = async (data) => {
     const response = await fetch(
-      `${import.meta.env.VITE_BASE_URL}/api/Worker`,
+      `${import.meta.env.VITE_BASE_URL}/api/Worker/update`,
       {
-        method: "POST",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           firstName: data.firstName,
           lastName: data.lastName,
-          email: data.email,
+          newEmail: data.email,
           foodPref: data.foodPref,
+          bank: data.bank,
+          oldEmail: data.oldEmail,
         }),
       }
     );
@@ -56,7 +60,7 @@ export default function AddWorker() {
     if (response.status === 409) {
       toast({
         title: "Error",
-        description: "Worker already exists",
+        description: "Could not update worker",
         status: "error",
         isClosable: true,
       });
@@ -65,7 +69,7 @@ export default function AddWorker() {
 
     toast({
       title: "Success",
-      description: "Worker was added successfully",
+      description: "Worker was updated successfully",
       status: "success",
       isClosable: true,
     });
@@ -112,12 +116,12 @@ export default function AddWorker() {
               </FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={errors.email !== undefined}>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>New Email</FormLabel>
               <Input
-                id="email"
-                placeholder="Email"
+                id="newEmail"
+                placeholder="new Email"
                 {...register("email", {
-                  required: "Email is required",
+                  required: "New email is required",
                   pattern: {
                     value: /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
                     message: "Invalid email",
@@ -128,6 +132,23 @@ export default function AddWorker() {
                 {errors.email && errors.email.message}
               </FormErrorMessage>
             </FormControl>
+            <FormControl isInvalid={errors.oldEmail !== undefined}>
+              <FormLabel>Old email</FormLabel>
+              <Input
+                id="oldEmail"
+                placeholder="Old email"
+                {...register("oldEmail", {
+                  required: "Old email is required",
+                  pattern: {
+                    value: /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+                    message: "Invalid email",
+                  },
+                })}
+              />
+              <FormErrorMessage>
+                {errors.oldEmail && errors.oldEmail.message}
+              </FormErrorMessage>
+            </FormControl>
             <FormControl>
               <FormLabel>Food preference</FormLabel>
               <Input
@@ -136,18 +157,32 @@ export default function AddWorker() {
                 {...register("foodPref")}
               />
             </FormControl>
-
+            <FormControl isInvalid={errors.bank !== undefined}>
+              <FormLabel>VG Bucks</FormLabel>
+              <Input
+                id="bank"
+                placeholder="VG Bucks"
+                {...register("bank", {
+                  required: "VG Bucks is required",
+                  pattern: {
+                    value: /^[0-9]*$/,
+                    message: "Invalid VG Bucks",
+                  },
+                })}
+              />
+              <FormErrorMessage>
+                {errors.bank && errors.bank.message}
+              </FormErrorMessage>
+            </FormControl>
             <HStack mt={"1rem"}>
               <Button
                 colorScheme="green"
                 type="submit"
                 isLoading={isSubmitting}
               >
-                Create Worker
+                Update worker
               </Button>
-
               <Spacer />
-
               <Link href="/workers">
                 <Button size="md">Cancel</Button>
               </Link>

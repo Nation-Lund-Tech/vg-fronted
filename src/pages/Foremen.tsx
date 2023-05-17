@@ -21,13 +21,14 @@ import Layout from "../components/Layout";
 import { useAuth } from "../providers/AuthProvider";
 
 function Foremen() {
-
   const auth = useAuth();
   const [foremen, setForemen] = useState<Foreman[]>();
   const [search, setSearch] = useState<string>("");
 
   const getForemen = async () => {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/User/foreman/all`);
+    const response = await fetch(
+      `${import.meta.env.VITE_BASE_URL}/api/User/foreman/all`
+    );
     const data: Foreman[] = await response.json();
     setForemen(data);
   };
@@ -36,13 +37,16 @@ function Foremen() {
   }, []);
 
   const removeForeman = async (email: string) => {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/User/foreman/${email}`, {
-      method: "DELETE",
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_BASE_URL}/api/User/foreman/${email}`,
+      {
+        method: "DELETE",
+      }
+    );
     if (response.status === 200) {
       setForemen(foremen?.filter((foreman) => foreman.email !== email));
     }
-  }
+  };
 
   return (
     <Layout>
@@ -94,34 +98,44 @@ function Foremen() {
             alignItems="stretch"
           >
             {foremen &&
-              foremen.filter((worker) =>
-                (`${worker.email} ${worker.firstName} ${worker.lastName}`)
-                  .toLowerCase()
-                  .includes(search))
-                .map((worker) => (
-                  <HStack key={worker.id}>
+              foremen
+                .filter((foreman) =>
+                  `${foreman.email} ${foreman.firstName} ${foreman.lastName}`
+                    .toLowerCase()
+                    .includes(search)
+                )
+                .map((foreman) => (
+                  <HStack key={foreman.id}>
                     <VStack alignItems={"flex-start"}>
-                      <HStack>
-                        <Icon as={MdPerson} w={5} h={5} />
-                        <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>
-                      </HStack>
+                      <Link to={`/foremen/${foreman.id}`}>
+                        <HStack>
+                          <Icon as={MdPerson} w={5} h={5} />
+                          <Text as="a">{`${foreman.firstName} ${foreman.lastName}`}</Text>
+                        </HStack>
+                      </Link>
                       <HStack>
                         <Icon as={MdEmail} w={5} h={5} />
-                        <Text>{worker.email}</Text>
+                        <Text>{foreman.email}</Text>
                       </HStack>
                     </VStack>
                     <Spacer />
                     {auth.user?.role == "Admin" && (
                       <>
-                        <Button colorScheme="red" size={"sm"} onClick={() => removeForeman(worker.email)}>Remove</Button>
+                        <Button
+                          colorScheme="red"
+                          size={"sm"}
+                          onClick={() => removeForeman(foreman.email)}
+                        >
+                          Remove
+                        </Button>
                       </>
                     )}
                   </HStack>
                 ))}
-            </VStack>
           </VStack>
+        </VStack>
       </Center>
-    </Layout>
+    </Layout >
   );
 }
 

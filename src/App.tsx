@@ -13,6 +13,9 @@ import EditThankEvent from "./pages/EditThankEvent";
 import EditWorkEvent from "./pages/EditWorkEvent";
 import Foremen from "./pages/Foremen";
 import AddForeman from "./pages/AddForeman";
+import UpdateWorker from "./pages/UpdateWorker";
+import ForemanProfile from "./pages/ForemanProfile";
+import UpdateForeman from "./pages/UpdateForeman";
 
 function App() {
   return (
@@ -20,16 +23,19 @@ function App() {
       <Routes>
           <Route path="/" element={<RequireAuth><Home/></RequireAuth>} />
           <Route path="/add-worker" element={<RequireAuth><AddWorker/></RequireAuth>}/>
+          <Route path="/update-worker" element={<RequireAuth><UpdateWorker/></RequireAuth>}/>
           <Route path="/thank-events" element={<RequireAuth><ThankEventList /></RequireAuth>}/>
           <Route path="/work-events" element={<RequireAuth><WorkEventList /></RequireAuth>}/>
           <Route path="/edit-thank-event/:eventId" element={<RequireAuth><EditThankEvent /></RequireAuth>}/>
           <Route path="/edit-work-event/:eventId" element={<RequireAuth><EditWorkEvent /></RequireAuth>}/>
           <Route path="/add-foreman" element={<RequireAuth><AddForeman/></RequireAuth>}/>
           <Route path="/workers" element={<RequireAuth><WorkList/></RequireAuth>}/>
-          <Route path="arbetare/:workerId" element={<RequireAuth><WorkerForm/></RequireAuth>}/>
+          <Route path="/workers/:workerId" element={<RequireAuth><WorkerForm/></RequireAuth>}/>
           <Route path="login" element={<Login/>}/>
           <Route path="/register-work" element={<RequireAuth><RegisterWork/></RequireAuth>}/>
           <Route path="/register-tack" element={<RequireAuth><RegisterTack/></RequireAuth>}/>
+          <Route path="/update-foreman" element = {<RequireAuth><UpdateForeman/></RequireAuth>}/>
+          <Route path="/foremen/:foremanId" element = {<RequireAuth><ForemanProfile/></RequireAuth>}/>
           <Route path="/foremen" element={<RequireAuth><Foremen/></RequireAuth>}/>
       </Routes>
     </AuthProvider>
