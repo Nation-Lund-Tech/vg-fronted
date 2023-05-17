@@ -1,7 +1,10 @@
-import { Box, Spacer, Link, Image, useColorModeValue, Button, HStack } from "@chakra-ui/react";
+import { Box, Spacer, Link, Image, useColorModeValue, Button, HStack, useDisclosure, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, FormLabel, Input, InputGroup, InputLeftAddon, InputRightAddon, Select, Stack, Textarea, Icon, VStack, StackDivider } from "@chakra-ui/react";
 import { NavLink, Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../providers/AuthProvider";
+import React from "react";
+import { AddIcon } from "@chakra-ui/icons";
+import { MdTableRows } from "react-icons/md";
 
 const Links = [
   { name: "Jobbpass", path: "/work-events" },
@@ -10,29 +13,80 @@ const Links = [
 ];
 
 const NavLinkItem = ({ path, children }: { path: string; children: React.ReactNode }) => (
-  <Link as={NavLink} to={path} px={2} py={1} rounded={"md"} _hover={{ textDecoration: "none", bg: useColorModeValue("yellow.500", "gray.700") }}>
+  <Link as={NavLink} to={path} px={2} py={1} rounded={"md"}>
     {children}
   </Link>
 );
 
 export default function Navbar() {
   const auth = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggle = () => setIsOpen(!isOpen);
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const firstField = React.useRef()
 
   function signout() {
     auth.signout();
   }
 
   return (
-    <HStack bg={useColorModeValue("yellow.400", "gray.900")} width="100%" height= "4.5rem"px={4} spacing="1rem"
+
+    <HStack bg={useColorModeValue("yellow.400", "gray.900")} width="100%" height="4.5rem" px={4} spacing="1rem"
       alignItems="center">
       <Link as={RouterLink} to="/">
         <Image src="/vgslogga1.png" alt="Västgöta Nation" width="auto" height="3.5rem" />
       </Link>
-      
+
       <Spacer />
+      {auth.user?.email && (
+        <Button colorScheme='yellow' size={"lg"} onClick={onOpen}>
+          <Icon as={MdTableRows} size={""} />
+        </Button>
+      )}
+
+      <Drawer
+        isOpen={isOpen}
+        placement='right'
+        onClose={onClose}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth='1px'>
+            Navigate
+          </DrawerHeader>
+
+          <DrawerBody>
+            {isOpen ? (
+              <VStack
+              divider={<StackDivider />}
+              align={"stretch"}
+              spacing="1rem"
+              pb={4}
+              display={{ md: "none" }}>
+                {Links.map((link) => (
+                  <Box>
+                  <NavLinkItem key={link.name} path={link.path}>
+                    {link.name}
+                  </NavLinkItem>
+                  </Box>
+                ))}
+                {auth.user?.role == "Admin" && (
+                  <Box>
+                    <NavLinkItem key="Foremen" path="/foremen">
+                      Foremen
+                    </NavLinkItem>
+                  </Box>
+                )}
+                
+              </VStack>
+            ) : null}
+          </DrawerBody>
+
+          <DrawerFooter borderTopWidth='1px' >
+            <Button onClick={signout} colorScheme="yellow">Log out</Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+      {/* 
       <HStack spacing="1rem" display={{ base: "none", md: "flex" }}>
         {auth.user?.email && (
           <>
@@ -42,24 +96,16 @@ export default function Navbar() {
               </NavLinkItem>
             ))}
             {auth.user?.role == "Admin" && (
-          <>
-            <NavLinkItem key="Foremen"path="/foremen">
-              Foremen
-            </NavLinkItem>  
-          </>
-        )}
+              <>
+                <NavLinkItem key="Foremen" path="/foremen">
+                  Foremen
+                </NavLinkItem>
+              </>
+            )}
             <Button onClick={signout} colorScheme="yellow">Log out</Button>
           </>
         )}
       </HStack>
-      {/* <IconButton
-        aria-label="Open Menu"
-        size="md"
-        mr={2}
-        icon={<HamburgerIcon />}
-        display={{ md: "none" }}
-        onClick={toggle}
-      /> */}
       {isOpen ? (
         <Box pb={4} display={{ md: "none" }}>
           {Links.map((link) => (
@@ -68,7 +114,7 @@ export default function Navbar() {
             </NavLinkItem>
           ))}
         </Box>
-      ) : null}
+      ) : null} */}
     </HStack>
   );
 };

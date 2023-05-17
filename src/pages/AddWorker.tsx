@@ -12,6 +12,7 @@ import {
   Box,
   useToast,
   Link,
+  Center,
 } from "@chakra-ui/react";
 import WorkerFrom from "./WorkerForm";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -72,15 +73,13 @@ export default function AddWorker() {
     <Flex justifyContent="center" alignItems="center" p="4">
       <VStack
         divider={<StackDivider />}
-        borderColor="gray.100"
-        borderWidth="2px"
         p="4"
-        borderRadius="lg"
         w="100%"
-        maxW={{ base: "90vw", sm: "80vw", lg: "50vw", xl: "40vw" }}
+        spacing="1rem"
+        maxW={{ base: "100vw", sm: "80vw", lg: "70vw", xl: "60vw" }}
         alignItems="stretch"
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} >
           <FormControl isInvalid={errors.firstName !== undefined}>
             <FormLabel>First name</FormLabel>
             <Input
@@ -133,18 +132,20 @@ export default function AddWorker() {
             />
           </FormControl>
 
-          <Spacer p="2" />
-
-          <HStack spacing={"16rem"}>
-            <Button color={"white"} background={"green.400"} type="submit" isLoading={isSubmitting}>
+          <HStack mt={"1rem"}>
+            <Button colorScheme="green" type="submit" isLoading={isSubmitting}>
               Create Worker
             </Button>
+
+            <Spacer />
+
             <Link href="/workers">
               <Button size='md'>
                 Cancel
               </Button>
             </Link>
           </HStack>
+
         </form>
       </VStack>
     </Flex>

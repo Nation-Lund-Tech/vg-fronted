@@ -8,8 +8,10 @@ import {
     Spacer,
     Input,
     Center,
+    Icon,
   } from "@chakra-ui/react";
   
+  import { MdPerson, MdEmail, MdAttachMoney } from "react-icons/md";
   import { Foreman } from "../Common/Types";
   import { AddIcon } from "@chakra-ui/icons";
   import { Link } from "react-router-dom";
@@ -33,8 +35,8 @@ import {
       getForemen();
     }, []);
   
-    const removeWorker = async (email: string) => {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker/delete/${email}`, {
+    const removeForeman = async (email: string) => {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/User/foreman/${email}`, {
         method: "DELETE",
       });
       if(response.status === 200) {
@@ -47,10 +49,7 @@ import {
       <Center>
       <VStack
         divider={<StackDivider />}
-        borderColor="gray.100"
-        borderWidth="2px"
         p="4"
-        borderRadius="lg"
         w="100%"
         maxW={{ base: "90vw", sm: "80vw", lg: "50vw", xl: "40vw" }}
         alignItems="stretch"
@@ -61,13 +60,13 @@ import {
           </Heading>
           <Link to={"/add-foreman"}>
             <Button colorScheme="green" leftIcon={<AddIcon />}>
-              Create Foreman
+              Create new
             </Button>
           </Link>
         </HStack>
         <Input 
         placeholder="Search by name"
-        size="sm"
+        size="md"
         onChange={(event) => {
           setSearch(event.target.value.toLowerCase())
         }} 
@@ -89,17 +88,23 @@ import {
         .includes(search))
         .map((worker) => (
           <HStack key={worker.id}>
-            <Link to={`/arbetare/${worker.id}`}>
-              <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>
-            </Link>
+            <VStack alignItems={"flex-start"}>
+            <HStack>
+            <Icon as={MdPerson} w={5} h={5} />
+            <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>
+            </HStack>
+            <HStack>
+            <Icon as={MdEmail} w={5} h={5} />
             <Text>{worker.email}</Text>
+            </HStack>
+            </VStack>
             <Spacer />
             {auth.user?.role == "Admin" && (
           <>
-            <Button colorScheme="red" onClick={() => removeWorker(worker.email)}>Remove</Button>  
+            <Button colorScheme="red" size={"sm"} onClick={() => removeForeman(worker.email)}>Remove</Button>  
           </>
         )}
-            </HStack>
+          </HStack>
           ))}
       </VStack>
       </Center>

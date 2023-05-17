@@ -77,12 +77,9 @@ export default function AddWorker() {
         <Flex justifyContent="center" alignItems="center" p="4">
             <VStack
                 divider={<StackDivider />}
-                borderColor="gray.100"
-                borderWidth="2px"
                 p="4"
-                borderRadius="lg"
                 w="100%"
-                maxW={{ base: "90vw", sm: "80vw", lg: "50vw", xl: "40vw" }}
+                maxW={{ base: "100vw", sm: "80vw", lg: "70vw", xl: "60vw" }}
                 alignItems="stretch"
             >
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -155,16 +152,16 @@ export default function AddWorker() {
 
                     <Spacer p="2" />
 
-                    <HStack spacing={"16rem"}>
-                        <Button 
-                        color={"white"}
-                        background={"green.400"}
-                        type="submit"
-                        isDisabled={password !== repeatPassword }
-                        isLoading={isSubmitting}
+                    <HStack>
+                        <Button
+                            colorScheme="green"
+                            type="submit"
+                            isDisabled={password !== repeatPassword}
+                            isLoading={isSubmitting}
                         >
                             Create Foreman
                         </Button>
+                        <Spacer />
                         <Link href="/foremen">
                             <Button size='md'>
                                 Cancel
