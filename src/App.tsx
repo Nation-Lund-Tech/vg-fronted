@@ -23,7 +23,7 @@ function App() {
       <Routes>
           <Route path="/" element={<RequireAuth><Home/></RequireAuth>} />
           <Route path="/add-worker" element={<RequireAuth><AddWorker/></RequireAuth>}/>
-          <Route path="/update-worker" element={<RequireAuth><UpdateWorker/></RequireAuth>}/>
+          <Route path="/update-worker/:workerId" element={<RequireAuth><UpdateWorker/></RequireAuth>}/>
           <Route path="/thank-events" element={<RequireAuth><ThankEventList /></RequireAuth>}/>
           <Route path="/work-events" element={<RequireAuth><WorkEventList /></RequireAuth>}/>
           <Route path="/edit-thank-event/:eventId" element={<RequireAuth><EditThankEvent /></RequireAuth>}/>
