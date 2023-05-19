@@ -70,7 +70,7 @@ const Login = () => {
       <Center h="80vh" alignItems="center" justifyContent="center">
         <Center
           flexDirection="column"
-          color="white"
+          color="black"
           p={12}
           borderRadius={8}
           boxShadow="md"

@@ -14,11 +14,14 @@ import {
   Td,
   Text,
   useDisclosure,
+  HStack,
+  Icon,
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
 import { Worker } from "../Common/Types";
 import RegisterDrawer from "./RegisterDrawer";
 import Layout from "../components/Layout";
+import { MdPerson, MdEmail, MdAttachMoney, MdUpdate,MdFoodBank } from "react-icons/md";
 
 function WorkerForm() {
   const { workerId } = useParams<{ workerId: string }>();
@@ -52,33 +55,45 @@ function WorkerForm() {
           maxW={{ base: "90vw", sm: "80vw", lg: "50vw", xl: "40vw" }}
           alignItems="stretch"
         >
+          {worker && (
+          <VStack alignItems="flex-start">
+                      <Link to={`/workers/${worker.id}`}>
+                        <HStack>
+                          <Icon as={MdPerson} w={5} h={5} />
+                          <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>
+                        </HStack>
+                      </Link>
+                      <HStack>
+                        <Icon as={MdEmail} w={5} h={5} />
+                        <Text as="a">{worker.email}</Text>
+                      </HStack>
+                      <HStack>
+                        <Icon as={MdAttachMoney} w={5} h={5} />
+                        <Text as="a">{worker.bank}</Text>
+                      </HStack>
+                      <HStack>
+                        <Icon as={MdFoodBank} w={5} h={5} />
+                        <Text as="a">{worker.foodPref}</Text>
+                      </HStack>
+                      <HStack>
+                        <Icon as={MdUpdate} w={5} h={5} />
+                        <Text as="a">{new Date(worker.lastUpdate).toLocaleDateString()}</Text>
+                      </HStack>
+                    </VStack>)}
           <Flex minWidth="max-content" alignItems="center" gap="2">
-            <Box p="2">
-              {worker?.firstName} {worker?.lastName}
-              <br />
-              <Text>Food preference: {worker?.foodPref}</Text>
-              <Text>Email: {worker?.email}</Text>
-            </Box>
-            <Spacer />
-            <Link to={"/update-worker"}>
-              <Button>Uppdatera</Button>
-            </Link>
-            <Button onClick={onOpen}>Lägg till pass</Button>
-            <RegisterDrawer isOpen={isOpen} close={onClose} worker={worker!} />
-          </Flex>
-          <Flex minWidth="max-content" alignItems="center" gap="2">
-            <Box p="2">
-              <Heading size="sm">
-                Total användbar tacksumma: {worker?.bank}
-              </Heading>
-              <Spacer />
-              <Heading size="sm">
-                {worker && `Totalt tack: ${worker.bank / 2}`}
-              </Heading>
-            </Box>
+            
             <Spacer />
           </Flex>
-          <Button>Välj tack</Button>
+          <Button onClick={onOpen}>
+            Add workshift
+            <RegisterDrawer isOpen={isOpen} close={onClose} worker={worker!}/>
+          </Button>
+          <Button>Choose reward</Button>
+          <Button>
+              <Link to={"/update-worker"}>  
+                Update profile
+              </Link>
+              </Button>
         </VStack>
       </div>
     </Layout>

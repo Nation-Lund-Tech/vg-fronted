@@ -33,7 +33,7 @@ export default function Navbar() {
     <HStack bg={useColorModeValue("yellow.400", "gray.900")} width="100%" height="4.5rem" px={4} spacing="1rem"
       alignItems="center">
       <Link as={RouterLink} to="/">
-        <Image src="/vgNew.png" alt="Västgöta Nation" width="auto" height="9rem" />
+        <Image src="/vgNew.png" alt="Västgöta Nation" width="auto" height="4rem" />
       </Link>
 
       <Spacer />
@@ -100,11 +100,9 @@ export default function Navbar() {
                   </NavLinkItem>
                 ))}
                 {auth.user?.role == "Admin" && (
-                  <>
                     <NavLinkItem key="Foremen" path="/foremen">
                       Foremen
                     </NavLinkItem>
-                  </>
                 )}
                 <Button onClick={signout} colorScheme="yellow">Log out</Button>
               </>
