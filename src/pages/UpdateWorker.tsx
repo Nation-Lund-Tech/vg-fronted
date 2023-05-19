@@ -43,7 +43,7 @@ export default function AddWorker() {
 
   const getWorker = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_BASE_URL}/api/Worker/${workerId}`
+      `${import.meta.env.VITE_BASE_URL}/api/Worker/id/${workerId}`
     );
     const data: Worker = await response.json();
     setWorker(data);
