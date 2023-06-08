@@ -21,7 +21,7 @@ import { Link, useParams } from "react-router-dom";
 import { Worker } from "../Common/Types";
 import RegisterDrawer from "./RegisterDrawer";
 import Layout from "../components/Layout";
-import { MdPerson, MdEmail, MdAttachMoney, MdUpdate,MdFoodBank } from "react-icons/md";
+import { MdPerson, MdEmail, MdAttachMoney, MdUpdate, MdFoodBank } from "react-icons/md";
 
 function WorkerForm() {
   const { workerId } = useParams<{ workerId: string }>();
@@ -56,45 +56,41 @@ function WorkerForm() {
           alignItems="stretch"
         >
           {worker && (
-          <VStack alignItems="flex-start">
-                      <Link to={`/workers/${worker.id}`}>
-                        <HStack>
-                          <Icon as={MdPerson} w={5} h={5} />
-                          <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>
-                        </HStack>
-                      </Link>
-                      <HStack>
-                        <Icon as={MdEmail} w={5} h={5} />
-                        <Text as="a">{worker.email}</Text>
-                      </HStack>
-                      <HStack>
-                        <Icon as={MdAttachMoney} w={5} h={5} />
-                        <Text as="a">{worker.bank}</Text>
-                      </HStack>
-                      <HStack>
-                        <Icon as={MdFoodBank} w={5} h={5} />
-                        <Text as="a">{worker.foodPref}</Text>
-                      </HStack>
-                      <HStack>
-                        <Icon as={MdUpdate} w={5} h={5} />
-                        <Text as="a">{new Date(worker.lastUpdate).toLocaleDateString()}</Text>
-                      </HStack>
-                    </VStack>)}
-          <Flex minWidth="max-content" alignItems="center" gap="2">
-            
-            <Spacer />
-          </Flex>
+            <VStack alignItems="flex-start">
+              <Link to={`/workers/${worker.id}`}>
+                <HStack>
+                  <Icon as={MdPerson} w={5} h={5} />
+                  <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>
+                </HStack>
+              </Link>
+              <HStack>
+                <Icon as={MdEmail} w={5} h={5} />
+                <Text as="a">{worker.email}</Text>
+              </HStack>
+              <HStack>
+                <Icon as={MdAttachMoney} w={5} h={5} />
+                <Text as="a">{worker.bank}</Text>
+              </HStack>
+              <HStack>
+                <Icon as={MdFoodBank} w={5} h={5} />
+                <Text as="a">{worker.foodPref}</Text>
+              </HStack>
+              <HStack>
+                <Icon as={MdUpdate} w={5} h={5} />
+                <Text as="a">{new Date(worker.lastUpdate).toLocaleDateString()}</Text>
+              </HStack>
+            </VStack>)}
+         
           <Button onClick={onOpen}>
             Add workshift
-            <RegisterDrawer isOpen={isOpen} close={onClose} worker={worker!}/>
+            <RegisterDrawer isOpen={isOpen} close={onClose} worker={worker!} />
           </Button>
           <Button>Choose reward</Button>
-
           <Button>
               <Link to={`/update-worker/${workerId}`}>  
                 Update profile
               </Link>
-              </Button>
+            </Button>
         </VStack>
       </div>
     </Layout>
