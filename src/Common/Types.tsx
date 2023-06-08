@@ -37,8 +37,10 @@ export interface WorkEvent {
 }
 
 export interface ThankEvent {
+    participants: Worker[],
     id: number,
     name: string,
     date: string,
     price: number,
+    isTack: boolean,
 }
