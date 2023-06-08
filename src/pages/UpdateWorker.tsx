@@ -16,6 +16,8 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import Layout from "../components/Layout";
+import { useEffect, useState } from "react";
+import { Worker } from "../Common/Types";
 
 interface UpdateWorkerForm {
   firstName: string;
@@ -37,7 +39,20 @@ export default function AddWorker() {
   const toast = useToast();
 
   const { workerId } = useParams<{ workerId: string }>();
+  const [worker, setWorker] = useState<Worker>();
 
+  const getWorker = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_BASE_URL}/api/Worker/id/${workerId}`
+    );
+    const data: Worker = await response.json();
+    setWorker(data);
+  };
+  
+  useEffect(() => {
+    getWorker();
+  }, []);
+  
   // Tom body returneras av API:et om email inte finns, det måste vi hantera
 
   const onSubmit: SubmitHandler<UpdateWorkerForm> = async (data) => {
@@ -51,7 +66,7 @@ export default function AddWorker() {
           lastName: data.lastName,
           newEmail: data.email,
           foodPref: data.foodPref,
-          bank: data.bank,
+          bank: worker?.bank,
           oldEmail: data.oldEmail,
         }),
       }
@@ -166,23 +181,6 @@ export default function AddWorker() {
                 placeholder="Food Preference"
                 {...register("foodPref")}
               />
-            </FormControl>
-            <FormControl isInvalid={errors.bank !== undefined}>
-              <FormLabel>VG Bucks</FormLabel>
-              <Input
-                id="bank"
-                placeholder="VG Bucks"
-                {...register("bank", {
-                  required: "VG Bucks is required",
-                  pattern: {
-                    value: /^[0-9]*$/,
-                    message: "Invalid VG Bucks",
-                  },
-                })}
-              />
-              <FormErrorMessage>
-                {errors.bank && errors.bank.message}
-              </FormErrorMessage>
             </FormControl>
             <HStack mt={"1rem"}>
               <Button

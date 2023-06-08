@@ -86,9 +86,9 @@ function WorkerForm() {
             <RegisterDrawer isOpen={isOpen} close={onClose} worker={worker!} />
           </Button>
           <Button>Choose reward</Button>
-            <Button>
-              <Link to={"/update-worker"}>
-              Update profile
+          <Button>
+              <Link to={`/update-worker/${workerId}`}>  
+                Update profile
               </Link>
             </Button>
         </VStack>
