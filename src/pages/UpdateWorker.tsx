@@ -119,9 +119,7 @@ export default function AddWorker() {
               <Input
                 id="firstName"
                 placeholder="First name"
-                {...register("firstName", {
-                  required: "First name is required",
-                })}
+                {...register("firstName")}
               />
               <FormErrorMessage>
                 {errors.firstName && errors.firstName.message}
@@ -132,9 +130,7 @@ export default function AddWorker() {
               <Input
                 id="surname"
                 placeholder="Surname"
-                {...register("lastName", {
-                  required: "Surname is required",
-                })}
+                {...register("lastName")}
               />
               <FormErrorMessage>
                 {errors.lastName && errors.lastName.message}

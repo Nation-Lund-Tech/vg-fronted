@@ -136,8 +136,9 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
                 handleSelectEvent(e);
               }}
             >
+              <option value={undefined}>Food Ticket</option>
               {events &&
-                events.filter((event) => event.isTack).map((event) => (
+                events.map((event) => (
                   <option key={event.id} value={event.id}>
                     {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
                     {/* {event.foreman.length !== 0 ? event.foreman[0].firstName : "No foreman"}{" "}  */}
