@@ -99,7 +99,7 @@ function WorkerForm() {
           )}
 
           <Button onClick={onOpen}>
-            Add workshift
+            Register workshift
             <RegisterDrawer isOpen={isOpen} close={onClose} worker={worker!} />
           </Button>
           

@@ -13,6 +13,7 @@ import {
   useDisclosure,
   Select,
   useToast,
+  Spacer,
 } from "@chakra-ui/react";
 import { WorkEvent, Worker } from "../Common/Types";
 import Layout from "../components/Layout";
@@ -84,6 +85,7 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
     if (response.ok) {
       // Show a success message if the request was successful
       // alert("Workers added to event successfully");
+      getEvents();
       toast({
         title: "Success",
         description: "Worker was added successfully",
@@ -118,7 +120,7 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
       <DrawerOverlay>
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Registera pass</DrawerHeader>
+          <DrawerHeader>Register workshift</DrawerHeader>
 
           <DrawerBody>
             <Select placeholder="Välj event" width="100%" onChange={(e) => {handleSelectEvent(e)}}
@@ -134,11 +136,12 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
             </Select>
           </DrawerBody>
           <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={close}>
-              Avbryt
+          <Button colorScheme="green" onClick={handleAddToEvent}>
+              Save
             </Button>
-            <Button colorScheme="green" onClick={handleAddToEvent}>
-              Spara
+            <Spacer />
+            <Button variant="outline" mr={3} onClick={close}>
+              Cancel
             </Button>
           </DrawerFooter>
         </DrawerContent>

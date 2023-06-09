@@ -95,7 +95,7 @@ export default function RegisterWork() {
         <option>Jobbarfest | 23/06/02</option>
       </Select>
       <HStack spacing={"12rem"}>
-      <Button colorScheme="green">Registrera tack</Button>
+      <Button colorScheme="green">Register reward</Button>
       <Link href="/workers">
       <Button size='md'>
       Cancel

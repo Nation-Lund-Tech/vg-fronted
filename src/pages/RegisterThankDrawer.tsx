@@ -13,6 +13,7 @@ import {
   useDisclosure,
   Select,
   useToast,
+  Spacer,
 } from "@chakra-ui/react";
 import { WorkEvent, ThankEvent, Worker } from "../Common/Types";
 import Layout from "../components/Layout";
@@ -125,7 +126,7 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
       <DrawerOverlay>
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Registera Tack</DrawerHeader>
+          <DrawerHeader>Register reward</DrawerHeader>
 
           <DrawerBody>
             <Select
@@ -147,11 +148,12 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
             </Select>
           </DrawerBody>
           <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={close}>
-              Avbryt
-            </Button>
             <Button colorScheme="green" onClick={handleAddToEvent}>
-              Spara
+              Save
+            </Button>
+            <Spacer />
+            <Button variant="outline" mr={3} onClick={close}>
+              Cancel
             </Button>
           </DrawerFooter>
         </DrawerContent>
