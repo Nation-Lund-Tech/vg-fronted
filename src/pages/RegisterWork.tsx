@@ -22,158 +22,170 @@ import {
   CloseButton,
   Center,
   useToast,
+  Heading,
+  Input,
+  StackDivider,
+  Icon,
 } from "@chakra-ui/react";
+import { NavLink, Link as RouterLink } from "react-router-dom";
 import { set } from "react-hook-form";
+import Layout from "../components/Layout";
+import { useParams } from "react-router-dom";
+import { MdPerson, MdEmail, MdAttachMoney, MdUpdate } from "react-icons/md";
+import { useAuth } from "../providers/AuthProvider";
 
 export default function RegisterWork() {
+  const { eventId } = useParams<{ eventId: string }>();
   const [workers, setWorkers] = useState<Worker[]>();
-  const [events, setEvents] = useState<WorkEvent[]>([]);
+  const [event, setEvent] = useState<WorkEvent>();
+  const auth = useAuth();
 
-  const getWorker = async () => {
-    const response = await fetch(`https://localhost:7008/api/Worker/all`);
+  const getWorkers = async () => {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/Worker/all`);
     const data: Worker[] = await response.json();
     setWorkers(data);
   };
 
-  const getEvents = async () => {
-    const response = await fetch(`https://localhost:7008/api/WorkEvent/all`);
-    const data: WorkEvent[] = await response.json();
-    setEvents(data);
-    console.log(data);
-  };
+
+  const getEvent = async () => {
+    let workEvent: WorkEvent;
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/WorkEvent/id/${eventId}`);
+      workEvent = await response.json();
+      setEvent(workEvent);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
 
   useEffect(() => {
-    getWorker();
-  }, []);
-
-  useEffect(() => {
-    getEvents();
+    getWorkers();
+    getEvent();
   }, []);
 
   const [selectedWorkers, setSelectedWorkers] = useState<string[]>([]);
-  const [selectedEventId, setSelectedEventId] = useState<number>();
 
   const toast = useToast();
+  const [search, setSearch] = useState<string>("");
 
-  const handleAddToEvent = async () => {
-    if (!selectedEventId) {
-      // Show an error message if no event is selected
-      alert("Please select an event");
-      return;
+  const removeWorker = async (email: string) => {
+
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/WorkEvent/delete/worker`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        eventId: event?.id,
+      }),
+    });
+    if (response.status === 200) {
+      toast({
+        title: "Success",
+        description: "Worker was removed successfully",
+        status: "success",
+        isClosable: true,
+      });
+      getEvent()
     }
+  };
 
-    const response = await fetch(
-      `https://localhost:7008/api/WorkEvent/add/worker`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: selectedWorkers[0],
-          eventId: selectedEventId,
-        }),
-      }
-    );
+  const registerWorker = async (email: string) => {
 
-    if (response.ok) {
-      // Show a success message if the request was successful
-      // alert("Workers added to event successfully");
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/WorkEvent/add/worker`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        eventId: event?.id,
+      }),
+    });
+    if (response.status === 200) {
       toast({
         title: "Success",
         description: "Worker was added successfully",
         status: "success",
         isClosable: true,
       });
-      setSelectedWorkers([]);
-    } else {
-      // Show an error message if the request failed
-      toast({
-        title: "Failure",
-        description: "Workers could not be added",
-        status: "error",
-        isClosable: true,
-      });
+      getEvent()
     }
   };
 
-  const handleSelectEvent = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const id = parseInt(event.target.value);
-    setSelectedEventId(id);
-    console.log(id);
-  };
-
   return (
-    <VStack spacing={"1rem"}>
-    <TableContainer>
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>Namn</Th>
-              <Th>Email</Th>
-              <Th>Matpref</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
+    <Layout>
+      <Center>
+        <VStack
+          divider={<StackDivider />}
+          p="4"
+          w="100%"
+          maxW={{ base: "100vw", sm: "80vw", lg: "70vw", xl: "60vw" }}
+          alignItems="stretch"
+        >
+          <HStack justifyContent="space-between">
+            <Heading as="h1" size="2xl" textAlign="center" my={4}>
+              {event?.name} {event?.date.slice(0, -9)}
+            </Heading>
+          </HStack>
+          <Input
+            placeholder="Search by name or email"
+            size="md"
+            onChange={(event) => {
+              setSearch(event.target.value.toLowerCase())
+            }}
+          />
+
+          <VStack
+            divider={<StackDivider />}
+            maxH={["60vh", "48vh"]}
+            p="4"
+            style={{
+              overflowX: "hidden",
+              overflowY: "scroll",
+            }}
+            w="100%"
+            maxW={{ base: "100vw", sm: "80vw", lg: "70vw", xl: "60vw" }}
+            alignItems="stretch"
+          >
+
             {workers &&
-              workers.map((worker) => (
-                <Tr key={worker.email}>
-                  <Td>
-                    <Flex alignItems="center">
-                      <Checkbox
-                        defaultChecked={false}
-                        isChecked={selectedWorkers.includes(worker.email)}
-                        mr={2}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            const newVal = [
-                              ...selectedWorkers,
-                              worker.email,
-                            ]
-                            setSelectedWorkers(newVal);
-                            console.log(newVal);
-                          } else {
-                            setSelectedWorkers(
-                              selectedWorkers.filter(
-                                (email) => email !== worker.email
-                              )
-                            );
-                          }
-                        }}
-                      />
-                      <Box>
-                        {worker.firstName} {worker.lastName}
-                      </Box>
-                    </Flex>
-                  </Td>
-                  <Td>{worker.email}</Td>
-                  <Td>{worker.foodPref}</Td>
-                </Tr>
-              ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
-      <Spacer />
-      <Select placeholder="Välj event" maxWidth="26rem" onChange={(e) => { handleSelectEvent(e) }}>
-        {events &&
-          events.map((event) => (
-            <option key={event.id} value={event.id}>
-              {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
-              {/* {event.foreman.length !== 0 ? event.foreman[0].firstName : "No foreman"} {" "} */}
-              {event.workers.length} workers
-            </option>
-          ))}
-      </Select>
-      <HStack spacing={"12rem"}>
-      <Button onClick={handleAddToEvent} colorScheme="green">
-        Registrera pass
-      </Button>
-      <Link href="/workers">
-      <Button size='md'>
-      Cancel
-      </Button>
-      </Link>
-      </HStack>
-    </VStack>
+              workers.filter((worker) =>
+                (`${worker.email} ${worker.firstName} ${worker.lastName}`)
+                  .toLowerCase()
+                  .includes(search))
+                .sort((w1, w2) => w2.lastUpdate.localeCompare(w1.lastUpdate))
+                .map((worker) => (
+                  <HStack key={worker.id}>
+                    <VStack alignItems="flex-start">
+                      <Link as={RouterLink} to={`/workers/${worker.id}`}>
+                        <HStack>
+                          <Icon as={MdPerson} w={5} h={5} />
+                          <Text as="a">{`${worker.firstName} ${worker.lastName}`}</Text>
+                        </HStack>
+                      </Link>
+                      <HStack>
+                        <Icon as={MdEmail} w={5} h={5} />
+                        <Text as="a">{worker.email}</Text>
+                      </HStack>
+                    </VStack>
+                    <Spacer />
+                    {event?.workers.map(w => w.email).includes(worker.email) ? (
+                      <>
+                        <Button colorScheme="red" size={"sm"} onClick={() => removeWorker(worker.email)}>Unregister</Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button colorScheme="green" size={"sm"} onClick={() => registerWorker(worker.email)}>Register</Button>
+                      </>
+                    )}
+                  </HStack>
+                ))}
+          </VStack>
+          <Link href="/work-events">
+                            <Button size='md'>
+                                Cancel
+                            </Button>
+                        </Link>
+        </VStack>
+      </Center>
+    </Layout>
   );
 }
