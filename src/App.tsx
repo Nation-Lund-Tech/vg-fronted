@@ -7,7 +7,6 @@ import WorkEventList from "./pages/WorkEventList";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import RegisterWork from "./pages/RegisterWork";
-import RegisterTack from "./pages/RegisterTack";
 import { AuthProvider, RequireAuth } from "./providers/AuthProvider";
 import EditThankEvent from "./pages/EditThankEvent";
 import EditWorkEvent from "./pages/EditWorkEvent";
@@ -16,6 +15,7 @@ import AddForeman from "./pages/AddForeman";
 import UpdateWorker from "./pages/UpdateWorker";
 import ForemanProfile from "./pages/ForemanProfile";
 import UpdateForeman from "./pages/UpdateForeman";
+import AddWorkEvent from "./pages/AddWorkEvent";
 
 function App() {
   return (
@@ -28,12 +28,12 @@ function App() {
           <Route path="/work-events" element={<RequireAuth><WorkEventList /></RequireAuth>}/>
           <Route path="/edit-thank-event/:eventId" element={<RequireAuth><EditThankEvent /></RequireAuth>}/>
           <Route path="/edit-work-event/:eventId" element={<RequireAuth><EditWorkEvent /></RequireAuth>}/>
+          <Route path="/add-work-event" element={<RequireAuth><AddWorkEvent /></RequireAuth>}/>
           <Route path="/add-foreman" element={<RequireAuth><AddForeman/></RequireAuth>}/>
           <Route path="/workers" element={<RequireAuth><WorkList/></RequireAuth>}/>
           <Route path="/workers/:workerId" element={<RequireAuth><WorkerForm/></RequireAuth>}/>
           <Route path="login" element={<Login/>}/>
-          <Route path="/register-work" element={<RequireAuth><RegisterWork/></RequireAuth>}/>
-          <Route path="/register-tack" element={<RequireAuth><RegisterTack/></RequireAuth>}/>
+          <Route path="/register-work/:eventId" element={<RequireAuth><RegisterWork/></RequireAuth>}/>
           <Route path="/update-foreman" element = {<RequireAuth><UpdateForeman/></RequireAuth>}/>
           <Route path="/foremen/:foremanId" element = {<RequireAuth><ForemanProfile/></RequireAuth>}/>
           <Route path="/foremen" element={<RequireAuth><Foremen/></RequireAuth>}/>
