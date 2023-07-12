@@ -124,25 +124,6 @@ function WorkList() {
                   </HStack>
                 ))}
           </VStack>
-
-
-          <HStack>
-
-            <Link to={"/register-work"}>
-              <Button size="md">
-                Register work
-              </Button>
-            </Link>
-
-            <Spacer />
-
-            <Link to={"/register-tack"}>
-              <Button size="md">
-                Register reward
-              </Button>
-            </Link>
-
-          </HStack>
         </VStack>
       </Center>
     </Layout >
