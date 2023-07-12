@@ -16,6 +16,7 @@ import {
 import WorkerFrom from "./WorkerForm";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
+import Layout from "../components/Layout";
 
 interface ForemanForm {
     firstName: string;
@@ -74,6 +75,7 @@ export default function AddWorker() {
     };
 
     return (
+        <Layout>
         <Flex justifyContent="center" alignItems="center" p="4">
             <VStack
                 divider={<StackDivider />}
@@ -171,5 +173,6 @@ export default function AddWorker() {
                 </form>
             </VStack>
         </Flex>
+    </Layout>
     );
 }
