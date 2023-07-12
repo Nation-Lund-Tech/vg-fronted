@@ -1,8 +1,11 @@
-import { Box, Center, Heading, Text, Link, Card, CardBody, CardHeader, Flex, Spacer, StackDivider } from "@chakra-ui/react";
+import { Box, Center, Heading, Text, Link, Card, CardBody, CardHeader, Flex, Spacer, StackDivider, Icon, HStack, Button } from "@chakra-ui/react";
 import { WorkEvent } from "../Common/Types";
 import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { Link as RouterLink } from "react-router-dom";
+import { MdAttachMoney, MdFoodBank } from "react-icons/md";
+import { AddIcon } from "@chakra-ui/icons";
+import { useAuth } from "../providers/AuthProvider";
 
 const fetchWorkEvents = async (): Promise<WorkEvent[]> => {
     let workEvents: WorkEvent[];
@@ -22,6 +25,7 @@ interface EventItemProps {
 
 export default function EventList() {
     const [events, setEvents] = useState<WorkEvent[]>();
+    const auth = useAuth();
     useEffect(() => {
         (async () => {
             const workEvents = await fetchWorkEvents();
@@ -31,6 +35,18 @@ export default function EventList() {
 
     return (
         <Layout>
+            <Center justifyContent={"space-evenly"} >
+                <Heading as="h1" size="2xl" textAlign="center" my={4}>
+                    Work Events
+                </Heading>
+                {auth.user?.role == "Admin" && (
+                    <Link as={RouterLink} to={"/add-work-event"}>
+                        <Button colorScheme="green" leftIcon={<AddIcon />}>
+                            Create new
+                        </Button>
+                    </Link>
+                )}
+            </Center>
             <Center marginTop="1rem">
                 <Box width={["100%", "80%"]} alignItems="center" justifyContent="center">
                     {events?.map(event => <EventItem event={event} key={event.id} />)}
@@ -42,10 +58,11 @@ export default function EventList() {
 
 function EventItem({ event }: EventItemProps) {
     const [isHovered, setIsHovered] = useState(false);
-
+    const auth = useAuth();
     const handleMouseEnter = () => {
         setIsHovered(true);
     };
+    const workers = event.workers
 
     const handleMouseLeave = () => {
         setIsHovered(false);
@@ -58,19 +75,37 @@ function EventItem({ event }: EventItemProps) {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 _hover={{ textDecoration: "none" }}
-                to={`/edit-work-event/${String(event.id)}`}
+                to={auth.user?.role == "Admin" ? (`/edit-work-event/${String(event.id)}`) : (`/register-work/${String(event.id)}`)}
             >
                 <Card variant={isHovered ? "elevated" : "outline"}>
                     <CardHeader>
-                        <Flex justifyContent="space-between">
+                        <Flex justifyContent="space-between" >
                             <Box>
                                 <Heading size="lg">{event.name}</Heading>
                                 <Text>{event.date.slice(0, -9)}</Text>
+                                <HStack spacing={"14rem"}>
+                                    <HStack>
+                                        <Icon as={MdAttachMoney} w={5} h={5} />
+                                        <Text as="a">{event.reward ?? "N/A"}</Text>
+                                    </HStack>
+                                </HStack>
                             </Box>
                         </Flex>
                     </CardHeader>
                     <CardBody>
-                        {"Reward: " + (event.reward ?? "N/A")}
+                        <HStack>
+                            <Text as={"b"}>Workers:</Text>
+                            {event.workers.length == 0 && (<Text as={"a"}>N/A</Text>)}
+                            {event.workers.length < 4 ? (event.workers.map(worker =>
+                                <Text>
+                                    {`${worker.firstName} ${worker.lastName},`}
+                                </Text>)) : (
+                                <Text>
+                                    {`${workers[0].firstName} ${workers[0].lastName}, 
+                                ${workers[1].firstName} ${workers[1].lastName},
+                                ${workers[2].firstName} ${workers[2].lastName} and ${event.workers.length - 3} more`}
+                                </Text>)}
+                        </HStack>
                     </CardBody>
                 </Card>
             </Link>
