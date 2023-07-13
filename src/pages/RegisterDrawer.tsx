@@ -30,7 +30,7 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
   const [selectedEventId, setSelectedEventId] = useState<number>();
 
   const getEvents = async () => {
-    const response = await fetch(`https://localhost:7008/api/WorkEvent/all`);
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/WorkEvent/all`);
     const data: WorkEvent[] = await response.json();
     setEvents(data);
   };
