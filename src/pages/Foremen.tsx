@@ -107,7 +107,7 @@ function Foremen() {
                 .map((foreman) => (
                   <HStack key={foreman.id}>
                     <VStack alignItems={"flex-start"}>
-                      <Link to={`/foremen/${foreman.id}`}>
+                      <Link to={""}>{/*Possible to add Foreman profile page*/}
                         <HStack>
                           <Icon as={MdPerson} w={5} h={5} />
                           <Text as="a">{`${foreman.firstName} ${foreman.lastName}`}</Text>
