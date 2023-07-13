@@ -179,11 +179,18 @@ export default function RegisterWork() {
                   </HStack>
                 ))}
           </VStack>
-          <Link href="/work-events">
-                            <Button size='md'>
-                                Cancel
-                            </Button>
-                        </Link>
+          <HStack>
+          <Text as={"b"}>Workers:</Text>
+            <Spacer />
+            <Link href="/work-events">
+              <Button size="md">Cancel</Button>
+            </Link>
+          </HStack>
+                    {event?.workers.length == 0 ? (<Text as={"a"}>N/A</Text>) : (
+                        event?.workers.map(worker =>
+                            <Text>
+                                {`${worker.firstName} ${worker.lastName}  `}
+                            </Text>))}
         </VStack>
       </Center>
     </Layout>

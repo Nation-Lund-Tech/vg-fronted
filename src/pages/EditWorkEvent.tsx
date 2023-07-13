@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { WorkEvent } from "../Common/Types";
 import { Button, FormControl, FormErrorMessage, FormLabel, HStack, Heading, Input, Spacer, StackDivider, VStack, useToast, Link, Flex, Editable, EditablePreview, EditableInput } from "@chakra-ui/react";
 import { SubmitHandler, set, useForm } from "react-hook-form";
+import { Text } from "@chakra-ui/react";
 
 interface EventInterface {
     event: WorkEvent;
@@ -13,6 +14,7 @@ interface EditFormWorkEvent {
     name: string;
     date: string;
     reward: number;
+    foremanEmail: string;
 }
 
 export default function EditWorkEvent() {
@@ -44,18 +46,31 @@ export default function EditWorkEvent() {
             setValue("name", e.name);
             setValue("date", e.date.slice(0, -9));
             setValue("reward", e.reward);
+            setValue("foremanEmail", "gustav@vgtech.com");
         })()
     }, []);
+
+    const removeEvent = async (id: string) => {
+
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/WorkEvent/delete/id/${id}`, {
+            method: "DELETE",
+        });
+        if (response.status === 200) {
+
+        }
+    };
+
 
     const onSubmit: SubmitHandler<EditFormWorkEvent> = async (data) => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/WorkEvent`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                id : event?.id,
+                id: event?.id,
                 name: data.name,
                 date: data.date,
                 reward: data.reward,
+                foremanEmail: "gustav@vgtech.com",
             }),
         });
 
@@ -68,7 +83,7 @@ export default function EditWorkEvent() {
             });
             return;
         }
-        if(response.status === 400) {
+        if (response.status === 400) {
             toast({
                 title: "Error",
                 description: "Something went wrong",
@@ -77,7 +92,7 @@ export default function EditWorkEvent() {
             });
             return;
         }
-        if(response.status === 404) {
+        if (response.status === 404) {
             toast({
                 title: "Error",
                 description: "Not found",
@@ -89,12 +104,11 @@ export default function EditWorkEvent() {
 
         toast({
             title: "Success",
-            description: "Event added successfully",
+            description: "Event Updated successfully",
             status: "success",
             isClosable: true,
         });
-
-        reset();
+        setEvent(await fetchEvent())
     };
 
     return (
@@ -161,7 +175,11 @@ export default function EditWorkEvent() {
 
                         <Spacer p="2" />
 
-                        <HStack justifyContent="space-between">
+                        <HStack spacing="2rem">
+                            <Link to="/work-events" as={RouterLink}>
+                                <Button colorScheme="red" size={"md"} onClick={() => removeEvent(String(eventId))}>Remove</Button>
+                            </Link>
+                            <Spacer />
                             <Button color={"white"} background={"green.400"} type="submit" isLoading={isSubmitting}>
                                 Save
                             </Button>
@@ -172,6 +190,12 @@ export default function EditWorkEvent() {
                             </Link>
                         </HStack>
                     </form>
+                    <Text as={"b"}>Workers:</Text>
+                    {event?.workers.length == 0 ? (<Text as={"a"}>N/A</Text>) : (
+                        event?.workers.map(worker =>
+                            <Text>
+                                {`${worker.firstName} ${worker.lastName}  `}
+                            </Text>))}
                 </VStack>
             </Flex>
         </Layout>
