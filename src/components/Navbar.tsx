@@ -7,8 +7,8 @@ import { AddIcon } from "@chakra-ui/icons";
 import { MdTableRows } from "react-icons/md";
 
 const Links = [
-  { name: "Jobbpass", path: "/work-events" },
-  { name: "Tackfester", path: "/thank-events" },
+  { name: "Work Event", path: "/work-events" },
+  { name: "Thank Event", path: "/thank-events" },
   { name: "Workers", path: "/workers" },
 ];
 
