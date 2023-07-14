@@ -1,9 +1,10 @@
 import { useParams, Link as RouterLink } from "react-router-dom";
 import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
-import { ThankEvent } from "../Common/Types";
+import { ThankEvent, WorkEvent } from "../Common/Types";
 import { Button, FormControl, FormErrorMessage, FormLabel, HStack, Heading, Input, Spacer, StackDivider, VStack, useToast, Link, Flex, Editable, EditablePreview, EditableInput } from "@chakra-ui/react";
 import { SubmitHandler, set, useForm } from "react-hook-form";
+import { Text } from "@chakra-ui/react";
 
 interface EventInterface {
     event: ThankEvent;
@@ -12,7 +13,8 @@ interface EventInterface {
 interface EditFormThankEvent {
     name: string;
     date: string;
-    price: number;
+    cost: number;
+    foremanEmail: string;
 }
 
 export default function EditThankEvent() {
@@ -27,11 +29,11 @@ export default function EditThankEvent() {
     } = useForm<EditFormThankEvent>();
     const toast = useToast();
     const fetchEvent = async (): Promise<ThankEvent> => {
-        let thankEvent: ThankEvent;
+        let workEvent: ThankEvent;
         try {
             const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/ThankEvent/id/${eventId}`);
-            thankEvent = await response.json();
-            return thankEvent;
+            workEvent = await response.json();
+            return workEvent;
         } catch (error) {
             console.error('Error fetching data:', error);
             return {} as ThankEvent;
@@ -42,20 +44,33 @@ export default function EditThankEvent() {
             const e = await fetchEvent();
             setEvent(e);
             setValue("name", e.name);
-            setValue("price", e.price);
             setValue("date", e.date.slice(0, -9));
+            setValue("cost", e.cost);
+            setValue("foremanEmail", "gustav@vgtech.com");
         })()
     }, []);
+
+    const removeEvent = async (id: string) => {
+
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/ThankEvent/delete/id/${id}`, {
+            method: "DELETE",
+        });
+        if (response.status === 200) {
+
+        }
+    };
+
 
     const onSubmit: SubmitHandler<EditFormThankEvent> = async (data) => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/ThankEvent`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                id : event?.id,
+                id: event?.id,
                 name: data.name,
                 date: data.date,
-                price: data.price,
+                cost: data.cost,
+                foremanEmail: "gustav@vgtech.com",
             }),
         });
 
@@ -68,7 +83,7 @@ export default function EditThankEvent() {
             });
             return;
         }
-        if(response.status === 400) {
+        if (response.status === 400) {
             toast({
                 title: "Error",
                 description: "Something went wrong",
@@ -77,7 +92,7 @@ export default function EditThankEvent() {
             });
             return;
         }
-        if(response.status === 404) {
+        if (response.status === 404) {
             toast({
                 title: "Error",
                 description: "Not found",
@@ -89,12 +104,11 @@ export default function EditThankEvent() {
 
         toast({
             title: "Success",
-            description: "Event added successfully",
+            description: "Event Updated successfully",
             status: "success",
             isClosable: true,
         });
-
-        reset();
+        setEvent(await fetchEvent())
     };
 
     return (
@@ -143,25 +157,29 @@ export default function EditThankEvent() {
                                 {errors.date && errors.date.message}
                             </FormErrorMessage>
                         </FormControl>
-                        <FormControl isInvalid={errors.price !== undefined}>
-                            <FormLabel fontWeight="bold">Price</FormLabel>
+                        <FormControl isInvalid={errors.cost !== undefined}>
+                            <FormLabel fontWeight="bold">Cost</FormLabel>
                             <Input
-                                id="price"
-                                placeholder="Price of the Event"
-                                {...register("price", {
-                                    required: "Price is required",
-                                    min: { value: 0, message: "Price must be greater than 0" },
+                                id="cost"
+                                placeholder="Cost for attending the event"
+                                {...register("cost", {
+                                    required: "Cost is required",
+                                    min: { value: 0, message: "Cost must be greater than 0" },
                                 })}
-                                defaultValue={event?.price}
+                                defaultValue={event?.cost}
                             />
                             <FormErrorMessage>
-                                {errors.price && errors.price.message}
+                                {errors.cost && errors.cost.message}
                             </FormErrorMessage>
                         </FormControl>
 
                         <Spacer p="2" />
 
-                        <HStack justifyContent="space-between">
+                        <HStack spacing="2rem">
+                            <Link to="/thank-events" as={RouterLink}>
+                                <Button colorScheme="red" size={"md"} onClick={() => removeEvent(String(eventId))}>Remove</Button>
+                            </Link>
+                            <Spacer />
                             <Button color={"white"} background={"green.400"} type="submit" isLoading={isSubmitting}>
                                 Save
                             </Button>
@@ -172,6 +190,12 @@ export default function EditThankEvent() {
                             </Link>
                         </HStack>
                     </form>
+                    <Text as={"b"}>Participants:</Text>
+                    {event?.particpants.length == 0 ? (<Text as={"a"}>N/A</Text>) : (
+                        event?.particpants.map(worker =>
+                            <Text>
+                                {`${worker.firstName} ${worker.lastName}  `}
+                            </Text>))}
                 </VStack>
             </Flex>
         </Layout>

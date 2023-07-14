@@ -158,7 +158,7 @@ export default function EditWorkEvent() {
                             </FormErrorMessage>
                         </FormControl>
                         <FormControl isInvalid={errors.reward !== undefined}>
-                            <FormLabel fontWeight="bold">Price</FormLabel>
+                            <FormLabel fontWeight="bold">Reward</FormLabel>
                             <Input
                                 id="reward"
                                 placeholder="Reward for working"
