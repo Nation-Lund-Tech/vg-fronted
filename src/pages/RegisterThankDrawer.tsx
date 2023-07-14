@@ -29,15 +29,15 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
 
   const [selectedEventId, setSelectedEventId] = useState<number>();
 
-  const getEvents = async () => {
-    const response = await fetch(`https://localhost:7008/api/ThankEvent/all`);
+  const getThankEvents = async () => {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/ThankEvent/all`);
     const data: ThankEvent[] = await response.json();
     setEvents(data);
     console.log(data);
   };
 
   useEffect(() => {
-    getEvents();
+    getThankEvents();
   }, []);
 
   const toast = useToast();
@@ -49,7 +49,7 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
       // Show an error message if no event is selected
       toast({
         title: "Failure",
-        description: "No event selected",
+        description: "No reward selected",
         status: "error",
         isClosable: true,
       });
@@ -60,7 +60,18 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
     const event = events?.find((event) => event.id === selectedEventId);
 
     if (event) {
-      const isParticipant = event.participants.some(
+      
+    if (-(event.cost) > worker.bank) {
+      // Show an error message if no event is selected
+      toast({
+        title: "Failure",
+        description: "Too low balance",
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    } else {
+      const isParticipant = event.particpants.some(
         (participant) => participant.email === worker.email
       );
       if (isParticipant) {
@@ -73,10 +84,11 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
         });
         return;
       }
+    
     }
 
     const response = await fetch(
-      `https://localhost:7008/api/ThankEvent/add/worker`,
+      `${import.meta.env.VITE_BASE_URL}/api/ThankEvent/add/participant`,
       {
         method: "PUT",
         headers: {
@@ -108,6 +120,7 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
         isClosable: true,
       });
     }
+  }
   };
 
   function handleSelectEvent(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -130,7 +143,7 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
 
           <DrawerBody>
             <Select
-              placeholder="Välj event"
+              placeholder="Choose event"
               width="100%"
               onChange={(e) => {
                 handleSelectEvent(e);
@@ -142,8 +155,7 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
                   <option key={event.id} value={event.id}>
                     {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
                     {/* {event.foreman.length !== 0 ? event.foreman[0].firstName : "No foreman"}{" "}  */}
-                    {event.participants && event.participants.length}{" "}
-                    particpants
+                    {event.particpants.length} participants
                   </option>
                 ))}
             </Select>
