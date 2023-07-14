@@ -42,5 +42,6 @@ export interface ThankEvent {
     name: string,
     date: string,
     cost: number,
+    capacity: number,
     isTack: boolean,
 }
