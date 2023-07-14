@@ -23,7 +23,7 @@ interface EventItemProps {
     event: WorkEvent;
 }
 
-export default function EventList() {
+export default function WorkEventList() {
     const [events, setEvents] = useState<WorkEvent[]>();
     const auth = useAuth();
     useEffect(() => {
