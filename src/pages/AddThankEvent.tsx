@@ -13,6 +13,7 @@ interface AddFormThankEvent {
     name: string;
     date: string;
     cost: number;
+    capacity: number;
     foremanEmail: string;
 }
 
@@ -41,6 +42,7 @@ export default function AddThankEvent() {
                 name: data.name,
                 date: data.date,
                 cost: data.cost,
+                capacity: data.capacity,
                 foremanEmail: "gustav@vgtech.com",
             }),
         });
@@ -135,6 +137,21 @@ export default function AddThankEvent() {
                             />
                             <FormErrorMessage>
                                 {errors.cost && errors.cost.message}
+                            </FormErrorMessage>
+                        </FormControl>
+                        <FormControl isInvalid={errors.capacity !== undefined}>
+                            <FormLabel fontWeight="bold">Capacity</FormLabel>
+                            <Input
+                                id="capacity"
+                                placeholder="Capacity for attending the event"
+                                {...register("capacity", {
+                                    required: "Capacity is required",
+                                    min: { value: 0, message: "Cost must be greater than 0" },
+                                })}
+                                defaultValue={0}
+                            />
+                            <FormErrorMessage>
+                                {errors.capacity && errors.capacity.message}
                             </FormErrorMessage>
                         </FormControl>
 
