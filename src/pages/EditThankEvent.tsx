@@ -190,12 +190,16 @@ export default function EditThankEvent() {
                             </Link>
                         </HStack>
                     </form>
-                    <Text as={"b"}>Participants:</Text>
-                    {event?.particpants.length == 0 ? (<Text as={"a"}>N/A</Text>) : (
-                        event?.particpants.map(worker =>
-                            <Text>
-                                {`${worker.firstName} ${worker.lastName}  `}
-                            </Text>))}
+                    <HStack>
+                        <Text as={"b"}>{`Participants:`}</Text>
+                        <Text as={"i"}>{`${event?.particpants.length}/${event?.capacity}`}</Text>
+                        <Spacer />
+
+                    </HStack>
+                    {event?.particpants?.map(worker =>
+                        <Text>
+                            {`${worker.firstName} ${worker.lastName}  `}
+                        </Text>)}
                 </VStack>
             </Flex>
         </Layout>
