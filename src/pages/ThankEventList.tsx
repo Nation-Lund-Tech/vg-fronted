@@ -94,17 +94,8 @@ function EventItem({ event }: EventItemProps) {
                     </CardHeader>
                     <CardBody>
                         <HStack>
-                            <Text as={"b"}>Participants:</Text>
-                            {event.particpants.length == 0 && (<Text as={"a"}>N/A</Text>)}
-                            {event.particpants.length < 4 ? (event.particpants.map(worker =>
-                                <Text>
-                                    {`${worker.firstName} ${worker.lastName},`}
-                                </Text>)) : (
-                                <Text>
-                                    {`${workers[0].firstName} ${workers[0].lastName}, 
-                                ${workers[1].firstName} ${workers[1].lastName},
-                                ${workers[2].firstName} ${workers[2].lastName} and ${event.particpants.length - 3} more`}
-                                </Text>)}
+                            <Text as={"i"}>{`${event.capacity - event.particpants.length} spots available`}</Text>
+                      
                         </HStack>
                     </CardBody>
                 </Card>
