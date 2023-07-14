@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Worker, WorkEvent } from "../Common/Types";
+import { ThankEvent, Worker, WorkEvent } from "../Common/Types";
 import {
   VStack,
   Button,
@@ -37,7 +37,7 @@ import { useAuth } from "../providers/AuthProvider";
 export default function RegisterWork() {
   const { eventId } = useParams<{ eventId: string }>();
   const [workers, setWorkers] = useState<Worker[]>();
-  const [event, setEvent] = useState<WorkEvent>();
+  const [event, setEvent] = useState<ThankEvent>();
   const auth = useAuth();
 
   const getWorkers = async () => {
@@ -48,11 +48,11 @@ export default function RegisterWork() {
 
 
   const getEvent = async () => {
-    let workEvent: WorkEvent;
+    let thankEvent: ThankEvent;
     try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/WorkEvent/id/${eventId}`);
-      workEvent = await response.json();
-      setEvent(workEvent);
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/ThankEvent/id/${eventId}`);
+      thankEvent = await response.json();
+      setEvent(thankEvent);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -70,7 +70,7 @@ export default function RegisterWork() {
 
   const removeWorker = async (email: string) => {
 
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/WorkEvent/delete/worker`, {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/ThankEvent/delete/worker`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -91,7 +91,7 @@ export default function RegisterWork() {
 
   const registerWorker = async (email: string) => {
 
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/WorkEvent/add/worker`, {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/ThankEvent/add/participant`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -167,7 +167,7 @@ export default function RegisterWork() {
                       </HStack>
                     </VStack>
                     <Spacer />
-                    {event?.workers?.map(w => w.email).includes(worker.email) ? (
+                    {event?.particpants?.map(w => w.email).includes(worker.email) ? (
                       <>
                         <Button colorScheme="red" size={"sm"} onClick={() => removeWorker(worker.email)}>Unregister</Button>
                       </>
@@ -182,12 +182,12 @@ export default function RegisterWork() {
           <HStack>
           <Text as={"b"}>Workers:</Text>
             <Spacer />
-            <Link href="/work-events">
+            <Link href="/thank-events">
               <Button size="md">Cancel</Button>
             </Link>
           </HStack>
-                    {event?.workers?.length == 0 ? (<Text as={"a"}>N/A</Text>) : (
-                        event?.workers?.map(worker =>
+                    {event?.particpants?.length == 0 ? (<Text as={"a"}>N/A</Text>) : (
+                        event?.particpants?.map(worker =>
                             <Text>
                                 {`${worker.firstName} ${worker.lastName}  `}
                             </Text>))}
