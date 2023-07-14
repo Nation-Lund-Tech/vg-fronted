@@ -26,6 +26,7 @@ interface Props {
 
 function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
   const [events, setEvents] = useState<ThankEvent[]>();
+  const foodTicketCost = 1;
 
   const [selectedEventId, setSelectedEventId] = useState<number>();
 
@@ -56,21 +57,47 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
       return;
     }
 
+    if(selectedEventId === -1) {
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/ThankEvent/food-ticket`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: worker.email,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        // Show a success message if the request was successful
+        // alert("Workers added to event successfully");
+        toast({
+          title: "Success",
+          description: "Purchase went through successfully",
+          status: "success",
+          isClosable: true,
+        });
+      } else {
+        // Show an error message if the request failed
+        // alert("Failed to add workers to event");
+        toast({
+          title: "Failure",
+          description: "Purschase could not be done",
+          status: "error",
+          isClosable: true,
+        });
+      }
+
+    }
+
     // Check if email is part of the workers array in the event
     const event = events?.find((event) => event.id === selectedEventId);
 
     if (event) {
-      
-    if (-(event.cost) > worker.bank) {
-      // Show an error message if no event is selected
-      toast({
-        title: "Failure",
-        description: "Too low balance",
-        status: "error",
-        isClosable: true,
-      });
-      return;
-    } else {
+     
       const isParticipant = event.particpants.some(
         (participant) => participant.email === worker.email
       );
@@ -84,8 +111,6 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
         });
         return;
       }
-    
-    }
 
     const response = await fetch(
       `${import.meta.env.VITE_BASE_URL}/api/ThankEvent/add/participant`,
@@ -149,13 +174,13 @@ function RegisterThankDrawer({ isOpen2, close, worker }: Props) {
                 handleSelectEvent(e);
               }}
             >
-              <option value={undefined}>Food Ticket</option>
+              <option value={-1} key={-1}>
+              {`Food Ticket - $${foodTicketCost}`}
+              </option>
               {events &&
                 events.map((event) => (
                   <option key={event.id} value={event.id}>
-                    {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
-                    {/* {event.foreman.length !== 0 ? event.foreman[0].firstName : "No foreman"}{" "}  */}
-                    {event.particpants.length} participants
+                    {`${event.name} - ${new Date(event.date).toLocaleDateString()} - ${event.particpants.length}/${event.capacity} - $${event.cost}`}
                   </option>
                 ))}
             </Select>
