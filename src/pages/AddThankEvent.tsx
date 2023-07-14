@@ -1,22 +1,22 @@
 import { useParams, Link as RouterLink } from "react-router-dom";
 import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
-import { WorkEvent } from "../Common/Types";
+import { ThankEvent, WorkEvent } from "../Common/Types";
 import { Button, FormControl, FormErrorMessage, FormLabel, HStack, Heading, Input, Spacer, StackDivider, VStack, useToast, Link, Flex, Editable, EditablePreview, EditableInput } from "@chakra-ui/react";
 import { SubmitHandler, set, useForm } from "react-hook-form";
 
 interface EventInterface {
-    event: WorkEvent;
+    event: ThankEvent;
 }
 
-interface AddFormWorkEvent {
+interface AddFormThankEvent {
     name: string;
     date: string;
-    reward: number;
+    cost: number;
     foremanEmail: string;
 }
 
-export default function AddWorkEvent() {
+export default function AddThankEvent() {
     const { eventId } = useParams<{ eventId: string }>();
     const {
         handleSubmit,
@@ -24,7 +24,7 @@ export default function AddWorkEvent() {
         reset,
         setValue,
         formState: { errors, isSubmitting },
-    } = useForm<AddFormWorkEvent>();
+    } = useForm<AddFormThankEvent>();
     const toast = useToast();
 
     useEffect(() => {
@@ -33,14 +33,14 @@ export default function AddWorkEvent() {
         })()
     }, []);
 
-    const onSubmit: SubmitHandler<AddFormWorkEvent> = async (data) => {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/WorkEvent`, {
+    const onSubmit: SubmitHandler<AddFormThankEvent> = async (data) => {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/ThankEvent`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 name: data.name,
                 date: data.date,
-                reward: data.reward,
+                cost: data.cost,
                 foremanEmail: "gustav@vgtech.com",
             }),
         });
@@ -123,18 +123,18 @@ export default function AddWorkEvent() {
                                 {errors.date && errors.date.message}
                             </FormErrorMessage>
                         </FormControl>
-                        <FormControl isInvalid={errors.reward !== undefined}>
-                            <FormLabel fontWeight="bold">Reward</FormLabel>
+                        <FormControl isInvalid={errors.cost !== undefined}>
+                            <FormLabel fontWeight="bold">Cost</FormLabel>
                             <Input
-                                id="reward"
-                                placeholder="Reward for working"
-                                {...register("reward", {
-                                    required: "Reward is required",
-                                    min: { value: 0, message: "Reward must be greater than 0" },
+                                id="cost"
+                                placeholder="Cost for attending"
+                                {...register("cost", {
+                                    required: "Cost is required",
+                                    min: { value: 0, message: "Cost must be greater than 0" },
                                 })}
                             />
                             <FormErrorMessage>
-                                {errors.reward && errors.reward.message}
+                                {errors.cost && errors.cost.message}
                             </FormErrorMessage>
                         </FormControl>
 
@@ -144,7 +144,7 @@ export default function AddWorkEvent() {
                             <Button color={"white"} background={"green.400"} type="submit" isLoading={isSubmitting}>
                                 Save
                             </Button>
-                            <Link to="/work-events" as={RouterLink}>
+                            <Link to="/thank-events" as={RouterLink}>
                                 <Button size='md'>
                                     Back
                                 </Button>
