@@ -16,6 +16,8 @@ import UpdateWorker from "./pages/UpdateWorker";
 import ForemanProfile from "./pages/ForemanProfile";
 import UpdateForeman from "./pages/UpdateForeman";
 import AddWorkEvent from "./pages/AddWorkEvent";
+import AddThankEvent from "./pages/AddThankEvent";
+import RegisterThank from "./pages/RegisterThank";
 
 function App() {
   return (
@@ -29,11 +31,13 @@ function App() {
           <Route path="/edit-thank-event/:eventId" element={<RequireAuth><EditThankEvent /></RequireAuth>}/>
           <Route path="/edit-work-event/:eventId" element={<RequireAuth><EditWorkEvent /></RequireAuth>}/>
           <Route path="/add-work-event" element={<RequireAuth><AddWorkEvent /></RequireAuth>}/>
+          <Route path="/add-thank-event" element={<RequireAuth><AddThankEvent /></RequireAuth>}/>
           <Route path="/add-foreman" element={<RequireAuth><AddForeman/></RequireAuth>}/>
           <Route path="/workers" element={<RequireAuth><WorkList/></RequireAuth>}/>
           <Route path="/workers/:workerId" element={<RequireAuth><WorkerForm/></RequireAuth>}/>
           <Route path="login" element={<Login/>}/>
           <Route path="/register-work/:eventId" element={<RequireAuth><RegisterWork/></RequireAuth>}/>
+          <Route path="/register-thank/:eventId" element={<RequireAuth><RegisterThank/></RequireAuth>}/>
           <Route path="/update-foreman" element = {<RequireAuth><UpdateForeman/></RequireAuth>}/>
           <Route path="/foremen/:foremanId" element = {<RequireAuth><ForemanProfile/></RequireAuth>}/>
           <Route path="/foremen" element={<RequireAuth><Foremen/></RequireAuth>}/>
