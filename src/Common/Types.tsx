@@ -41,6 +41,6 @@ export interface ThankEvent {
     id: number,
     name: string,
     date: string,
-    price: number,
+    cost: number,
     isTack: boolean,
 }
