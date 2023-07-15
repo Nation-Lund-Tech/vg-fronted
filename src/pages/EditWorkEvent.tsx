@@ -14,7 +14,6 @@ interface EditFormWorkEvent {
     name: string;
     date: string;
     reward: number;
-    foremanEmail: string;
 }
 
 export default function EditWorkEvent() {
@@ -46,7 +45,6 @@ export default function EditWorkEvent() {
             setValue("name", e.name);
             setValue("date", e.date.slice(0, -9));
             setValue("reward", e.reward);
-            setValue("foremanEmail", "gustav@vgtech.com");
         })()
     }, []);
 
@@ -70,7 +68,6 @@ export default function EditWorkEvent() {
                 name: data.name,
                 date: data.date,
                 reward: data.reward,
-                foremanEmail: "gustav@vgtech.com",
             }),
         });
 

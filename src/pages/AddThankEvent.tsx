@@ -14,7 +14,6 @@ interface AddFormThankEvent {
     date: string;
     cost: number;
     capacity: number;
-    foremanEmail: string;
 }
 
 export default function AddThankEvent() {
@@ -29,9 +28,7 @@ export default function AddThankEvent() {
     const toast = useToast();
 
     useEffect(() => {
-        (async () => {
-            setValue("foremanEmail", "gustav@vgtech.com");
-        })()
+        //do something
     }, []);
 
     const onSubmit: SubmitHandler<AddFormThankEvent> = async (data) => {
@@ -43,7 +40,6 @@ export default function AddThankEvent() {
                 date: data.date,
                 cost: data.cost,
                 capacity: data.capacity,
-                foremanEmail: "gustav@vgtech.com",
             }),
         });
 

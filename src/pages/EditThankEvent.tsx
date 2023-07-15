@@ -15,7 +15,6 @@ interface EditFormThankEvent {
     date: string;
     cost: number;
     capacity: number;
-    foremanEmail: string;
 }
 
 export default function EditThankEvent() {
@@ -48,7 +47,6 @@ export default function EditThankEvent() {
             setValue("date", e.date.slice(0, -9));
             setValue("cost", e.cost);
             setValue("capacity", e.capacity);
-            setValue("foremanEmail", "gustav@vgtech.com");
         })()
     }, []);
 
@@ -73,7 +71,6 @@ export default function EditThankEvent() {
                 date: data.date,
                 cost: data.cost,
                 capacity: data.capacity,
-                foremanEmail: "gustav@vgtech.com",
             }),
         });
 

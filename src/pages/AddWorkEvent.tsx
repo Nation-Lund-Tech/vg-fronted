@@ -13,7 +13,6 @@ interface AddFormWorkEvent {
     name: string;
     date: string;
     reward: number;
-    foremanEmail: string;
 }
 
 export default function AddWorkEvent() {
@@ -28,9 +27,7 @@ export default function AddWorkEvent() {
     const toast = useToast();
 
     useEffect(() => {
-        (async () => {
-            setValue("foremanEmail", "gustav@vgtech.com");
-        })()
+        
     }, []);
 
     const onSubmit: SubmitHandler<AddFormWorkEvent> = async (data) => {
@@ -41,7 +38,6 @@ export default function AddWorkEvent() {
                 name: data.name,
                 date: data.date,
                 reward: data.reward,
-                foremanEmail: "gustav@vgtech.com",
             }),
         });
 
