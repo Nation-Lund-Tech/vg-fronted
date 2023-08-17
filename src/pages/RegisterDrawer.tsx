@@ -69,7 +69,7 @@ function RegisterDrawer({ isOpen, close, worker }: Props) {
     }
 
     const response = await fetch(
-      `https://localhost:7008/api/WorkEvent/add/worker`,
+      `${import.meta.env.VITE_BASE_URL}/api/WorkEvent/add/worker`,
       {
         method: "PUT",
         headers: {
